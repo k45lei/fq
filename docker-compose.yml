@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: crystalball-postgres
+    environment:
+      # Development credentials only. Nothing here is a secret.
+      POSTGRES_USER: crystalball
+      POSTGRES_PASSWORD: crystalball
+      POSTGRES_DB: crystalball
+    ports:
+      - "5432:5432"
+    volumes:
+      # Postgres 18+ expects the mount one level above the data directory: the server
+      # writes to a major-version subdirectory (/var/lib/postgresql/18/docker), which is
+      # what lets a future `pg_upgrade --link` run inside a single mount.
+      # Mounting .../data here is the pre-18 convention and leaves the volume unused.
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crystalball -d crystalball"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:

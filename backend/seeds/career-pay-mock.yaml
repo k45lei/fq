@@ -1,0 +1,83 @@
+# PLACEHOLDER PAY FIGURES — NOT SOURCED DATA.
+#
+#   uv run python -m app.seed_pay seeds/career-pay-mock.yaml
+#
+# These are rough, plausible US annual figures written to make the demo look complete. They are
+# NOT from BLS or any other source, which is why `source: mock` — a value that exists so these
+# can never be mistaken for real data, and so a real lookup outranks them once one exists.
+#
+# Replace with BLS/OEWS figures before this is shown to anyone making a decision on it. The
+# real file would set `source: bls_oews`, a `source_url`, and the release's `as_of` date.
+#
+# Covers the 32 careers that can appear in a report: the first two `example_careers` of each
+# family, since CAREERS_PER_FAMILY is 2.
+
+source: mock
+region: US
+currency: USD
+as_of: 2026-09-21
+
+careers:
+  # Health & Medicine
+  - { name: Registered Nurse,        low: 62000, median: 86000,  high: 132000 }
+  - { name: Physiotherapist,         low: 72000, median: 99000,  high: 130000 }
+
+  # Engineering
+  - { name: Mechanical Engineer,     low: 66000, median: 99000,  high: 157000 }
+  - { name: Civil Engineer,          low: 66000, median: 95000,  high: 150000 }
+
+  # Software & Data
+  - { name: Software Engineer,       low: 79000, median: 133000, high: 210000 }
+  - { name: Data Analyst,            low: 62000, median: 88000,  high: 140000 }
+
+  # Science & Research
+  - { name: Research Scientist,      low: 60000, median: 92000,  high: 155000 }
+  - { name: Laboratory Technician,   low: 40000, median: 57000,  high: 82000 }
+
+  # Education & Training
+  - { name: Teacher,                 low: 48000, median: 64000,  high: 100000 }
+  - { name: Learning Designer,       low: 55000, median: 80000,  high: 120000 }
+
+  # Business & Management
+  - { name: Operations Manager,      low: 65000, median: 101000, high: 175000 }
+  - { name: Project Manager,         low: 70000, median: 100000, high: 160000 }
+
+  # Finance & Accounting
+  - { name: Accountant,              low: 58000, median: 81000,  high: 133000 }
+  - { name: Financial Analyst,       low: 66000, median: 99000,  high: 170000 }
+
+  # Law & Public Policy
+  - { name: Solicitor,               low: 75000, median: 136000, high: 230000 }
+  - { name: Policy Adviser,          low: 60000, median: 88000,  high: 140000 }
+
+  # Arts, Design & Media
+  - { name: Graphic Designer,        low: 42000, median: 61000,  high: 100000 }
+  - { name: UX Designer,             low: 65000, median: 98000,  high: 150000 }
+
+  # Writing & Communication
+  - { name: Journalist,              low: 40000, median: 57000,  high: 100000 }
+  - { name: Copywriter,              low: 45000, median: 70000,  high: 115000 }
+
+  # Skilled Trades & Construction
+  - { name: Electrician,             low: 46000, median: 62000,  high: 104000 }
+  - { name: Plumber,                 low: 45000, median: 61000,  high: 101000 }
+
+  # Agriculture & Environment
+  - { name: Agronomist,              low: 48000, median: 70000,  high: 110000 }
+  - { name: Conservation Officer,    low: 45000, median: 65000,  high: 100000 }
+
+  # Hospitality & Tourism
+  - { name: Chef,                    low: 40000, median: 58000,  high: 95000 }
+  - { name: Event Manager,           low: 45000, median: 67000,  high: 110000 }
+
+  # Social & Community Services
+  - { name: Social Worker,           low: 42000, median: 58000,  high: 90000 }
+  - { name: Counsellor,              low: 44000, median: 60000,  high: 95000 }
+
+  # Sales & Marketing
+  - { name: Account Manager,         low: 52000, median: 75000,  high: 130000 }
+  - { name: Marketing Executive,     low: 48000, median: 72000,  high: 120000 }
+
+  # Logistics & Operations
+  - { name: Supply Chain Analyst,    low: 58000, median: 82000,  high: 125000 }
+  - { name: Logistics Coordinator,   low: 42000, median: 58000,  high: 88000 }

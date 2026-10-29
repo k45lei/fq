@@ -1,0 +1,66 @@
+/* Font imports must precede everything, Tailwind included. Both faces have real fallbacks, so
+   an offline load degrades to system serif/sans rather than breaking the layout. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Derived from four source tones: #81A6C6, #AACDDC, #F3E3D0, #D2C4B4.
+     All four are light-to-mid, so text and action colours are extensions of them rather than
+     the originals — see docs/design.md for the contrast arithmetic. */
+
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --color-warm: #f5f5f5;
+
+  --color-ink: #000000;
+  --color-muted: #666666;
+  --color-line: #dddddd;
+
+  --color-accent: #000000;
+  --color-accent-strong: #333333;
+  --color-accent-weak: #aaaaaa;
+  --color-accent-soft: #f2f2f2;
+
+  --shadow-card: 0 1px 2px oklch(0.2 0 0 / 0.04), 0 8px 24px oklch(0.2 0 0 / 0.05);
+  --shadow-lift: 0 2px 6px oklch(0.2 0 0 / 0.06), 0 16px 40px oklch(0.2 0 0 / 0.09);
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Questions swap in place. Without movement it's easy to miss that anything changed — the
+   prompt is the only thing that differs, and sometimes only by a few words. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+  }
+}

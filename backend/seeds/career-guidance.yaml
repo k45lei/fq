@@ -1,0 +1,191 @@
+# What to actually do about each career: what to study, what to build, what to learn.
+#
+#   uv run python -m app.seed_guidance seeds/career-guidance.yaml
+#
+# Hand-written placeholder content, hence `source: authored`. Unlike pay figures these are
+# advice rather than factual claims — being generic is the failure here, not being wrong — so
+# each one names something specific enough to act on this week.
+#
+# Covers the 32 careers a report can reach: the first two `example_careers` of each family,
+# since CAREERS_PER_FAMILY is 2. Schooling routes are US-shaped, hence region: US.
+
+source: authored
+region: US
+as_of: 2026-10-02
+
+careers:
+  # ----------------------------------------------------------------- Health & Medicine
+  - name: Registered Nurse
+    study: Associate or Bachelor of Science in Nursing, then the NCLEX-RN licensing exam.
+    project: Volunteer or work as a care assistant for a few months before committing.
+    topic: Human anatomy and physiology — it underpins everything that follows.
+
+  - name: Physiotherapist
+    study: A Doctor of Physical Therapy after a science-heavy bachelor's degree.
+    project: Shadow a physio for a week; clinics will often agree if you ask directly.
+    topic: Biomechanics — how load and movement actually travel through a body.
+
+  # ----------------------------------------------------------------- Engineering
+  - name: Mechanical Engineer
+    study: A Bachelor of Science in mechanical engineering, ideally one with a co-op year.
+    project: Design and build something that moves — a go-kart, a CNC jig, a bike frame.
+    topic: CAD. Pick one package, Fusion or SolidWorks, and get genuinely fluent.
+
+  - name: Civil Engineer
+    study: A civil engineering degree, then the FE exam while the material is still fresh.
+    project: Survey a local junction and write up what you'd change and why.
+    topic: Statics — the maths of why standing things stay standing.
+
+  # ----------------------------------------------------------------- Software & Data
+  - name: Software Engineer
+    study: A computer science degree helps, but a portfolio of shipped work matters more.
+    project: Build something someone other than you uses, and keep it running for a year.
+    topic: One language properly, then data structures. Breadth comes later.
+
+  - name: Data Analyst
+    study: Any quantitative degree. Statistics, economics and psychology all work.
+    project: Find a public dataset about something you care about and publish what you find.
+    topic: SQL first, then a plotting library. Spreadsheets longer than you'd think.
+
+  # ----------------------------------------------------------------- Science & Research
+  - name: Research Scientist
+    study: A bachelor's then a PhD in your field — research roles are postgraduate work.
+    project: Get into a lab as an undergraduate assistant as early as you can.
+    topic: Experimental design, and how to read a paper critically rather than credulously.
+
+  - name: Laboratory Technician
+    study: An associate degree or a bachelor's in a lab science; some employers train.
+    project: Keep a meticulous notebook on any practical work — it's the core skill.
+    topic: Lab safety and instrument calibration. Unglamorous and entirely the job.
+
+  # ----------------------------------------------------------------- Education & Training
+  - name: Teacher
+    study: A bachelor's plus a teacher preparation programme and state certification.
+    project: Tutor someone younger, weekly, for a term. You'll learn fast whether you like it.
+    topic: How people actually learn — spacing, retrieval, why re-reading doesn't work.
+
+  - name: Learning Designer
+    study: Education, psychology or communications; a portfolio matters more than the subject.
+    project: Take something you know and build a short course for it. Watch someone take it.
+    topic: Instructional design basics, and one authoring tool.
+
+  # ----------------------------------------------------------------- Business & Management
+  - name: Operations Manager
+    study: Business, supply chain or industrial engineering. Many come up through the floor.
+    project: Take something disorganised — a club, a stockroom — and build a system for it.
+    topic: Process mapping, and enough statistics to tell signal from noise.
+
+  - name: Project Manager
+    study: Any degree; the certifications (CAPM, then PMP) carry real weight here.
+    project: Run something with a real deadline and other people depending on you.
+    topic: Scheduling and dependency management. Learn why projects actually slip.
+
+  # ----------------------------------------------------------------- Finance & Accounting
+  - name: Accountant
+    study: An accounting degree with enough credit hours to sit the CPA exam.
+    project: Do the books for a small club or a family business for a year.
+    topic: Double-entry bookkeeping until it's automatic, then tax basics.
+
+  - name: Financial Analyst
+    study: Finance, economics or maths; the CFA afterwards if you go into investing.
+    project: Build a valuation model for a company you know and track how wrong you were.
+    topic: Financial statements — how to read three of them against each other.
+
+  # ----------------------------------------------------------------- Law & Public Policy
+  - name: Solicitor
+    study: Any bachelor's, then law school and the bar exam in your state.
+    project: Debate competitively, or volunteer at a legal clinic as an intake assistant.
+    topic: How to write plainly. Legal writing rewards clarity far more than ornament.
+
+  - name: Policy Adviser
+    study: Political science, economics or public policy; a master's is common.
+    project: Write a two-page brief on a local issue and send it to a council member.
+    topic: How to read evidence — what a study can and can't tell you.
+
+  # ----------------------------------------------------------------- Arts, Design & Media
+  - name: Graphic Designer
+    study: A design degree or a focused portfolio course. Employers hire the portfolio.
+    project: Redesign something real and badly made, and show the before and after.
+    topic: Typography. It separates designers from people who own design software.
+
+  - name: UX Designer
+    study: Design, psychology or HCI; conversion from another field is common and fine.
+    project: Watch five people use an app you like, then redesign the part they struggled with.
+    topic: Usability testing — how to run one without leading the participant.
+
+  # ----------------------------------------------------------------- Writing & Communication
+  - name: Journalist
+    study: Journalism or English, though subject expertise is increasingly the way in.
+    project: Report and publish one properly sourced local story a month.
+    topic: Verification and interviewing. Anyone can write; few can confirm.
+
+  - name: Copywriter
+    study: No fixed route. Portfolio schools exist and work; so does writing a great deal.
+    project: Rewrite the worst page on a website you use and show both versions.
+    topic: Persuasion and structure — how an argument is built, not just phrased.
+
+  # ----------------------------------------------------------------- Skilled Trades
+  - name: Electrician
+    study: A four- to five-year apprenticeship, paid from day one, then a licensing exam.
+    project: Wire something supervised and legal — a workshop bench, a shed circuit.
+    topic: Ohm's law and your local electrical code. Both are non-negotiable.
+
+  - name: Plumber
+    study: An apprenticeship through a union or a contractor, then state licensing.
+    project: Replace a tap or a trap under supervision and understand why it's done that way.
+    topic: Pipe sizing and drainage fall — most failures trace back to one of the two.
+
+  # ----------------------------------------------------------------- Agriculture & Environment
+  - name: Agronomist
+    study: A degree in agronomy, soil science or plant science.
+    project: Run a controlled growing trial — two plots, one variable, recorded properly.
+    topic: Soil chemistry, and how to read a soil test without a consultant.
+
+  - name: Conservation Officer
+    study: Environmental science, biology or natural resource management.
+    project: Join a local habitat survey or species count and do a full season.
+    topic: Species identification in your region, plus the relevant protection law.
+
+  # ----------------------------------------------------------------- Hospitality & Tourism
+  - name: Chef
+    study: Culinary school shortens the path; most still learn in kitchens.
+    project: Cook the same dish thirty times and make it identical each time.
+    topic: Knife skills and food safety first, flavour theory second.
+
+  - name: Event Manager
+    study: Hospitality or business, though experience outweighs the degree here.
+    project: Run an event end to end — budget, suppliers, the lot — even a small one.
+    topic: Budgeting and contingency planning. Something always falls through.
+
+  # ----------------------------------------------------------------- Social & Community
+  - name: Social Worker
+    study: A Bachelor of Social Work, then an MSW and licensing for clinical practice.
+    project: Volunteer somewhere with real stakes and stay long enough to see outcomes.
+    topic: Trauma-informed practice, and professional boundaries — the latter protects you.
+
+  - name: Counsellor
+    study: A master's in counselling or clinical psychology, plus supervised hours.
+    project: Train as a peer listener or crisis-line volunteer.
+    topic: Active listening as a technique, not a personality trait. It's taught and learnable.
+
+  # ----------------------------------------------------------------- Sales & Marketing
+  - name: Account Manager
+    study: Business or communications; plenty arrive from entirely unrelated degrees.
+    project: Sell something real — your own work, a fundraiser — and track your conversion.
+    topic: How to ask questions and then stop talking. Most of the job.
+
+  - name: Marketing Executive
+    study: Marketing, communications or business; certifications fill gaps quickly.
+    project: Grow something measurable from zero — a newsletter, a shop, a channel.
+    topic: Analytics. Knowing which number moved, and whether you moved it.
+
+  # ----------------------------------------------------------------- Logistics & Operations
+  - name: Supply Chain Analyst
+    study: Supply chain management, industrial engineering or business analytics.
+    project: Map a real supply chain end to end — even a café's — and find the weak link.
+    topic: Inventory models and forecasting. Spreadsheet fluency is assumed.
+
+  - name: Logistics Coordinator
+    study: An associate degree or direct entry; certifications help you move up.
+    project: Plan and run the logistics of something with real constraints and a deadline.
+    topic: Route and load planning, plus the paperwork that moves goods across borders.

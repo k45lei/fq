@@ -1,0 +1,367 @@
+# Development questionnaire, v2. Placeholder content — not a validated instrument.
+#
+#   uv run python -m app.seed seeds/core-instrument-v2.yaml --activate
+#
+# v1 is published and therefore frozen; this is a new version rather than an edit. Activating
+# it means new responses answer v2, while existing responses and their reports keep pointing at
+# v1 and continue to render.
+#
+# 40 questions: 14 interests (the free section), 14 strengths, 12 EQ.
+#
+# Only `interests` questions carry a `trait`, because only they feed the deterministic Holland
+# scoring. Strengths and EQ are read by the report generator as question/answer pairs — there
+# is deliberately no fixed instrument behind them. See docs/schema.md.
+
+nickname: core-instrument
+version: v2
+
+questions:
+  # ================================================================= interests (free tier)
+  # Every trait needs enough signal that a user can plausibly top out on any of them. Four
+  # six-option multi-choices plus eight scales gives each trait several independent chances.
+
+  - category: interests
+    type: multi_choice
+    prompt: Which of these sound appealing to you?
+    help_text: Pick up to three.
+    max_selections: 3
+    options:
+      - label: Taking apart a machine to see how it works
+        trait: realistic
+      - label: Running an experiment to test an idea
+        trait: investigative
+      - label: Designing something people will look at
+        trait: artistic
+      - label: Teaching someone a skill you have
+        trait: social
+      - label: Convincing a group to back your plan
+        trait: enterprising
+      - label: Getting a messy set of records in order
+        trait: conventional
+
+  - category: interests
+    type: multi_choice
+    prompt: If you could only keep three school subjects, which would you keep?
+    help_text: Pick up to three.
+    max_selections: 3
+    options:
+      - label: Design and technology
+        trait: realistic
+      - label: Sciences
+        trait: investigative
+      - label: Art, music or drama
+        trait: artistic
+      - label: Psychology or sociology
+        trait: social
+      - label: Business studies
+        trait: enterprising
+      - label: Maths or accounting
+        trait: conventional
+
+  - category: interests
+    type: multi_choice
+    prompt: What do people usually end up asking you to do?
+    help_text: Pick up to two.
+    max_selections: 2
+    options:
+      - label: Fix the thing that stopped working
+        trait: realistic
+      - label: Work out why something went wrong
+        trait: investigative
+      - label: Make it look good
+        trait: artistic
+      - label: Talk to the person nobody wants to talk to
+        trait: social
+      - label: Decide what we're doing
+        trait: enterprising
+      - label: Keep track of what everyone agreed
+        trait: conventional
+
+  - category: interests
+    type: multi_choice
+    prompt: A free Saturday, no plans. What actually sounds good?
+    help_text: Pick up to three.
+    max_selections: 3
+    options:
+      - label: Building or repairing something
+        trait: realistic
+      - label: Falling down a research rabbit hole
+        trait: investigative
+      - label: Making something — music, art, writing, video
+        trait: artistic
+      - label: Seeing people
+        trait: social
+      - label: Working on a side project that could make money
+        trait: enterprising
+      - label: Finally sorting out your room, files or photos
+        trait: conventional
+
+  - category: interests
+    type: single_choice
+    prompt: Which sounds more like a good day?
+    options:
+      - label: Solving a hard problem on your own
+        trait: investigative
+      - label: Leading a team through a hard problem
+        trait: enterprising
+
+  - category: interests
+    type: single_choice
+    prompt: You're handed a project with no instructions. What's your first move?
+    options:
+      - label: Start building something and adjust as you go
+        trait: realistic
+      - label: Research how other people have done it
+        trait: investigative
+      - label: Sketch out an idea nobody's tried
+        trait: artistic
+      - label: Write a plan and a checklist
+        trait: conventional
+
+  - category: interests
+    type: scale
+    prompt: I enjoy working with my hands.
+    trait: realistic
+    scale_min: 1
+    scale_max: 5
+
+  - category: interests
+    type: scale
+    prompt: I'd rather understand why something works than just use it.
+    trait: investigative
+    scale_min: 1
+    scale_max: 5
+
+  - category: interests
+    type: scale
+    prompt: I prefer to act on instinct rather than analyse things first.
+    help_text: There's no right answer here — both are useful.
+    trait: investigative
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  - category: interests
+    type: scale
+    prompt: I'd rather invent my own approach than follow one that already works.
+    trait: artistic
+    scale_min: 1
+    scale_max: 5
+
+  - category: interests
+    type: scale
+    prompt: Working in a group tends to drain me.
+    trait: social
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  - category: interests
+    type: scale
+    prompt: I'd rather work somewhere I like the people than somewhere I like the work.
+    trait: social
+    scale_min: 1
+    scale_max: 5
+
+  - category: interests
+    type: scale
+    prompt: I'm comfortable trying to change someone's mind.
+    trait: enterprising
+    scale_min: 1
+    scale_max: 5
+
+  - category: interests
+    type: scale
+    prompt: When things get busy, details start slipping past me.
+    trait: conventional
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  # ================================================================= strengths (paid tier)
+
+  - category: strengths
+    type: free_text
+    prompt: Describe something you made or organised that you were proud of.
+    help_text: A few sentences is plenty. What was the hard part?
+
+  - category: strengths
+    type: multi_choice
+    prompt: Which of these do people come to you for?
+    help_text: Pick up to three.
+    max_selections: 3
+    options:
+      - label: Explaining something complicated
+      - label: Keeping calm when plans fall apart
+      - label: Noticing details everyone else missed
+      - label: Getting a group to agree on something
+      - label: Fixing or building things
+      - label: Coming up with unexpected ideas
+
+  - category: strengths
+    type: free_text
+    prompt: What kind of task makes you lose track of time?
+
+  - category: strengths
+    type: multi_choice
+    prompt: Which of these would you back yourself to learn quickly?
+    help_text: Pick up to three.
+    max_selections: 3
+    options:
+      - label: A new piece of software
+      - label: A practical skill like wiring or welding
+      - label: A language
+      - label: How a business makes money
+      - label: An instrument or a craft
+      - label: A sport or physical discipline
+
+  - category: strengths
+    type: multi_choice
+    prompt: How do you work best?
+    help_text: Pick up to two.
+    max_selections: 2
+    options:
+      - label: Long stretches alone with no interruptions
+      - label: Bouncing ideas off someone as I go
+      - label: A clear deadline and a bit of pressure
+      - label: Freedom to change the plan halfway through
+      - label: A detailed brief I can follow
+      - label: Working alongside people doing the same thing
+
+  - category: strengths
+    type: single_choice
+    prompt: When you're learning something new, what works best?
+    options:
+      - label: Watching someone do it first
+      - label: Reading how it works, then trying
+      - label: Diving in and breaking things
+      - label: Having someone talk you through it
+
+  - category: strengths
+    type: scale
+    prompt: I finish things I start, even when they stop being interesting.
+    scale_min: 1
+    scale_max: 5
+
+  - category: strengths
+    type: scale
+    prompt: I'd rather be told bluntly that my work isn't good enough than be let off lightly.
+    scale_min: 1
+    scale_max: 5
+
+  - category: strengths
+    type: scale
+    prompt: I avoid things I might not be immediately good at.
+    help_text: Answer honestly — most people do this more than they'd like.
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  - category: strengths
+    type: scale
+    prompt: I'm comfortable asking for help when I'm stuck.
+    scale_min: 1
+    scale_max: 5
+
+  - category: strengths
+    type: scale
+    prompt: I put things off until a deadline forces me.
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  - category: strengths
+    type: scale
+    prompt: I can explain my thinking so someone else can follow it.
+    scale_min: 1
+    scale_max: 5
+
+  - category: strengths
+    type: free_text
+    prompt: What's something you've got noticeably better at in the last year?
+    help_text: It doesn't have to be academic.
+
+  - category: strengths
+    type: free_text
+    prompt: What's a skill you'd like to have five years from now?
+
+  # ================================================================= EQ (paid tier)
+
+  - category: eq
+    type: scale
+    prompt: I stay calm when something goes wrong unexpectedly.
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: scale
+    prompt: I find it hard to tell how someone else is feeling.
+    help_text: Answer honestly — there is no better or worse score here.
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: scale
+    prompt: I can usually name what I'm feeling and why.
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: scale
+    prompt: When I'm annoyed, other people can tell before I say anything.
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: scale
+    prompt: I can disagree with someone without it becoming personal.
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: scale
+    prompt: Criticism sticks with me for days.
+    reverse_scored: true
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: scale
+    prompt: I notice when someone in a group has gone quiet.
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: scale
+    prompt: I can admit I was wrong without it feeling like a loss.
+    scale_min: 1
+    scale_max: 5
+
+  - category: eq
+    type: single_choice
+    prompt: A friend tells you about a problem they're having. What do you do first?
+    options:
+      - label: Suggest how to fix it
+      - label: Ask more about how they're feeling
+      - label: Share something similar that happened to you
+      - label: Wait to see what they want from you
+
+  - category: eq
+    type: single_choice
+    prompt: Someone takes credit for your work in front of other people. What do you do?
+    options:
+      - label: Correct it there and then
+      - label: Raise it with them privately afterwards
+      - label: Let it go and make sure it's noticed next time
+      - label: Mention it to someone more senior
+
+  - category: eq
+    type: free_text
+    prompt: Describe a time you disagreed with someone and it went well.
+
+  - category: eq
+    type: free_text
+    prompt: When you're stressed, what actually helps?
+    help_text: Be specific — "music" is less useful than what you do with it.

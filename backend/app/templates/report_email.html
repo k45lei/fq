@@ -1,0 +1,131 @@
+{# Email HTML, which is not web HTML.
+   Tables for layout, inline styles, no flex or grid, no webfonts, no external stylesheet —
+   Outlook and Gmail strip or ignore most of what a browser would accept. Kept deliberately
+   plain: the full document is attached as a PDF, so this only has to be a legible summary. #}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your crystalBALL results</title>
+  </head>
+  <body style="margin:0; padding:0; background:#faf5ee;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="background:#faf5ee; padding:24px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                 style="max-width:560px; background:#ffffff; border:1px solid #ded3c5;
+                        border-radius:12px; padding:32px;
+                        font-family:Helvetica,Arial,sans-serif; color:#000000;">
+
+            <tr>
+              <td style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+                         color:#6e635a; padding-bottom:6px;">
+                Your profile
+              </td>
+            </tr>
+            <tr>
+              <td style="font-family:Georgia,serif; font-size:28px; line-height:1.2;
+                         font-weight:600; padding-bottom:12px;">
+                {% if code_labels %}{{ code_labels | join(", ") }}{% else %}Your results{% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:15px; line-height:1.6; color:#6e635a; padding-bottom:28px;">
+                These came through most strongly in your answers. The full report is attached
+                as a PDF.
+              </td>
+            </tr>
+
+            {% if traits %}
+              <tr>
+                <td style="font-family:Georgia,serif; font-size:18px; font-weight:600;
+                           border-top:1px solid #ded3c5; padding:20px 0 12px;">
+                  How you scored
+                </td>
+              </tr>
+              <tr>
+                <td style="padding-bottom:12px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         border="0" style="font-size:14px;">
+                    {% for trait, score in traits.items() %}
+                      {% set percent = (score.score * 100) | round(0, 'floor') | int %}
+                      <tr>
+                        <td style="padding:5px 0; width:140px;">{{ score.label }}</td>
+                        <td style="padding:5px 0;">
+                          {# A table cell with a background colour is the only bar that renders
+                             everywhere. A div with a width would be dropped by Outlook. #}
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0"
+                                 width="100%" style="background:#ded3c5; border-radius:2px;">
+                            <tr>
+                              <td style="background:#3a6d97; height:4px; border-radius:2px;
+                                         width:{{ percent }}%; font-size:0; line-height:0;">&nbsp;</td>
+                              <td style="font-size:0; line-height:0;">&nbsp;</td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td align="right" style="padding:5px 0 5px 10px; width:40px;
+                                                 color:#6e635a;">{{ percent }}%</td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            {% endif %}
+
+            {% if careers %}
+              <tr>
+                <td style="font-family:Georgia,serif; font-size:18px; font-weight:600;
+                           border-top:1px solid #ded3c5; padding:20px 0 12px;">
+                  Roles worth looking at
+                </td>
+              </tr>
+              {% for career in careers %}
+                <tr>
+                  <td style="padding-bottom:14px;">
+                    <div style="font-size:15px; font-weight:600;">
+                      {{ career.name }}
+                      <span style="font-weight:400; color:#6e635a;">
+                        · {{ (career.fit_score * 100) | round(0, 'floor') | int }}% fit
+                      </span>
+                    </div>
+                    {% if career.guidance and career.guidance.study %}
+                      <div style="font-size:14px; line-height:1.5; color:#6e635a; padding-top:3px;">
+                        Study: {{ career.guidance.study }}
+                      </div>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endif %}
+
+            <tr>
+              <td style="border-top:1px solid #ded3c5; padding-top:24px;">
+                <a href="{{ report_url }}"
+                   style="display:inline-block; background:#3a6d97; color:#ffffff;
+                          text-decoration:none; font-size:15px; font-weight:600;
+                          padding:12px 28px; border-radius:8px;">
+                  Read the full report
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size:13px; line-height:1.6; color:#6e635a; padding-top:14px;">
+                If that link asks you to start again, you&rsquo;re on a different device from
+                the one you answered on. Sign in with Google and your reports follow you.
+              </td>
+            </tr>
+
+            <tr>
+              <td style="font-size:12px; line-height:1.6; color:#6e635a;
+                         border-top:1px solid #ded3c5; padding-top:18px; margin-top:18px;">
+                A guide, not a verdict. Nobody&rsquo;s career is decided by a questionnaire.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
