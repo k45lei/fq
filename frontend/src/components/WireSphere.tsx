@@ -43,6 +43,8 @@ export default function WireSphere() {
 
     const animate = () => {
       requestAnimationFrame(animate);
+      sphere.rotation.y += 0.003;
+      sphere.rotation.x += 0.001;
       controls.update();
       renderer.render(scene, camera);
     };
