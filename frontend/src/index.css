@@ -1,0 +1,78 @@
+/* Font imports must precede everything, Tailwind included. Both faces have real fallbacks, so
+   an offline load degrades to system serif/sans rather than breaking the layout. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* A serif at display sizes only. Careers advice aimed at teenagers has to read as
+     trustworthy without reading as a textbook; the pairing does that more cheaply than
+     anything else on the page.
+
+     Source Serif 4 rather than a display face: high x-height, generous widths, and an
+     optical-size axis that thickens the strokes at large sizes. Display serifs are drawn for
+     posters — at heading sizes on screen they read as tall and thin. */
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  /* Derived from four source tones: #81A6C6, #AACDDC, #F3E3D0, #D2C4B4.
+     All four are light-to-mid, so text and action colours are extensions of them rather than
+     the originals — see docs/design.md for the contrast arithmetic. */
+
+  --color-canvas: #faf5ee; /* #F3E3D0, lightened — full strength is too loud for a full page */
+  --color-surface: #ffffff; /* cards lift off a warm canvas without needing a heavy border */
+  --color-warm: #f3e3d0; /* the source cream, at strength, for an alternate band */
+
+  /* Black, not a soft near-black. On a light warm scheme it reads crisp rather than harsh,
+     and `ink` carries headings and emphasis — body copy is `muted` — so there's no wall of
+     pure black to cause halation. 19.4:1 on canvas. */
+  --color-ink: #000000;
+  --color-muted: #6e635a; /* 5.4:1 on canvas — comfortably AA, not just technically */
+  --color-line: #ded3c5; /* #D2C4B4, lightened */
+
+  /* #81A6C6 is only 2.56:1 against white, so it cannot carry white text. The action colour is
+     a darkened sibling; the original survives as the de-emphasised data tone. */
+  --color-accent: #3a6d97; /* 5.5:1 with white */
+  --color-accent-strong: #2c567a; /* hover; 7.7:1 with white */
+  --color-accent-weak: #81a6c6; /* source blue — bars only, never behind text */
+  --color-accent-soft: #e8f1f6; /* #AACDDC, lightened, for selected backgrounds */
+
+  --shadow-card: 0 1px 2px oklch(0.2 0.02 265 / 0.04), 0 8px 24px oklch(0.2 0.02 265 / 0.05);
+  --shadow-lift: 0 2px 6px oklch(0.2 0.02 265 / 0.06), 0 16px 40px oklch(0.2 0.02 265 / 0.09);
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Questions swap in place. Without movement it's easy to miss that anything changed — the
+   prompt is the only thing that differs, and sometimes only by a few words. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+  }
+}

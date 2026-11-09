@@ -1,0 +1,38 @@
+{# Plain-text alternative. Not optional: a text part materially improves deliverability, and
+   some clients render nothing else. #}
+Your FutureQuest results
+{% if code_labels %}
+
+Your profile: {{ code_labels | join(", ") }}
+{% endif %}
+
+These came through most strongly in your answers.
+{% if traits %}
+
+HOW YOU SCORED
+{% for trait, score in traits.items() %}
+  {{ "%-16s"|format(score.label) }} {{ (score.score * 100) | round(0, 'floor') | int }}%
+{% endfor %}
+{% endif %}
+{% if careers %}
+
+ROLES WORTH LOOKING AT
+{% for career in careers %}
+  {{ career.name }} - {{ (career.fit_score * 100) | round(0, 'floor') | int }}% fit
+{% if career.guidance and career.guidance.study %}
+    Study: {{ career.guidance.study }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+The full report is attached as a PDF, including what to watch out for and
+what to do next.
+
+You can also read it online:
+{{ report_url }}
+
+If that link asks you to start again, you're on a different device from the
+one you answered on. Sign in with Google and your reports follow you.
+
+--
+A guide, not a verdict. Nobody's career is decided by a questionnaire.
