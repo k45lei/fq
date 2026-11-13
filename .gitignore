@@ -1,3 +1,24 @@
-# Local dependency/build output. Existing tracked dependencies are left untouched.
-frontend/dist/
-frontend/*.tsbuildinfo
+# JavaScript dependencies and generated output
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Local environment files; keep configuration templates tracked
+.env
+.env.*
+!.env.example
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local logs and operating-system metadata
+*.log
+.DS_Store
+Thumbs.db
