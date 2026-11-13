@@ -22,3 +22,6 @@ __pycache__/
 *.log
 .DS_Store
 Thumbs.db
+
+# Local static-site conversion script
+assets/conv.sh
