@@ -1,3 +1,9 @@
+# Current backend: Fastify + Prisma
+
+The new local backend lives in [backend-ts](backend-ts/README.md), with a fresh PostgreSQL database, guest/Google authentication, Stripe access, and pending results. Start with that guide. The frontend uses the same port 8000 API proxy. Report generation, PDFs, emails, and discounts are deferred.
+
+The Python backend and the instructions below are retained as legacy reference; they do not describe the new backend.
+
 #go to profile > API Tokens > Create Token > Edit zone DNS |Use Template| > 
 # Permissions: 
 # {

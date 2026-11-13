@@ -22,8 +22,7 @@ export default function CheckoutCancelled() {
     <Layout>
       <h1 className="font-display text-4xl font-semibold">No charge was made</h1>
       <p className="mt-4 text-muted text-pretty">
-        You can come back to this any time. The free report you&rsquo;ve already got is still
-        here, and nothing was taken from your card.
+        You can come back to this any time. Your completed answers are still saved.
       </p>
 
       <div className="mt-7 flex flex-wrap gap-3">

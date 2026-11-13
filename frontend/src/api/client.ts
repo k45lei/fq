@@ -37,7 +37,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
     response = await fetch(`/api${path}`, {
-      headers: { "content-type": "application/json" },
+      headers: init?.body ? { "content-type": "application/json" } : {},
       // The ownership cookie is what makes a response readable at all. Same-origin through
       // the dev proxy wouldn't need this, but a deployment serving the two separately would.
       credentials: "include",

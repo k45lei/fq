@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+enum Stage {
+  interests
+  strengths
+  eq
+}
+enum AnswerType {
+  single_choice
+  multi_choice
+  scale
+  free_text
+}
+enum ReportStatus {
+  pending
+  ready
+}
+model User {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  email String
+  googleSub String? @unique @map("google_sub")
+  role String @default("student")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  attempts Attempt[]
+  purchases Purchase[]
+  entitlements Entitlement[]
+  @@map("users")
+}
+model Question {
+  id String @id @db.Uuid
+  position Int @unique
+  category Stage
+  answerType AnswerType @map("answer_type")
+  prompt String
+  helpText String? @map("help_text")
+  scaleMin Int? @map("scale_min")
+  scaleMax Int? @map("scale_max")
+  maxSelections Int? @map("max_selections")
+  options QuestionOption[]
+  answers Answer[]
+  @@map("questions")
+}
+model QuestionOption {
+  id String @id @db.Uuid
+  questionId String @map("question_id") @db.Uuid
+  position Int
+  label String
+  question Question @relation(fields:[questionId], references:[id], onDelete:Restrict)
+  choices AnswerChoice[]
+  @@unique([questionId, position])
+  @@unique([questionId, id])
+  @@map("question_options")
+}
+model Attempt {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  interestsCompletedAt DateTime? @map("interests_completed_at") @db.Timestamptz
+  strengthsCompletedAt DateTime? @map("strengths_completed_at") @db.Timestamptz
+  eqCompletedAt DateTime? @map("eq_completed_at") @db.Timestamptz
+  questionnaireSnapshot Json @map("questionnaire_snapshot")
+  user User @relation(fields:[userId], references:[id], onDelete:Restrict)
+  answers Answer[]
+  reports Report[]
+  purchases Purchase[]
+  entitlements Entitlement[]
+  @@index([userId])
+  @@map("attempts")
+}
+model Answer {
+  id String @id @default(uuid()) @db.Uuid
+  attemptId String @map("attempt_id") @db.Uuid
+  questionId String @map("question_id") @db.Uuid
+  numeric Int?
+  text String?
+  snapshot Json
+  submittedAt DateTime @default(now()) @map("submitted_at") @db.Timestamptz
+  attempt Attempt @relation(fields:[attemptId], references:[id], onDelete:Restrict)
+  question Question @relation(fields:[questionId], references:[id], onDelete:Restrict)
+  choices AnswerChoice[]
+  @@unique([attemptId, questionId])
+  @@unique([id, questionId])
+  @@map("answers")
+}
+model AnswerChoice {
+  answerId String @map("answer_id") @db.Uuid
+  questionId String @map("question_id") @db.Uuid
+  optionId String @map("option_id") @db.Uuid
+  answer Answer @relation(fields:[answerId, questionId], references:[id, questionId], onDelete:Restrict)
+  option QuestionOption @relation(fields:[questionId, optionId], references:[questionId, id], onDelete:Restrict)
+  @@id([answerId, optionId])
+  @@map("answer_choices")
+}
+model Report {
+  id String @id @default(uuid()) @db.Uuid
+  attemptId String @map("attempt_id") @db.Uuid
+  stage Stage
+  status ReportStatus @default(pending)
+  inputSnapshot Json @map("input_snapshot")
+  submissionHash String @map("submission_hash")
+  inputHash String @map("input_hash")
+  formatVersion Int @default(1) @map("format_version")
+  payload Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  generatedAt DateTime? @map("generated_at") @db.Timestamptz
+  attempt Attempt @relation(fields:[attemptId], references:[id], onDelete:Restrict)
+  @@unique([attemptId, stage])
+  @@map("reports")
+}
+model Purchase {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  attemptId String @map("attempt_id") @db.Uuid
+  stripeCheckoutSessionId String @unique @map("stripe_checkout_session_id")
+  stripePaymentIntentId String? @unique @map("stripe_payment_intent_id")
+  stripePriceId String @map("stripe_price_id")
+  amountCents Int @map("amount_cents")
+  currency String @db.Char(3)
+  paidAt DateTime @default(now()) @map("paid_at") @db.Timestamptz
+  refundedAt DateTime? @map("refunded_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  user User @relation(fields:[userId], references:[id], onDelete:Restrict)
+  attempt Attempt @relation(fields:[attemptId], references:[id], onDelete:Restrict)
+  entitlement Entitlement?
+  @@map("purchases")
+}
+model Entitlement {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  attemptId String @map("attempt_id") @db.Uuid
+  purchaseId String @unique @map("purchase_id") @db.Uuid
+  validFrom DateTime @default(now()) @map("valid_from") @db.Timestamptz
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz
+  user User @relation(fields:[userId], references:[id], onDelete:Restrict)
+  attempt Attempt @relation(fields:[attemptId], references:[id], onDelete:Restrict)
+  purchase Purchase @relation(fields:[purchaseId], references:[id], onDelete:Restrict)
+  @@index([attemptId, userId])
+  @@map("entitlements")
+}
+model DiscountCode {
+  id String @id @default(uuid()) @db.Uuid
+  code String @unique
+  stripeCouponId String? @map("stripe_coupon_id")
+  startsAt DateTime? @map("starts_at") @db.Timestamptz
+  endsAt DateTime? @map("ends_at") @db.Timestamptz
+  maxRedemptions Int? @map("max_redemptions")
+  @@map("discount_codes")
+}

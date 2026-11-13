@@ -1,0 +1,3 @@
+# Local dependency/build output. Existing tracked dependencies are left untouched.
+frontend/dist/
+frontend/*.tsbuildinfo

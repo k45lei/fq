@@ -60,9 +60,7 @@ export default function PaywallTeaser({ sections, responseId }: Props) {
     <section className="mt-14 rounded-2xl border border-line bg-warm p-7">
       <h2 className="font-display text-3xl font-semibold">Go deeper</h2>
       <p className="mt-2 text-sm text-muted text-pretty">
-        What you&rsquo;ve read so far comes from the interests section alone.{" "}
-        {sections.length === 1 ? "One more section sharpens" : "Two more sections sharpen"} it
-        considerably.
+        Add your answers to the remaining sections. Personalized results are coming soon.
       </p>
 
       <ul className="mt-5 space-y-4">
@@ -126,10 +124,10 @@ export default function PaywallTeaser({ sections, responseId }: Props) {
           </p>
         )}
 
-        {checkout.error && (
+        {(checkout.error || applyDiscount.error) && (
           <p className="mt-3 text-center text-sm text-red-700">
-            {checkout.error instanceof ApiError
-              ? checkout.error.message
+            {(checkout.error ?? applyDiscount.error) instanceof ApiError
+              ? (checkout.error ?? applyDiscount.error)?.message
               : "Couldn't start the payment. Please try again."}
           </p>
         )}

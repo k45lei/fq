@@ -11,12 +11,12 @@ const STEPS = [
     detail: "No right answers, nothing timed.",
   },
   {
-    title: "We work out your profile",
-    detail: "Scored against six established career traits.",
+    title: "Save your answers",
+    detail: "Your completed sections are saved securely.",
   },
   {
-    title: "You get something to act on",
-    detail: "Fields, roles, and concrete next steps.",
+    title: "Results are coming soon",
+    detail: "Personalized guidance is not available yet.",
   },
 ];
 
@@ -160,8 +160,7 @@ export default function Landing() {
         {locked.length > 0 && (
           <p className="mt-5 text-sm text-muted text-pretty">
             Start with {SECTION_META[SECTION_ORDER[0]!].label.toLowerCase()} — it&rsquo;s free
-            and gives you a complete report on its own. The paid{" "}
-            {locked.length === 1 ? "section sharpens" : "sections sharpen"} it afterwards.
+            to complete. Payment unlocks the remaining sections. Personalized results are coming soon.
           </p>
         )}
       </section>

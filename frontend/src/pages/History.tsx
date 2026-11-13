@@ -68,7 +68,7 @@ export default function History() {
             >
               <div>
                 <p className="font-medium">
-                  {new Date(report.generated_at).toLocaleDateString(undefined, {
+                  {new Date(report.generated_at ?? report.created_at).toLocaleDateString(undefined, {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -76,15 +76,10 @@ export default function History() {
                 </p>
                 <p className="text-sm text-muted">
                   {report.tier === "full" ? "Full report" : "Free report"}
+                  {report.status === "pending" ? " · Results coming soon" : ""}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-4 text-sm">
-                <a
-                  href={api.reportPdfUrl(report.id)}
-                  className="text-muted underline underline-offset-4 hover:text-ink"
-                >
-                  PDF
-                </a>
                 <Link
                   to={`/report/${report.id}`}
                   className="rounded-lg border border-line px-4 py-2 font-medium transition hover:border-accent/50"

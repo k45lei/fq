@@ -93,7 +93,7 @@ export default function Start() {
         <p className="mt-4 text-sm text-muted">
           {signedIn
             ? "Your results are saved to your account."
-            : "We'll send a copy of your results to that email."}
+            : "Your answers are saved on this browser. Sign in to access them on another device."}
         </p>
 
         {start.error && (

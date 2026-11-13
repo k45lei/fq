@@ -129,7 +129,9 @@ export interface ReportPayload {
 
 export interface PastReport {
   id: string;
-  generated_at: string;
+  status: "pending" | "ready";
+  created_at: string;
+  generated_at: string | null;
   tier: ReportTier;
 }
 
@@ -145,8 +147,11 @@ export interface Report {
   id: string;
   response_id: string;
   tier: ReportTier;
-  generated_at: string;
-  payload: ReportPayload;
+  stage: QuestionCategory;
+  status: "pending" | "ready";
+  created_at: string;
+  generated_at: string | null;
+  payload: ReportPayload | null;
 }
 
 // ---------------------------------------------------------------- payments
@@ -182,6 +187,7 @@ export interface CheckoutStatus {
   session_id: string;
   paid: boolean;
   entitled: boolean;
+  payment_status: "pending" | "paid" | "refunded";
   /** The response the purchase was for, when the session names one. */
   response_id: string | null;
 }

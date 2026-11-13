@@ -20,7 +20,8 @@
 import { useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-import { useCheckoutStatus, useLatestReport } from "../api/queries";
+import { useCheckoutStatus, useLatestReport, useQuestionnaire } from "../api/queries";
+import { checkoutNextStep } from "../lib/checkout";
 import Layout from "../components/Layout";
 import { useQuestionnaireStore } from "../store/questionnaire";
 
@@ -36,29 +37,20 @@ export default function CheckoutSuccess() {
   // `isPending` matters: a report that is *loading* is not the same as a report that is
   // *absent*, and treating the first as the second would send a visitor who has already
   // finished the paid sections back into the questionnaire to answer them again.
-  const { data: report, isPending: reportPending } = useLatestReport(data?.response_id ?? undefined);
+  const { data: report } = useLatestReport(data?.response_id ?? undefined);
+  const { data: questionnaire, error: questionnaireError } = useQuestionnaire(data?.response_id ?? undefined);
   const unlock = useQuestionnaireStore((state) => state.unlock);
 
-  // A full report exists only once the paid sections have been answered. If one is there,
-  // it's the point — the visitor came here to read it.
+  // Report existence does not imply completion: each stage creates a pending record.
   useEffect(() => {
-    if (report?.tier === "full") {
-      navigate(`/report/${report.id}`, { replace: true });
-    }
-  }, [report, navigate]);
-
-  // Otherwise, the paid sections are still to do. Send the visitor into the questionnaire
-  // rather than leaving them on a page that says "thank you" and stops.
-  //
-  // `unlock` clears the stored report id — it's the free one, and leaving it set would
-  // bounce the questionnaire straight back to it — and the position, so the paid sections
-  // start at their beginning. The draft answers are kept: they're the visitor's work.
-  useEffect(() => {
-    if (data?.entitled && !reportPending && !report && data.response_id) {
-      unlock(data.response_id);
+    const next = checkoutNextStep(data, questionnaire, report);
+    if (next?.kind === "report") {
+      navigate(`/report/${next.reportId}`, { replace: true });
+    } else if (next?.kind === "continue") {
+      unlock(next.responseId);
       navigate("/questionnaire", { replace: true });
     }
-  }, [data, report, reportPending, unlock, navigate]);
+  }, [data, report, questionnaire, unlock, navigate]);
 
   return (
     <Layout>
@@ -66,7 +58,7 @@ export default function CheckoutSuccess() {
 
       {isPending && <p className="mt-4 text-muted">Confirming your payment…</p>}
 
-      {error && (
+      {(error || questionnaireError) && (
         <>
           <p className="mt-4 text-muted text-pretty">
             We couldn&rsquo;t confirm your payment just now. If you were charged, it will still
@@ -86,9 +78,9 @@ export default function CheckoutSuccess() {
       {data && !data.entitled && (
         <>
           <p className="mt-4 text-muted text-pretty">
-            Your payment went through, and we&rsquo;re still turning it into access. This
-            usually takes a moment. You can close this tab — the report will be in your
-            account when it&rsquo;s ready.
+            {data.payment_status === "refunded"
+              ? "This payment was refunded. Paid access is no longer available."
+              : "Payment has not been confirmed yet. Access will unlock once confirmation arrives."}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
@@ -103,8 +95,7 @@ export default function CheckoutSuccess() {
 
       {data?.entitled && (
         <p className="mt-4 text-muted">
-          Taking you to the rest of the questionnaire — the full report is scored from your
-          answers…
+          Taking you back to your questionnaire…
         </p>
       )}
     </Layout>

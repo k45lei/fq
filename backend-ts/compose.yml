@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: futurequest
+      POSTGRES_PASSWORD: futurequest
+      POSTGRES_DB: futurequest_ts
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - futurequest_ts_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U futurequest -d futurequest_ts']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  futurequest_ts_data:

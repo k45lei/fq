@@ -21,10 +21,10 @@ BUILD_DIR="$(mktemp -d)"
 trap 'rm -rf "$BUILD_DIR"' EXIT
 
 echo "Type-checking the tests…"
-npx tsc -p tsconfig.test.json --noEmit
+pnpm exec tsc -p tsconfig.test.json --noEmit
 
 echo "Transpiling the test sources…"
-./node_modules/.bin/rolldown src/api/client.test.ts -d "$BUILD_DIR" --format esm --platform node
+./node_modules/.bin/rolldown src/api/client.test.ts src/lib/checkout.test.ts -d "$BUILD_DIR" --format esm --platform node
 
 echo "Running the tests…"
 node --test "$BUILD_DIR"/*.test.js

@@ -9,6 +9,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "./client";
+import { useQuestionnaireStore } from "../store/questionnaire";
 import type { AnswerInput, QuestionCategory, StartRequest } from "./types";
 
 export const queryKeys = {
@@ -78,9 +79,8 @@ export function useLogout() {
   return useMutation({
     mutationFn: api.logout,
     onSuccess: () => {
-      // Everything user-scoped is now wrong, including any report only reachable through
-      // the account rather than the ownership cookie.
-      queryClient.invalidateQueries();
+      useQuestionnaireStore.getState().reset();
+      queryClient.clear();
     },
   });
 }
@@ -90,8 +90,8 @@ export function useReport(reportId: string | undefined) {
     queryKey: queryKeys.report(reportId ?? ""),
     queryFn: () => api.report(reportId!),
     enabled: Boolean(reportId),
-    // Reports are append-only; a given id never changes.
-    staleTime: Infinity,
+    staleTime: 0,
+    refetchInterval: (query) => query.state.data?.status === "pending" ? 5000 : false,
   });
 }
 
@@ -166,7 +166,7 @@ export function useCheckoutStatus(sessionId: string | undefined) {
     // an unpaid one never will.
     refetchInterval: (query) => {
       const status = query.state.data;
-      return status && !status.entitled ? 3000 : false;
+      return status?.payment_status === "pending" ? 3000 : false;
     },
   });
 }

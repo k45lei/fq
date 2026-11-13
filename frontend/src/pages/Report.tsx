@@ -40,7 +40,7 @@ export default function Report() {
   if (isPending) {
     return (
       <Layout width="wide">
-        <p className="py-16 text-center text-muted">Building your results…</p>
+        <p className="py-16 text-center text-muted">Loading your results…</p>
       </Layout>
     );
   }
@@ -58,6 +58,26 @@ export default function Report() {
     );
   }
 
+  if (data.status === "pending" || !data.payload) {
+    return (
+      <Layout width="wide">
+        <h1 className="mt-6 font-display text-4xl font-semibold">Answers saved</h1>
+        <p className="mt-4 text-muted">
+          Your answers have been saved. Personalized results are coming soon.
+        </p>
+        {questionnaire && (locked.length > 0 ? (
+          <PaywallTeaser sections={locked} responseId={data.response_id} />
+        ) : pending.length > 0 ? (
+          <ContinuePrompt sections={pending} responseId={data.response_id} />
+        ) : null)}
+        {!me?.signed_in && (
+          <p className="mt-6 text-sm text-muted">
+            This attempt is saved on this browser. <a href={api.googleLoginUrl} className="underline">Sign in</a> to access it on another device.
+          </p>
+        )}
+      </Layout>
+    );
+  }
   const report = data.payload;
   const familyNames = new Map(report.families.map((family) => [family.family_id, family.name]));
   const codeLabels = report.holland_code.map((trait) => report.traits[trait]?.label ?? trait);
@@ -74,12 +94,6 @@ export default function Report() {
           them.
         </p>
 
-        <a
-          href={api.reportPdfUrl(data.id)}
-          className="mt-6 inline-block rounded-xl border border-line bg-surface px-5 py-2.5 text-sm font-medium shadow-card transition hover:border-accent/50"
-        >
-          Download as PDF
-        </a>
       </header>
 
       <Section title="How you scored">
@@ -185,7 +199,7 @@ export default function Report() {
       ) : null}
 
       <footer className="mt-10 text-sm text-muted">
-        <p>Generated {new Date(data.generated_at).toLocaleDateString()}.</p>
+        <p>Generated {new Date(data.generated_at ?? data.created_at).toLocaleDateString()}.</p>
         {/* The prompt only appears where it's useful: once signed in, the report is already
             reachable from anywhere and saying so again is noise. */}
         {me?.signed_in ? (
@@ -252,7 +266,7 @@ function ContinuePrompt({
       <p className="mt-2 text-sm text-muted text-pretty">
         You&rsquo;ve unlocked the rest of the questionnaire.{" "}
         {sections.length === 1 ? "One section is" : `${sections.length} sections are`} still to
-        do, and the full report is scored from all of them.
+        do. Your answers will be saved together for your future results.
       </p>
 
       <ul className="mt-5 space-y-3">

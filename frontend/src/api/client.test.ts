@@ -57,7 +57,7 @@ function stubFetch(): void {
         : reply.body !== undefined
           ? JSON.stringify(reply.body)
           : "";
-    return new Response(text, {
+    return new Response(status === 204 ? null : text, {
       status,
       headers: { "content-type": "application/json" },
     });
@@ -284,5 +284,15 @@ describe("the error contract", () => {
         return true;
       },
     );
+  });
+});
+
+// Fastify rejects an empty request advertised as application/json.
+describe("logout", () => {
+  it("sends a bodyless request without a JSON content type", async () => {
+    stubFetch();
+    reply = { status: 204 };
+    await api.logout();
+    assert.equal(calls[0]?.headers["content-type"], undefined);
   });
 });
