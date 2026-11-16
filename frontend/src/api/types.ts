@@ -1,12 +1,4 @@
-/**
- * Mirrors the Pydantic schemas in `backend/app/schemas.py`.
- *
- * Hand-written, so it can drift. The upgrade is generating this from FastAPI's /openapi.json
- * with `openapi-typescript`; worth doing once the contract settles.
- *
- * Nothing outside `src/api/` should import HTTP concerns — these types are the contract, and
- * everything above this layer works in them.
- */
+/** Browser contract for the Fastify API. */
 
 export type AnswerType = "single_choice" | "multi_choice" | "scale" | "free_text";
 export type QuestionCategory = "interests" | "strengths" | "eq";
@@ -27,6 +19,11 @@ export interface Question {
   scale_min: number | null;
   scale_max: number | null;
   max_selections: number | null;
+  min_selections?: number | null;
+  reference_key?: string | null;
+  subsection?: string | null;
+  scale_min_label?: string | null;
+  scale_max_label?: string | null;
   options: Option[];
 }
 
@@ -102,6 +99,10 @@ export interface Guidance {
 }
 
 export interface CareerSuggestion {
+  career_id?: string;
+  description?: string;
+  subjects?: string[];
+  activities?: string[];
   name: string;
   family_id: string;
   fit_score: number;
@@ -118,7 +119,49 @@ export interface RankedFamily {
   fit_score: number;
 }
 
+export interface ScoredLabel {
+  name: string;
+  description: string;
+  score: number;
+}
+
+export interface ScoredProfile {
+  name: string;
+  description: string;
+  scores: ScoredLabel[];
+}
+
+export interface CompassMatch {
+  career_id: string;
+  name: string;
+  fit_score: number;
+  confidence: "high" | "medium" | "mixed";
+  signals: { interests: number; strengths: number; eq: number };
+}
+
 export interface ReportPayload {
+  headline?: string;
+  summary?: string;
+  abilities?: ScoredLabel[];
+  trait_profiles?: {
+    name: string;
+    headline: string;
+    score: number;
+    strengths: string[];
+    environments: string;
+    example_work: string;
+  }[];
+  motivators?: ScoredLabel[];
+  work_environment?: { name: string; score: number; low: string; high: string }[];
+  values?: ScoredLabel[];
+  strength_profile?: ScoredProfile | null;
+  eq_profile?: ScoredProfile | null;
+  compass?: {
+    confidence: "high" | "medium" | "mixed";
+    top_matches: CompassMatch[];
+    hidden_gems: CompassMatch[];
+    watch_outs: CompassMatch[];
+  } | null;
   holland_code: string[];
   traits: Record<string, TraitScore>;
   strengths: { name: string; evidence: string }[];
@@ -128,6 +171,7 @@ export interface ReportPayload {
 }
 
 export interface PastReport {
+  stage?: QuestionCategory;
   id: string;
   status: "pending" | "ready";
   created_at: string;
@@ -144,6 +188,9 @@ export interface Me {
 }
 
 export interface Report {
+  display_name?: string | null;
+  format_version?: number;
+  ruleset_version?: string | null;
   id: string;
   response_id: string;
   tier: ReportTier;

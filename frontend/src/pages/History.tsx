@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { api } from "../api/client";
 import { useMe } from "../api/queries";
+import { SECTION_META } from "../lib/sections";
 import Layout from "../components/Layout";
 
 /**
@@ -42,7 +43,7 @@ export default function History() {
     <Layout>
       <h1 className="font-display text-4xl font-semibold">Your reports</h1>
       <p className="mt-3 text-muted">
-        Signed in as {me.email}. Reports are kept — nothing here expires.
+        Signed in as {me.email}. Your saved reports are listed below.
       </p>
 
       {me.reports.length === 0 ? (
@@ -68,15 +69,22 @@ export default function History() {
             >
               <div>
                 <p className="font-medium">
-                  {new Date(report.generated_at ?? report.created_at).toLocaleDateString(undefined, {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
+                  {new Date(report.generated_at ?? report.created_at).toLocaleDateString(
+                    undefined,
+                    {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    },
+                  )}
                 </p>
                 <p className="text-sm text-muted">
-                  {report.tier === "full" ? "Full report" : "Free report"}
-                  {report.status === "pending" ? " · Results coming soon" : ""}
+                  {report.stage
+                    ? SECTION_META[report.stage].label
+                    : report.tier === "full"
+                      ? "Full report"
+                      : "Free report"}
+                  {report.status === "pending" ? " · Awaiting publication" : ""}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-4 text-sm">

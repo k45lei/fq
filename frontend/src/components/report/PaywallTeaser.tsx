@@ -1,155 +1,88 @@
-/**
- * What the paid sections would add.
- *
- * Takes the locked sections rather than hardcoding them, so it can never offer a section the
- * reader has already answered — the server decides which sections are locked, and this
- * component only reports on that.
- *
- * Deliberately honest about what's already been given: the free report is a real result, not a
- * crippled one. The teaser names what more information buys rather than implying the current
- * report is incomplete.
- *
- * The button is the checkout. It posts to the server, which creates a Stripe Checkout Session
- * and hands back a URL — then the browser leaves for Stripe. It's a navigation, not a fetch,
- * because the payment happens on Stripe's page.
- */
-
-import { useState } from "react";
-
 import { ApiError } from "../../api/client";
-import { useCreateCheckout, useApplyDiscount, usePricing } from "../../api/queries";
+import { useCreateCheckout, usePricing } from "../../api/queries";
 import type { QuestionCategory } from "../../api/types";
-import { SECTION_META } from "../../lib/sections";
 
-interface Props {
+export const formatPrice = (amountCents: number, currency: string): string => {
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format(amountCents / 100);
+};
+
+export default function PaywallTeaser({
+  sections,
+  responseId,
+}: {
   sections: QuestionCategory[];
-  /** The response being upgraded. Without it there's nothing to price or charge for. */
   responseId?: string;
-}
-
-export default function PaywallTeaser({ sections, responseId }: Props) {
-  const { data: pricing } = usePricing();
+}) {
+  const { data: pricing, error: pricingError, refetch } = usePricing();
   const checkout = useCreateCheckout();
-  const applyDiscount = useApplyDiscount();
-  const [code, setCode] = useState("");
 
-  if (sections.length === 0) return null;
-
-  const price = pricing ? formatPrice(pricing.amount_cents, pricing.currency) : null;
+  if (!sections.length) {
+    return null;
+  }
 
   const startCheckout = async () => {
-    if (!responseId) return;
+    if (!responseId) {
+      return;
+    }
     try {
-      if (code.trim()) {
-        await applyDiscount.mutateAsync({ responseId, discountCode: code.trim() });
-        // Discount applied, clear the field.
-        setCode("");
-        // The query invalidation in the mutation will refresh data.
-      } else {
-        const session = await checkout.mutateAsync({ responseId });
-        // A full-page navigation, not a client-side route change: Stripe's page is another
-        // origin, and the browser has to be able to come back to ours.
-        window.location.assign(session.url);
-      }
+      const session = await checkout.mutateAsync({ responseId });
+      window.location.assign(session.url);
     } catch {
-      // The error is shown below; nothing to do here.
+      // The mutation error is rendered below, with the answers still available.
     }
   };
 
   return (
-    <section className="mt-14 rounded-2xl border border-line bg-warm p-7">
-      <h2 className="font-display text-3xl font-semibold">Go deeper</h2>
-      <p className="mt-2 text-sm text-muted text-pretty">
-        Add your answers to the remaining sections. Personalized results are coming soon.
+    <section className="compass-banner mt-12 rounded-3xl p-8 text-white sm:p-10">
+      <p className="text-sm font-semibold">Get the complete picture</p>
+      <h2 className="mt-3 text-3xl font-bold">Interests are just the beginning.</h2>
+      <p className="mt-4 max-w-2xl text-white/90">
+        Unlock the strengths and EQ assessments, then see how all three signals combine in your
+        Compass report.
       </p>
-
-      <ul className="mt-5 space-y-4">
-        {sections.map((section) => {
-          const meta = SECTION_META[section];
-          return (
-            <li key={section} className="flex gap-3">
-              <span aria-hidden className="mt-0.5 text-muted">
-                &#128274;
-              </span>
-              <div>
-                <p className="font-medium">{meta.label}</p>
-                <p className="mt-0.5 text-sm text-muted text-pretty">{meta.detail}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-
-      <div className="mt-7">
-        <label className="block">
-          <span className="text-sm font-medium">Discount code</span>
-          <input
-            type="text"
-            value={code}
-            onChange={(event) => setCode(event.target.value)}
-            placeholder="Optional"
-            className="mt-1.5 w-full rounded-xl border border-line bg-surface px-4 py-2.5 outline-none transition focus:border-accent"
-          />
-        </label>
-
-        {/* Apply discount button appears when user types a code */}
-        {code.trim() && (
-          <button
-            type="button"
-            onClick={startCheckout}
-            disabled={applyDiscount.isPending || !responseId}
-            className="mt-2 w-full rounded-xl bg-accent px-5 py-3.5 font-medium text-white transition hover:bg-accent-strong disabled:opacity-50"
-          >
-            Apply discount
-          </button>
-        )}
-
-        {/* Checkout button always visible */}
-        <button
-          type="button"
-          onClick={startCheckout}
-          disabled={checkout.isPending || !responseId}
-          className="mt-4 w-full rounded-xl bg-accent px-5 py-3.5 font-medium text-white transition hover:bg-accent-strong disabled:opacity-50"
-        >
-          {checkout.isPending
-            ? "Opening checkout…"
-            : price
-              ? `Unlock the full report — ${price}`
-              : "Unlock the full report"}
-        </button>
-
-        {price && (
-          <p className="mt-2 text-center text-xs text-muted">
-            One payment. It stays unlocked on this device.
-          </p>
-        )}
-
-        {(checkout.error || applyDiscount.error) && (
-          <p className="mt-3 text-center text-sm text-red-700">
-            {(checkout.error ?? applyDiscount.error) instanceof ApiError
-              ? (checkout.error ?? applyDiscount.error)?.message
-              : "Couldn't start the payment. Please try again."}
-          </p>
+      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        {["Strengths · 76 questions", "EQ · 30 questions", "Combined Compass report"].map(
+          (label) => (
+            <p
+              key={label}
+              className="rounded-xl border border-white/25 bg-white/10 p-4 text-sm font-semibold"
+            >
+              {label}
+            </p>
+          ),
         )}
       </div>
+      <button
+        type="button"
+        onClick={startCheckout}
+        disabled={checkout.isPending || !responseId || !pricing}
+        className="mt-7 rounded-full bg-white px-7 py-4 font-bold text-[#3244c7] disabled:opacity-50"
+      >
+        {checkout.isPending
+          ? "Opening checkout…"
+          : pricing
+            ? `Unlock the remaining assessments — ${formatPrice(pricing.amount_cents, pricing.currency)}`
+            : "Loading price…"}
+      </button>
+      <p className="mt-3 text-xs text-white/85">One payment for this attempt. No subscription.</p>
+      {pricingError && (
+        <p role="alert" className="mt-3 text-sm">
+          Pricing is unavailable.{" "}
+          <button type="button" onClick={() => refetch()} className="underline">
+            Try again
+          </button>
+        </p>
+      )}
+      {checkout.error && (
+        <p role="alert" className="mt-3 text-sm">
+          {checkout.error instanceof ApiError
+            ? checkout.error.message
+            : "Checkout could not start. Please try again."}
+        </p>
+      )}
     </section>
   );
-}
-
-/**
- * The price, formatted.
- *
- * The amount comes from the server — the number shown has to be the number charged — and
- * this only turns cents into a currency string.
- */
-function formatPrice(amountCents: number, currency: string): string {
-  try {
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency: currency.toUpperCase(),
-    }).format(amountCents / 100);
-  } catch {
-    // An unknown currency code shouldn't take the button down with it.
-    return `${(amountCents / 100).toFixed(2)} ${currency.toUpperCase()}`;
-  }
 }

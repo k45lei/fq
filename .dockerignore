@@ -1,0 +1,9 @@
+.git
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+temp
+FutureQuest.zip
+frontend/example_frontend
+*.log

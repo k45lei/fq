@@ -24,7 +24,7 @@ echo "Type-checking the tests…"
 pnpm exec tsc -p tsconfig.test.json --noEmit
 
 echo "Transpiling the test sources…"
-./node_modules/.bin/rolldown src/api/client.test.ts src/lib/checkout.test.ts -d "$BUILD_DIR" --format esm --platform node
+./node_modules/.bin/rolldown src/api/client.test.ts src/lib/checkout.test.ts src/lib/answers.test.ts src/store/questionnaire.test.ts -d "$BUILD_DIR" --format esm --platform node
 
 echo "Running the tests…"
 node --test "$BUILD_DIR"/*.test.js

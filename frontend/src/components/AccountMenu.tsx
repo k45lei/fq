@@ -6,7 +6,7 @@ import { useLogout, useMe } from "../api/queries";
 /**
  * The account corner of the header.
  *
- * Signing in is optional throughout — the questionnaire, report and PDF all work without it,
+ * Signing in is optional throughout — the questionnaire and reports work without it,
  * on the ownership cookie alone. What it adds is reaching your reports from another device,
  * so that's what the prompt says rather than a bare "Sign in".
  */
@@ -23,7 +23,9 @@ export default function AccountMenu() {
   };
 
   // Nothing during the first load: a "Sign in" that flickers into a name reads as a glitch.
-  if (isPending) return null;
+  if (isPending) {
+    return null;
+  }
 
   if (!me?.signed_in) {
     return (

@@ -1,164 +1,94 @@
 # FutureQuest
 
-FutureQuest helps students explore their interests, strengths, and future goals through a fixed questionnaire. Students can start as guests or optionally sign in with Google.
+FutureQuest helps students explore interests, strengths, and emotional intelligence. A React frontend talks to a Fastify/TypeScript API backed by Prisma and PostgreSQL. Reports are calculated deterministically in the backend when a stage is submitted; there is no LLM or external report service.
 
-The questionnaire has three stages: **interests**, **strengths**, and **EQ**. Interests is free; one Stripe payment unlocks the remaining stages for that attempt. Each completed stage stores its answers and a cumulative snapshot of all answers submitted so far.
+The questionnaire has three ordered stages:
 
-**Results currently show placeholder text.** No LLM or report-generation service runs. A protected API can accept externally supplied results later. PDF downloads, email delivery, and discounts are not implemented in this phase.
+| Stage | Questions | Access | Result |
+| --- | ---: | --- | --- |
+| Interests | 32 | Free | Six-trait profile, abilities, values, eight career matches |
+| Strengths | 76 | One paid unlock per attempt | Work style, motivators, environment preferences, career matches |
+| EQ | 30 | Included in the same unlock | Five EQ domains and the combined Compass report |
 
-## Stack and layout
+Students can start as guests and optionally sign in with Google. Drafts stay in browser storage. Completed stages, cumulative answer snapshots, and reports are stored on the server. A new attempt starts free and does not inherit an earlier attempt's payment.
 
-| Component | Location | Technology |
-| --- | --- | --- |
-| Web app | `frontend/` | React, TypeScript, Vite, Tailwind CSS |
-| API | `backend-ts/src/` | Fastify, TypeScript |
-| Database schema and migrations | `backend-ts/prisma/` | Prisma, PostgreSQL 18 |
-| Local database | `backend-ts/compose.yml` | Docker Compose |
-| Worker entrypoint | `backend-ts/src/worker.ts` | Separate Node process; currently idle |
-
-The API runs on port **8000**, the frontend on **5173**, and the local database on **5433**. The frontend development server proxies `/api` requests to the API.
-
-Use [the Prisma schema](backend-ts/prisma/schema.prisma) and [the backend guide](backend-ts/README.md) for implementation details. Older documents under `docs/` describe earlier designs and may differ from the current code.
+The interface follows `frontend/example_frontend/`. Original HTML/CSS references remain available. Production styles live in `frontend/src/app.css`.
 
 ## Local setup
 
-You need Node.js **22.12 or newer**, npm, pnpm, and Docker with Compose. The frontend specifies its pnpm version in [package.json](frontend/package.json).
+Use Node 24+, npm, pnpm 12.5.1, and Docker Compose. There is no root Node package. Run npm in `backend` and pnpm in `frontend`.
 
-Run npm commands from `backend-ts/` and pnpm commands from `frontend/`. There is no root Node package.
-
-### 1. Install backend dependencies
-
-From the repository root:
-
-```bash
-cd backend-ts
+```sh
+cd backend
 npm ci
 npm run db:generate
-```
-
-### 2. Configure the API
-
-For the first setup, create a local environment file:
-
-```bash
 cp .env.example .env
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Copy the generated value into `backend-ts/.env` as `SESSION_KEY`. It must be exactly **64 hexadecimal characters**. The command prints the key; it does not update the file. Keep an existing `.env` when restarting the app.
+Set `SESSION_KEY` in `.env` to the printed 64-character hex value. Preserve an existing `.env`. The default local database URL is `postgresql://futurequest:futurequest@localhost:5433/futurequest`, and `APP_ORIGIN` is `http://localhost:5173`.
 
-The supplied defaults are:
-
-```dotenv
-DATABASE_URL=postgresql://futurequest:futurequest@localhost:5433/futurequest_ts
-APP_ORIGIN=http://localhost:5173
-PORT=8000
-NODE_ENV=development
-```
-
-Google, Stripe, and result-publication credentials can remain blank for local work on the free questionnaire flow. Their corresponding integrations will be unavailable until configured.
-
-### 3. Start PostgreSQL and initialize the database
-
-Still inside `backend-ts/`:
-
-```bash
+```sh
 docker compose up -d --wait
 npm run db:migrate
-```
-
-Use `backend-ts/compose.yml`; the root `docker-compose.yml` belongs to the previous backend. The new database is `futurequest_ts` on port **5433**, with a dedicated volume. These migrations are for a fresh database, not an upgrade of the previous Python database.
-
-**Seed dependency:** [the seed loader](backend-ts/src/seed.ts) still expects `backend/seeds/core-instrument-v2.yaml`. That file is currently missing following removal of the old backend directory. Before seeding a fresh database, restore the questionnaire YAML or move it into `backend-ts/` and update the loader's path. Seeding and backend integration tests depend on that file.
-
-Once the questionnaire source is available:
-
-```bash
 npm run db:seed
-```
-
-Seeding loads 40 questions. Running it again with unchanged content is safe; it refuses to change question content once attempts exist.
-
-### 4. Start the API
-
-Inside `backend-ts/`:
-
-```bash
 npm run dev
 ```
 
-Leave this terminal running. In another terminal, check database connectivity through the API:
+In another terminal:
 
-```bash
-curl http://localhost:8000/health
-```
-
-A healthy response includes `"status":"ok"`.
-
-### 5. Start the frontend
-
-Open another terminal at the repository root:
-
-```bash
+```sh
 cd frontend
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open **http://localhost:5173**. Keep PostgreSQL and the API running alongside the frontend. `APP_ORIGIN` must match the browser-facing origin if you use a different address.
+Open `http://localhost:5173`. Vite forwards `/api` to `http://127.0.0.1:8000`. Change the target with `API_PROXY_TARGET` if the local API uses another address. Set backend `APP_ORIGIN` to the exact frontend origin when changing the hostname or port.
 
-The worker is not required for the current flow. `npm run worker` starts a separate process that checks database connectivity and stays idle; it does not generate results.
+Root `docker-compose.yml` and `backend/compose.yml` describe the same local database. Both retain project name `backend-ts` and volume `backend-ts_futurequest_ts_data` for compatibility with the directory rename. If you previously used a custom Compose project, set `FUTUREQUEST_DB_VOLUME` to that existing volume's name before starting. Do not use `down -v` to resolve setup problems. The older root volume is not removed or imported.
 
-## Optional integrations
+Seeding reads checked-in data from `backend/src/scoring/reference.json`; it has no dependency on the removed Python backend. Unchanged reseeding is safe. If a database contains attempts from a different instrument, seeding refuses to replace its questions. Use a fresh database for this release; do not reset a database containing data you need. Existing reports remain readable, but unfinished attempts using an older instrument cannot receive new deterministic results.
 
-Configure these in `backend-ts/.env`, then restart the API.
+## Google and Stripe
 
-| Integration | Variables | Purpose |
-| --- | --- | --- |
-| Google sign-in | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Optional student authentication |
-| Stripe | `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID`, `STRIPE_WEBHOOK_SECRET` | One payment unlocks the remaining questionnaire stages |
-| Result publication | `RESULT_API_SECRET` | Authorizes an external service to publish a stored report result |
-
-For local Google sign-in, register this callback:
+Configure `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`, registering:
 
 ```text
-http://localhost:5173/api/auth/google/callback
+<APP_ORIGIN>/api/auth/google/callback
 ```
 
-Use an active, one-time Stripe price. The webhook endpoint is `/api/stripe/webhook`. See [the backend guide](backend-ts/README.md#google-and-payments) for event configuration and refund behavior.
+For payments set `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID`, and `STRIPE_WEBHOOK_SECRET`. The price must be active and one-time. `/api/pricing` retrieves it from Stripe; the application does not hardcode a price or currency. Register `<APP_ORIGIN>/api/stripe/webhook` for `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, and `charge.refunded`.
 
-Externally supplied results use `PUT /api/integrations/reports/:reportId/result` with a bearer secret. See [the publication contract](backend-ts/README.md#protected-result-publication). Without a publisher, reports remain pending and display the placeholder indefinitely.
+Full refunds revoke future paid submissions; partial refunds preserve access. Saved answers and reports remain readable. Webhook delivery and browser-return verification share the same idempotent fulfillment path.
 
-## Checks and builds
+## Checks
 
-Inside `backend-ts/`:
-
-```bash
+```sh
+cd backend
 npm run typecheck
 npm test
 npm run build
 ```
 
-The integration tests start a disposable PostgreSQL instance. They do not use your application database or call live Google or Stripe services. The questionnaire seed file described above must be present.
-
-Inside `frontend/`:
-
-```bash
+```sh
+cd frontend
 pnpm typecheck
 pnpm test
 pnpm build
 ```
 
-The backend build is written to `backend-ts/dist/`; run it with `npm start` from `backend-ts/`. The frontend build is written to `frontend/dist/`. Production hosting must route `/api` to the API and serve the frontend with client-side routing support.
+Backend tests start disposable PostgreSQL, apply every migration, and never use the application database. They need permission to open local sockets. Google and Stripe are mocked except for local signature verification. Scoring fixtures were captured from the supplied reference implementation.
 
-## Common setup issues
+See the [verification record](docs/verification.md) for results, the repeatable browser journey, and outstanding release checks.
 
-| Symptom | What to check |
-| --- | --- |
-| `npm ci` cannot find a lockfile, or npm cannot find `package.json` | Run the command inside `backend-ts/`, not the repository root. |
-| `docker compose` is unknown | Install the Compose plugin and confirm `docker compose version` works. |
-| Permission denied on `/var/run/docker.sock` | With system Docker Engine, run `sudo docker compose up -d --wait`. Keep npm and pnpm commands under your normal user. |
-| Prisma `P1001` or `ECONNREFUSED` on port 5433 | Start the database and inspect `docker compose ps` and `docker compose logs postgres` from `backend-ts/`. |
-| `SESSION_KEY must be 32 bytes encoded as hex` | Save a generated 64-character hexadecimal key in `.env` and restart the API. |
-| Seeding fails with a missing questionnaire file | Restore or relocate the YAML source referenced by `backend-ts/src/seed.ts`. |
-| The frontend loads but API requests fail | Confirm the API is running on port 8000 and `APP_ORIGIN` matches the frontend URL. |
+## Production
+
+See [deployment instructions](deploy/README.md) for the HTTPS container setup, environment configuration, migrations, backups, and provider verification. The API runs compiled JavaScript with `npm start`; frontend assets are served by Caddy, not Vite. The separate worker is intentionally idle because report calculations run synchronously.
+
+Production startup requires HTTPS and Google/Stripe configuration. No hosting deployment or live payment is performed by the implementation. Passing local tests does not establish that a particular provider account, callback, webhook, DNS record, or backup policy is correctly configured.
+
+## Results and limitations
+
+The reference instrument and scoring rules are documented in [the backend guide](backend/README.md). Confidence describes agreement between the three scores, not a probability of career success or a psychometrically validated assessment. Reference salary, outlook, and qualification claims are omitted because the supplied material has no supporting sources. Career descriptions, subjects, and activities are exploration suggestions.
+
+PDF exports, email delivery, public sharing, discounts, schools/events, and additional roles are not implemented. The protected publication endpoint remains available for older pending reports; local ready results cannot be replaced. See [AGENTS.md](AGENTS.md) for coding conventions and project invariants.

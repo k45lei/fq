@@ -17,9 +17,9 @@ export default function Start() {
   const { data: me } = useMe();
   const { begin } = useQuestionnaireStore();
 
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
-  const [school, setSchool] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const questionCount = questionnaire?.questions.length ?? 0;
   const minutes = questionCount > 0 ? Math.max(2, Math.round((questionCount * 15) / 60)) : null;
@@ -30,13 +30,18 @@ export default function Start() {
     event.preventDefault();
     // Signed in, these come from the account rather than the form. The server ignores them
     // in favour of the session anyway — sending the real values keeps the two consistent.
-    const result = await start.mutateAsync({
-      name: signedIn ? (me?.name ?? "") : name.trim(),
-      email: signedIn ? (me?.email ?? "") : email.trim(),
-      school: school.trim() || null,
-    });
-    begin(result.response_id);
-    navigate("/questionnaire");
+    try {
+      const result = await start.mutateAsync({
+        name: signedIn
+          ? (me?.name ?? "")
+          : [firstName.trim(), lastName.trim()].filter(Boolean).join(" "),
+        email: signedIn ? (me?.email ?? "") : email.trim(),
+      });
+      begin(result.response_id);
+      navigate("/questionnaire");
+    } catch {
+      // The mutation error is shown in the form.
+    }
   };
 
   return (
@@ -46,10 +51,10 @@ export default function Start() {
       </Link>
 
       <h1 className="mt-6 font-display text-4xl leading-tight font-semibold">
-        Before we start
+        One quick step before we start.
       </h1>
       <p className="mt-3 text-muted text-pretty">
-        {signedIn ? "One optional detail" : "Three details"}, then straight into the questions.
+        {signedIn ? "Continue with your account" : "Tell us your name to personalize your report"}.
         {minutes ? ` It takes about ${minutes} minutes.` : ""}
       </p>
 
@@ -69,11 +74,18 @@ export default function Start() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             <Field
-              label="Your name"
-              value={name}
-              onChange={setName}
-              autoComplete="name"
+              label="First name"
+              value={firstName}
+              onChange={setFirstName}
+              autoComplete="given-name"
               required
+            />
+            <Field
+              label="Last name"
+              value={lastName}
+              onChange={setLastName}
+              autoComplete="family-name"
+              hint="Optional."
             />
             <Field
               label="Email"
@@ -86,14 +98,10 @@ export default function Start() {
           </div>
         )}
 
-        <div className="mt-4">
-          <Field label="School or college" value={school} onChange={setSchool} hint="Optional." />
-        </div>
-
         <p className="mt-4 text-sm text-muted">
           {signedIn
             ? "Your results are saved to your account."
-            : "Your answers are saved on this browser. Sign in to access them on another device."}
+            : "Completed answers and reports are saved securely. Sign in to access them on another device."}
         </p>
 
         {start.error && (
@@ -109,7 +117,7 @@ export default function Start() {
           disabled={start.isPending}
           className="mt-6 w-full rounded-xl bg-accent px-5 py-3.5 font-medium text-white transition hover:bg-accent-strong disabled:opacity-50 sm:w-auto sm:px-10"
         >
-          {start.isPending ? "Starting…" : "Start the questionnaire"}
+          {start.isPending ? "Starting…" : "Start my quiz →"}
         </button>
       </form>
     </Layout>

@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import "./index.css";
+import "./app.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +18,10 @@ const queryClient = new QueryClient({
 });
 
 const root = document.getElementById("root");
-if (!root) throw new Error("#root is missing from index.html");
+
+if (!root) {
+  throw new Error("#root is missing from index.html");
+}
 
 createRoot(root).render(
   <StrictMode>

@@ -18,9 +18,21 @@ export function formatPay(pay: Pay): string | null {
       maximumFractionDigits: 0,
     }).format(amount);
 
-  if (pay.low !== null && pay.high !== null) return `${money(pay.low)} – ${money(pay.high)}`;
-  if (pay.median !== null) return `${money(pay.median)} median`;
-  if (pay.low !== null) return `from ${money(pay.low)}`;
-  if (pay.high !== null) return `up to ${money(pay.high)}`;
+  if (pay.low !== null && pay.high !== null) {
+    return `${money(pay.low)} – ${money(pay.high)}`;
+  }
+
+  if (pay.median !== null) {
+    return `${money(pay.median)} median`;
+  }
+
+  if (pay.low !== null) {
+    return `from ${money(pay.low)}`;
+  }
+
+  if (pay.high !== null) {
+    return `up to ${money(pay.high)}`;
+  }
+
   return null;
 }

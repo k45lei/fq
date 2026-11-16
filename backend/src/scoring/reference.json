@@ -1,0 +1,4620 @@
+{
+  "interests": [
+    {
+      "id": "i1",
+      "section": "interests",
+      "text": "I enjoy fixing things, building, or working with my hands.",
+      "riasec": "R"
+    },
+    {
+      "id": "i2",
+      "section": "interests",
+      "text": "I like being outdoors and active rather than sitting at a desk all day.",
+      "riasec": "R"
+    },
+    {
+      "id": "i3",
+      "section": "interests",
+      "text": "I love figuring out how things work — taking things apart in my head.",
+      "riasec": "I"
+    },
+    {
+      "id": "i4",
+      "section": "interests",
+      "text": "Science, math, or research topics genuinely fascinate me.",
+      "riasec": "I"
+    },
+    {
+      "id": "i5",
+      "section": "interests",
+      "text": "I express myself through art, music, writing, design, or video.",
+      "riasec": "A"
+    },
+    {
+      "id": "i6",
+      "section": "interests",
+      "text": "I get bored when I have to follow rigid rules — I want room to be original.",
+      "riasec": "A"
+    },
+    {
+      "id": "i7",
+      "section": "interests",
+      "text": "I love helping friends with their problems and feel good after.",
+      "riasec": "S"
+    },
+    {
+      "id": "i8",
+      "section": "interests",
+      "text": "Teaching, coaching, or mentoring others sounds like something I would enjoy.",
+      "riasec": "S"
+    },
+    {
+      "id": "i9",
+      "section": "interests",
+      "text": "I like leading group projects and convincing others to get on board.",
+      "riasec": "E"
+    },
+    {
+      "id": "i10",
+      "section": "interests",
+      "text": "Starting a business or running my own thing one day appeals to me.",
+      "riasec": "E"
+    },
+    {
+      "id": "i11",
+      "section": "interests",
+      "text": "I like organizing my files, my room, or my schedule — order feels good.",
+      "riasec": "C"
+    },
+    {
+      "id": "i12",
+      "section": "interests",
+      "text": "I am comfortable working with numbers, spreadsheets, or detailed records.",
+      "riasec": "C"
+    },
+    {
+      "id": "a1",
+      "section": "abilities",
+      "text": "I can break tough problems into smaller steps and solve them logically.",
+      "skill": "analytical"
+    },
+    {
+      "id": "a2",
+      "section": "abilities",
+      "text": "I notice patterns and details that other people miss.",
+      "skill": "analytical"
+    },
+    {
+      "id": "a3",
+      "section": "abilities",
+      "text": "I come up with ideas, stories, or designs that feel original.",
+      "skill": "creative"
+    },
+    {
+      "id": "a4",
+      "section": "abilities",
+      "text": "I can explain complicated things in a way people understand.",
+      "skill": "communication"
+    },
+    {
+      "id": "a5",
+      "section": "abilities",
+      "text": "I pick up new technology, software, or tools quickly.",
+      "skill": "technical"
+    },
+    {
+      "id": "a6",
+      "section": "abilities",
+      "text": "When a group is stuck, people often look to me to make a call.",
+      "skill": "leadership"
+    },
+    {
+      "id": "a7",
+      "section": "abilities",
+      "text": "I am good with my hands — building, repairing, or making things physically.",
+      "skill": "handsOn"
+    },
+    {
+      "id": "a8",
+      "section": "abilities",
+      "text": "I write well — emails, essays, or messages come out clearly.",
+      "skill": "communication"
+    },
+    {
+      "id": "w1",
+      "section": "workStyle",
+      "text": "I would rather work on a team than alone.",
+      "riasec": "S"
+    },
+    {
+      "id": "w2",
+      "section": "workStyle",
+      "text": "I prefer a job with a clear routine over one that changes every day.",
+      "riasec": "C"
+    },
+    {
+      "id": "w3",
+      "section": "workStyle",
+      "text": "I would enjoy a job that involves travel, movement, or being on-site.",
+      "riasec": "R"
+    },
+    {
+      "id": "w4",
+      "section": "workStyle",
+      "text": "I am comfortable presenting or speaking in front of a group.",
+      "skill": "communication"
+    },
+    {
+      "id": "w5",
+      "section": "workStyle",
+      "text": "I would rather invent something new than improve something that already exists.",
+      "riasec": "A"
+    },
+    {
+      "id": "w6",
+      "section": "workStyle",
+      "text": "I like having a manager who gives me clear direction over total independence.",
+      "riasec": "C"
+    },
+    {
+      "id": "v1",
+      "section": "values",
+      "text": "Making a positive impact on people or the planet matters more than how much I earn.",
+      "value": "impact"
+    },
+    {
+      "id": "v2",
+      "section": "values",
+      "text": "Job stability and a steady paycheck are very important to me.",
+      "value": "stability"
+    },
+    {
+      "id": "v3",
+      "section": "values",
+      "text": "I want to set my own schedule and be my own boss someday.",
+      "value": "autonomy"
+    },
+    {
+      "id": "v4",
+      "section": "values",
+      "text": "I want a job that lets me create or design things I am proud of.",
+      "value": "creativity"
+    },
+    {
+      "id": "v5",
+      "section": "values",
+      "text": "Earning a high income is one of my top career goals.",
+      "value": "income"
+    },
+    {
+      "id": "v6",
+      "section": "values",
+      "text": "I want a career where I will keep learning new things for years.",
+      "value": "learning"
+    }
+  ],
+  "strengths": [
+    {
+      "id": "sd-01",
+      "type": "likert",
+      "text": "I feel best when I can pick my own approach to a task.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-02",
+      "type": "likert",
+      "text": "I'd rather figure something out myself than be told how to do it.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-03",
+      "type": "likert",
+      "text": "I set my own goals even when no one is asking me to.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-04",
+      "type": "likert",
+      "text": "I stay on track with projects even without deadlines.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-05",
+      "type": "likert",
+      "text": "When I notice something needs fixing, I just start fixing it.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-06",
+      "type": "likert",
+      "text": "I trust my own judgment more than I trust other people's opinions.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-07",
+      "type": "likert",
+      "text": "I like starting new things — even without being asked.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-08",
+      "type": "likert",
+      "text": "I'm good at deciding what to work on next without needing a list.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-09",
+      "type": "likert",
+      "text": "I plan my own time without being reminded by others.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-10",
+      "type": "likert",
+      "text": "When I don't know what to do next, I feel stuck and uncomfortable.",
+      "dim": "SD",
+      "weight": -1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-11",
+      "type": "likert",
+      "text": "I'd rather have someone tell me what success looks like than figure it out on my own.",
+      "dim": "SD",
+      "weight": -1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-12",
+      "type": "scenario",
+      "text": "Your teacher hands you a big project with no instructions — just a topic. What's your first reaction?",
+      "dim": "SD",
+      "section": "self-achievement",
+      "options": [
+        {
+          "id": "a",
+          "label": "I get excited — finally, I can take it in my own direction.",
+          "weights": {
+            "SD": 2
+          }
+        },
+        {
+          "id": "b",
+          "label": "I like having some freedom, but I'd want to confirm the main expectations first.",
+          "weights": {
+            "SD": 1,
+            "SP": 1
+          }
+        },
+        {
+          "id": "c",
+          "label": "It makes me nervous — I'd prefer a clearer guide on what's expected.",
+          "weights": {
+            "SD": -1,
+            "SP": 2
+          }
+        },
+        {
+          "id": "d",
+          "label": "I'd immediately team up with someone to figure it out together.",
+          "weights": {
+            "SD": 0,
+            "FG": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "ad-01",
+      "type": "likert",
+      "text": "When I hit a wall on something hard, I keep working on it.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-02",
+      "type": "likert",
+      "text": "I push myself to be better than I was last week.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-03",
+      "type": "likert",
+      "text": "Getting better at something matters more to me than being the best at it.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-04",
+      "type": "likert",
+      "text": "When I miss a goal, I want to try again right away.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-05",
+      "type": "likert",
+      "text": "I set personal challenges for myself that no one else set for me.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-06",
+      "type": "likert",
+      "text": "I find \"good enough\" frustrating — I want to do it well.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-07",
+      "type": "likert",
+      "text": "Even when I'm tired, I finish what I started.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-08",
+      "type": "likert",
+      "text": "I keep track of my own progress on things I care about.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-09",
+      "type": "likert",
+      "text": "I'm willing to do boring drills to get better at something I want to master.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-10",
+      "type": "likert",
+      "text": "If something isn't graded or required, I probably won't put in extra effort.",
+      "dim": "AD",
+      "weight": -1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-11",
+      "type": "likert",
+      "text": "I tend to quit when something gets really hard.",
+      "dim": "AD",
+      "weight": -1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-12",
+      "type": "scenario",
+      "text": "You try out for something — a team, a role, a competition — and don't make the cut. What's most likely to happen next?",
+      "dim": "AD",
+      "section": "self-achievement",
+      "options": [
+        {
+          "id": "a",
+          "label": "I train harder and try again next round.",
+          "weights": {
+            "AD": 2
+          }
+        },
+        {
+          "id": "b",
+          "label": "I'd feel bad for a bit, then probably move on to something else.",
+          "weights": {
+            "AD": 0
+          }
+        },
+        {
+          "id": "c",
+          "label": "I'd ask for feedback right away and make a plan.",
+          "weights": {
+            "AD": 1,
+            "FG": 2
+          }
+        },
+        {
+          "id": "d",
+          "label": "I'd rethink whether it was really the right thing for me.",
+          "weights": {
+            "AD": -1,
+            "SD": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "md-fc-01",
+      "type": "forced_choice_multi",
+      "text": "Pick the 3 things that would make a job feel worth doing for you:",
+      "dim": "MD",
+      "pickCount": 3,
+      "section": "motivators",
+      "options": [
+        {
+          "id": "mastery",
+          "label": "Getting really good at something",
+          "motivator": "mastery"
+        },
+        {
+          "id": "status",
+          "label": "Being recognized as excellent",
+          "motivator": "status"
+        },
+        {
+          "id": "autonomy",
+          "label": "Having freedom to do it your way",
+          "motivator": "autonomy"
+        },
+        {
+          "id": "connection",
+          "label": "Working with people you like",
+          "motivator": "connection"
+        },
+        {
+          "id": "security",
+          "label": "Knowing you have a stable future",
+          "motivator": "security"
+        },
+        {
+          "id": "impact",
+          "label": "Making a difference in the world",
+          "motivator": "impact"
+        },
+        {
+          "id": "creativity",
+          "label": "Making something brand new",
+          "motivator": "creativity"
+        }
+      ]
+    },
+    {
+      "id": "md-fc-02",
+      "type": "forced_choice_multi",
+      "text": "Now pick the 2 that matter least to you right now:",
+      "dim": "MD",
+      "pickCount": 2,
+      "section": "motivators",
+      "options": [
+        {
+          "id": "mastery",
+          "label": "Getting really good at something",
+          "motivator": "mastery"
+        },
+        {
+          "id": "status",
+          "label": "Being recognized as excellent",
+          "motivator": "status"
+        },
+        {
+          "id": "autonomy",
+          "label": "Having freedom to do it your way",
+          "motivator": "autonomy"
+        },
+        {
+          "id": "connection",
+          "label": "Working with people you like",
+          "motivator": "connection"
+        },
+        {
+          "id": "security",
+          "label": "Knowing you have a stable future",
+          "motivator": "security"
+        },
+        {
+          "id": "impact",
+          "label": "Making a difference in the world",
+          "motivator": "impact"
+        },
+        {
+          "id": "creativity",
+          "label": "Making something brand new",
+          "motivator": "creativity"
+        }
+      ]
+    },
+    {
+      "id": "md-01",
+      "type": "likert",
+      "text": "I'd take a lower-paying job if it meant doing work that genuinely helps people.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    },
+    {
+      "id": "md-02",
+      "type": "likert",
+      "text": "Being known as one of the best at what I do is important to me.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    },
+    {
+      "id": "md-03",
+      "type": "likert",
+      "text": "I need to be able to make my own creative decisions — not just follow someone else's vision.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    },
+    {
+      "id": "md-04",
+      "type": "likert",
+      "text": "Having a reliable salary and job stability matters more to me than a high-risk, high-reward path.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    },
+    {
+      "id": "md-05",
+      "type": "likert",
+      "text": "The relationships I build at work are one of the most important parts of the job.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    },
+    {
+      "id": "md-06",
+      "type": "likert",
+      "text": "I feel most alive when I can see that my skills are visibly improving.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    },
+    {
+      "id": "md-sc-01",
+      "type": "scenario",
+      "text": "You've been working on a skill for months. Someone offers you two options — which do you choose?",
+      "dim": "MD",
+      "section": "motivators",
+      "options": [
+        {
+          "id": "a",
+          "label": "A quiet win — I know I've gotten genuinely great at it. No one notices but me.",
+          "weights": {
+            "MD": 1
+          }
+        },
+        {
+          "id": "b",
+          "label": "A big public moment — people recognize my achievement even if I feel a bit shaky on the skill.",
+          "weights": {
+            "MD": 1
+          }
+        },
+        {
+          "id": "c",
+          "label": "A paid gig using the skill — money validates the work for me.",
+          "weights": {
+            "MD": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "md-sc-02",
+      "type": "scenario",
+      "text": "Two job offers arrive. Job A pays 40% more. Job B pays less but you'd help hundreds of people every week. You pick:",
+      "dim": "MD",
+      "section": "motivators",
+      "options": [
+        {
+          "id": "a",
+          "label": "Job A — higher pay gives me freedom and security for everything else.",
+          "weights": {
+            "MD": 1
+          }
+        },
+        {
+          "id": "b",
+          "label": "Job B — knowing I'm helping people is the real payoff.",
+          "weights": {
+            "MD": 1
+          }
+        },
+        {
+          "id": "c",
+          "label": "Neither — I'd try to negotiate a raise at Job B or find a third option.",
+          "weights": {
+            "SD": 1,
+            "MD": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sp-01",
+      "type": "likert",
+      "text": "I'd rather have a clear plan than figure it out as I go.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-02",
+      "type": "likert",
+      "text": "I like knowing what my schedule will look like for the whole week.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-03",
+      "type": "likert",
+      "text": "Checklists and to-do lists make me feel more in control.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-04",
+      "type": "likert",
+      "text": "Following a proven process feels safer to me than inventing one from scratch.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-05",
+      "type": "likert",
+      "text": "I like knowing the rules before I start something new.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-06",
+      "type": "likert",
+      "text": "Surprises and sudden changes to a plan stress me out.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-07",
+      "type": "likert",
+      "text": "Having a clear job description matters more to me than keeping my options open.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-08",
+      "type": "likert",
+      "text": "Doing the same type of task every day sounds boring to me.",
+      "dim": "SP",
+      "weight": -1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-09",
+      "type": "likert",
+      "text": "Ambiguity — not knowing what's expected — feels exciting rather than stressful.",
+      "dim": "SP",
+      "weight": -1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-10",
+      "type": "scenario",
+      "text": "Your first week at a new job, no one gives you a clear agenda. What do you do?",
+      "dim": "SP",
+      "section": "structure-feedback",
+      "options": [
+        {
+          "id": "a",
+          "label": "I ask my manager for a written list of priorities and goals for the first month.",
+          "weights": {
+            "SP": 2
+          }
+        },
+        {
+          "id": "b",
+          "label": "I look around, figure out what seems most useful, and just start doing it.",
+          "weights": {
+            "SD": 2,
+            "SP": -1
+          }
+        },
+        {
+          "id": "c",
+          "label": "I observe first — I want to understand the culture before I commit to anything.",
+          "weights": {
+            "SP": 1,
+            "FG": 1
+          }
+        },
+        {
+          "id": "d",
+          "label": "I ask a teammate what they'd do and follow their lead.",
+          "weights": {
+            "FG": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "fg-01",
+      "type": "likert",
+      "text": "I want my mentor to tell me exactly what I need to improve.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-02",
+      "type": "likert",
+      "text": "Getting detailed, frequent feedback makes me feel supported — not micromanaged.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-03",
+      "type": "likert",
+      "text": "I prefer a teacher or coach who breaks things down step-by-step.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-04",
+      "type": "likert",
+      "text": "I feel more confident when someone checks in regularly on my progress.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-05",
+      "type": "likert",
+      "text": "I want to know clearly whether I did something right or wrong.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-06",
+      "type": "likert",
+      "text": "I tend to figure out on my own whether I'm doing well — I don't need others to tell me.",
+      "dim": "FG",
+      "weight": -1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-07",
+      "type": "likert",
+      "text": "Too much feedback or coaching makes me feel like people don't trust me to handle it.",
+      "dim": "FG",
+      "weight": -1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-08",
+      "type": "likert",
+      "text": "I'm comfortable asking for help when I get stuck.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-09",
+      "type": "scenario",
+      "text": "Your manager hands you a brand new project you've never done before. The best start is:",
+      "dim": "FG",
+      "section": "structure-feedback",
+      "options": [
+        {
+          "id": "a",
+          "label": "They walk me through every step in detail before I begin.",
+          "weights": {
+            "FG": 2,
+            "SP": 1
+          }
+        },
+        {
+          "id": "b",
+          "label": "They explain the goal clearly, then let me plan the approach and check in at milestones.",
+          "weights": {
+            "FG": 1,
+            "SD": 1
+          }
+        },
+        {
+          "id": "c",
+          "label": "They hand it off and trust me — I check in when I need something.",
+          "weights": {
+            "FG": -1,
+            "SD": 2
+          }
+        },
+        {
+          "id": "d",
+          "label": "They connect me with someone who's done it before so I can ask questions.",
+          "weights": {
+            "FG": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "fg-10",
+      "type": "scenario",
+      "text": "You got an 80% on a big project. Which response feels most right to you?",
+      "dim": "FG",
+      "section": "structure-feedback",
+      "options": [
+        {
+          "id": "a",
+          "label": "I'd immediately ask the teacher what lost the 20% and how to fix it next time.",
+          "weights": {
+            "FG": 2
+          }
+        },
+        {
+          "id": "b",
+          "label": "I'd review my own work to figure out where I went wrong.",
+          "weights": {
+            "FG": -1,
+            "AD": 1
+          }
+        },
+        {
+          "id": "c",
+          "label": "I'd be satisfied — 80% is solid, I'll do better next time.",
+          "weights": {
+            "FG": -1,
+            "AD": 0
+          }
+        },
+        {
+          "id": "d",
+          "label": "I'd feel frustrated and want to redo it immediately.",
+          "weights": {
+            "AD": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "we-bp-pace",
+      "type": "bipolar",
+      "axis": "pace",
+      "poleA": "Steady, predictable pace",
+      "poleB": "Fast bursts and sprints",
+      "section": "work-environment"
+    },
+    {
+      "id": "we-bp-collab",
+      "type": "bipolar",
+      "axis": "collab",
+      "poleA": "Solo focus",
+      "poleB": "Constant team interaction",
+      "section": "work-environment"
+    },
+    {
+      "id": "we-bp-energy",
+      "type": "bipolar",
+      "axis": "energy",
+      "poleA": "Quiet, calm office",
+      "poleB": "Buzzy, social workspace",
+      "section": "work-environment"
+    },
+    {
+      "id": "we-bp-variety",
+      "type": "bipolar",
+      "axis": "variety",
+      "poleA": "Stable routine",
+      "poleB": "New challenges daily",
+      "section": "work-environment"
+    },
+    {
+      "id": "we-01",
+      "type": "likert",
+      "text": "I get drained spending a whole day working alone with no conversations.",
+      "dim": "WE",
+      "weight": 1,
+      "section": "work-environment"
+    },
+    {
+      "id": "we-02",
+      "type": "likert",
+      "text": "I get drained after a day of back-to-back meetings and group work.",
+      "dim": "WE",
+      "weight": -1,
+      "section": "work-environment"
+    },
+    {
+      "id": "we-03",
+      "type": "likert",
+      "text": "Open plan offices where everyone can see and hear each other sound good to me.",
+      "dim": "WE",
+      "weight": 1,
+      "section": "work-environment"
+    },
+    {
+      "id": "we-04",
+      "type": "likert",
+      "text": "I love it when every day at work looks totally different.",
+      "dim": "WE",
+      "weight": 1,
+      "section": "work-environment"
+    },
+    {
+      "id": "we-05",
+      "type": "likert",
+      "text": "High-pressure, high-stakes deadlines make me sharper, not panicked.",
+      "dim": "WE",
+      "weight": 1,
+      "section": "work-environment"
+    },
+    {
+      "id": "we-06",
+      "type": "likert",
+      "text": "I'd love a job that involves travel, different locations, or fieldwork.",
+      "dim": "WE",
+      "weight": 1,
+      "section": "work-environment"
+    },
+    {
+      "id": "we-sc-01",
+      "type": "scenario",
+      "text": "Picture your ideal workday. Which option feels most like 'yes, that's me'?",
+      "dim": "WE",
+      "section": "work-environment",
+      "options": [
+        {
+          "id": "a",
+          "label": "Deep work at a desk, headphones on, few interruptions, clear tasks.",
+          "weights": {
+            "WE": 1
+          }
+        },
+        {
+          "id": "b",
+          "label": "Meetings, calls, collaboration — energy from the people around me.",
+          "weights": {
+            "WE": 1
+          }
+        },
+        {
+          "id": "c",
+          "label": "Out in the field — sites, clients, different places every week.",
+          "weights": {
+            "WE": 1
+          }
+        },
+        {
+          "id": "d",
+          "label": "A mix: some solo building, some team check-ins, some creative sessions.",
+          "weights": {
+            "WE": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "we-sc-02",
+      "type": "scenario",
+      "text": "Your company offers you two desks. Which do you pick?",
+      "dim": "WE",
+      "section": "work-environment",
+      "options": [
+        {
+          "id": "a",
+          "label": "A private office or quiet corner — I control when I interact with others.",
+          "weights": {
+            "WE": 1
+          }
+        },
+        {
+          "id": "b",
+          "label": "A spot in the middle of the team, right in the mix of everything.",
+          "weights": {
+            "WE": 1
+          }
+        },
+        {
+          "id": "c",
+          "label": "A flexible 'hot desk' — I don't care where I sit as long as I'm moving around.",
+          "weights": {
+            "WE": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sd-ex-01",
+      "type": "likert",
+      "text": "When given a long-term goal, I break it into steps and get started right away.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sd-ex-02",
+      "type": "likert",
+      "text": "I prefer to define my own definition of success for a project.",
+      "dim": "SD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-ex-01",
+      "type": "likert",
+      "text": "I measure my effort by my own standards, not what others expect.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "ad-ex-02",
+      "type": "likert",
+      "text": "I regularly reflect on what I could have done better, even when things went well.",
+      "dim": "AD",
+      "weight": 1,
+      "section": "self-achievement"
+    },
+    {
+      "id": "sp-ex-01",
+      "type": "likert",
+      "text": "I prefer jobs where the daily responsibilities are clearly spelled out.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "sp-ex-02",
+      "type": "likert",
+      "text": "I like having clear metrics that tell me when I'm done.",
+      "dim": "SP",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-ex-01",
+      "type": "likert",
+      "text": "I want my manager to tell me what I did well and what to improve every week.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "fg-ex-02",
+      "type": "likert",
+      "text": "I'd rather work somewhere with regular performance reviews than somewhere without them.",
+      "dim": "FG",
+      "weight": 1,
+      "section": "structure-feedback"
+    },
+    {
+      "id": "md-ex-01",
+      "type": "likert",
+      "text": "Seeing the actual impact of my work — on a person's life, or on a big problem — keeps me going.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    },
+    {
+      "id": "md-ex-02",
+      "type": "likert",
+      "text": "If I can't see myself growing in a role, I'd rather move on than stay comfortable.",
+      "dim": "MD",
+      "weight": 1,
+      "section": "motivators"
+    }
+  ],
+  "eq": [
+    {
+      "id": "sa-1",
+      "type": "likert",
+      "text": "When I’m upset, I can usually name what I’m actually feeling — not just “bad” or “fine”.",
+      "dim": "SA",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sa-2",
+      "type": "likert",
+      "text": "I notice when my mood shifts after scrolling social media or being on my phone.",
+      "dim": "SA",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sa-3",
+      "type": "likert",
+      "text": "I know which situations tend to push my buttons before they happen.",
+      "dim": "SA",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sa-4",
+      "type": "likert",
+      "text": "When someone gives me honest feedback, I can usually take it without getting defensive.",
+      "dim": "SA",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sa-5",
+      "type": "likert",
+      "text": "I often have no idea why I’m in a bad mood.",
+      "dim": "SA",
+      "weight": -1,
+      "section": "self"
+    },
+    {
+      "id": "sa-6",
+      "type": "scenario",
+      "text": "You bomb a test you actually studied for. After the initial frustration, what’s most likely going through your head?",
+      "dim": "SA",
+      "section": "self",
+      "options": [
+        {
+          "id": "sa-6-a",
+          "label": "“I know exactly where I went wrong — I’ll adjust how I study next time.”",
+          "weights": {
+            "SA": 2,
+            "MO": 1
+          }
+        },
+        {
+          "id": "sa-6-b",
+          "label": "“I’m mad, but I’ll talk to the teacher tomorrow when I’ve calmed down.”",
+          "weights": {
+            "SA": 1,
+            "SR": 2
+          }
+        },
+        {
+          "id": "sa-6-c",
+          "label": "“This teacher just doesn’t like me. The test was unfair.”",
+          "weights": {
+            "SA": -1
+          }
+        },
+        {
+          "id": "sa-6-d",
+          "label": "“Maybe I’m just not smart enough for this subject.”",
+          "weights": {
+            "SA": 0,
+            "MO": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sr-1",
+      "type": "likert",
+      "text": "When I’m really angry, I can pause before I say or text something I’ll regret.",
+      "dim": "SR",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sr-2",
+      "type": "likert",
+      "text": "I can put my phone down when I know I should be doing something else.",
+      "dim": "SR",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sr-3",
+      "type": "likert",
+      "text": "Once I’m stressed, it’s really hard for me to calm down.",
+      "dim": "SR",
+      "weight": -1,
+      "section": "self"
+    },
+    {
+      "id": "sr-4",
+      "type": "likert",
+      "text": "I can focus on something boring if I know it matters in the long run.",
+      "dim": "SR",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sr-5",
+      "type": "likert",
+      "text": "When a group chat gets heated, I can stay out of it instead of throwing fuel on the fire.",
+      "dim": "SR",
+      "weight": 1,
+      "section": "self"
+    },
+    {
+      "id": "sr-6",
+      "type": "scenario",
+      "text": "Someone subtweets you or posts something that’s clearly aimed at you. What do you actually do?",
+      "dim": "SR",
+      "section": "self",
+      "options": [
+        {
+          "id": "sr-6-a",
+          "label": "Take a breath, sit with it, and decide later if it’s worth a real conversation.",
+          "weights": {
+            "SR": 2,
+            "SA": 1
+          }
+        },
+        {
+          "id": "sr-6-b",
+          "label": "Send them a calm DM asking what’s actually going on.",
+          "weights": {
+            "SR": 1,
+            "SS": 2
+          }
+        },
+        {
+          "id": "sr-6-c",
+          "label": "Post something back — not aggressive, but you want them to know you saw it.",
+          "weights": {
+            "SR": -1
+          }
+        },
+        {
+          "id": "sr-6-d",
+          "label": "Screenshot it to friends and vent until you feel better.",
+          "weights": {
+            "SR": 0,
+            "EM": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "em-1",
+      "type": "likert",
+      "text": "I can usually tell when a friend says “I’m fine” but isn’t.",
+      "dim": "EM",
+      "weight": 1,
+      "section": "others"
+    },
+    {
+      "id": "em-2",
+      "type": "likert",
+      "text": "When someone is going through something hard, I can imagine what it actually feels like for them.",
+      "dim": "EM",
+      "weight": 1,
+      "section": "others"
+    },
+    {
+      "id": "em-3",
+      "type": "likert",
+      "text": "I can read tone in texts pretty well — I rarely misread sarcasm or upset friends.",
+      "dim": "EM",
+      "weight": 1,
+      "section": "others"
+    },
+    {
+      "id": "em-4",
+      "type": "likert",
+      "text": "I find it easy to understand people whose background or views are different from mine.",
+      "dim": "EM",
+      "weight": 1,
+      "section": "others"
+    },
+    {
+      "id": "em-5",
+      "type": "likert",
+      "text": "People’s feelings often catch me off guard — I don’t see them coming.",
+      "dim": "EM",
+      "weight": -1,
+      "section": "others"
+    },
+    {
+      "id": "em-6",
+      "type": "scenario",
+      "text": "A close friend is being unusually quiet in your group hangout. What’s your move?",
+      "dim": "EM",
+      "section": "others",
+      "options": [
+        {
+          "id": "em-6-a",
+          "label": "Catch them alone later and ask how they’re actually doing.",
+          "weights": {
+            "EM": 2,
+            "SS": 1
+          }
+        },
+        {
+          "id": "em-6-b",
+          "label": "Try to include them more in the conversation in the moment.",
+          "weights": {
+            "EM": 1,
+            "SS": 2
+          }
+        },
+        {
+          "id": "em-6-c",
+          "label": "Give them space — they’ll talk when they want to.",
+          "weights": {
+            "EM": 1
+          }
+        },
+        {
+          "id": "em-6-d",
+          "label": "Honestly, I probably wouldn’t notice until someone pointed it out.",
+          "weights": {
+            "EM": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "ss-1",
+      "type": "likert",
+      "text": "I find it easy to start a conversation with someone I don’t know.",
+      "dim": "SS",
+      "weight": 1,
+      "section": "others"
+    },
+    {
+      "id": "ss-2",
+      "type": "likert",
+      "text": "When there’s tension in a group, I can help bring people back together.",
+      "dim": "SS",
+      "weight": 1,
+      "section": "others"
+    },
+    {
+      "id": "ss-3",
+      "type": "likert",
+      "text": "I can disagree with someone strongly and still keep the relationship intact afterwards.",
+      "dim": "SS",
+      "weight": 1,
+      "section": "world"
+    },
+    {
+      "id": "ss-4",
+      "type": "likert",
+      "text": "I get tongue-tied or anxious in group conversations.",
+      "dim": "SS",
+      "weight": -1,
+      "section": "world"
+    },
+    {
+      "id": "ss-6",
+      "type": "likert",
+      "text": "People come to me when they need someone to talk to.",
+      "dim": "SS",
+      "weight": 1,
+      "section": "world"
+    },
+    {
+      "id": "ss-5",
+      "type": "scenario",
+      "text": "You’re put in a group project with two people who clearly don’t want to do the work. What do you do?",
+      "dim": "SS",
+      "section": "world",
+      "options": [
+        {
+          "id": "ss-5-a",
+          "label": "Have a low-key honest conversation: ask what’s up, divide work to play to strengths.",
+          "weights": {
+            "SS": 2,
+            "EM": 1
+          }
+        },
+        {
+          "id": "ss-5-b",
+          "label": "Take charge, assign tasks, and follow up so it actually gets done.",
+          "weights": {
+            "SS": 1,
+            "MO": 2
+          }
+        },
+        {
+          "id": "ss-5-c",
+          "label": "Quietly just do most of it yourself so the grade doesn’t suffer.",
+          "weights": {
+            "SS": -1,
+            "MO": 1
+          }
+        },
+        {
+          "id": "ss-5-d",
+          "label": "Tell the teacher about the situation.",
+          "weights": {
+            "SS": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "mo-1",
+      "type": "likert",
+      "text": "When I fail at something, I usually try again pretty soon after.",
+      "dim": "MO",
+      "weight": 1,
+      "section": "world"
+    },
+    {
+      "id": "mo-2",
+      "type": "likert",
+      "text": "I set goals for myself even when no one is asking me to.",
+      "dim": "MO",
+      "weight": 1,
+      "section": "world"
+    },
+    {
+      "id": "mo-3",
+      "type": "likert",
+      "text": "I keep working on things that matter to me even when the payoff is far away.",
+      "dim": "MO",
+      "weight": 1,
+      "section": "world"
+    },
+    {
+      "id": "mo-4",
+      "type": "likert",
+      "text": "When something gets hard, I want to give up pretty fast.",
+      "dim": "MO",
+      "weight": -1,
+      "section": "world"
+    },
+    {
+      "id": "mo-5",
+      "type": "likert",
+      "text": "I get more from improving at something than from impressing other people.",
+      "dim": "MO",
+      "weight": 1,
+      "section": "world"
+    },
+    {
+      "id": "mo-6",
+      "type": "scenario",
+      "text": "You don’t make a team / club / role you really wanted. What’s actually most like you a week later?",
+      "dim": "MO",
+      "section": "world",
+      "options": [
+        {
+          "id": "mo-6-a",
+          "label": "Asking what to work on so you’re ready for the next chance.",
+          "weights": {
+            "MO": 2,
+            "SA": 1
+          }
+        },
+        {
+          "id": "mo-6-b",
+          "label": "Pouring energy into a different thing you’re good at.",
+          "weights": {
+            "MO": 1
+          }
+        },
+        {
+          "id": "mo-6-c",
+          "label": "Still pretty bummed, kind of avoiding the whole topic.",
+          "weights": {
+            "MO": -1
+          }
+        },
+        {
+          "id": "mo-6-d",
+          "label": "Telling yourself it was rigged and moving on.",
+          "weights": {
+            "MO": 0,
+            "SA": -1
+          }
+        }
+      ]
+    }
+  ],
+  "traits": {
+    "R": {
+      "name": "The Builder",
+      "tagline": "Realistic",
+      "description": "You like working with real things — tools, machines, your hands, the outdoors. You want to see what you made at the end of the day.",
+      "color": "var(--color-chart-1)"
+    },
+    "I": {
+      "name": "The Thinker",
+      "tagline": "Investigative",
+      "description": "You are curious about how the world works. You love digging into problems, asking questions, and figuring things out.",
+      "color": "var(--color-chart-2)"
+    },
+    "A": {
+      "name": "The Creator",
+      "tagline": "Artistic",
+      "description": "You see possibilities others miss. You want freedom to express yourself and make original things.",
+      "color": "var(--color-chart-3)"
+    },
+    "S": {
+      "name": "The Helper",
+      "tagline": "Social",
+      "description": "You care about people. Helping, teaching, and supporting others energizes you.",
+      "color": "var(--color-chart-4)"
+    },
+    "E": {
+      "name": "The Leader",
+      "tagline": "Enterprising",
+      "description": "You like to lead, persuade, and make things happen. You can picture yourself running the show.",
+      "color": "var(--color-chart-5)"
+    },
+    "C": {
+      "name": "The Organizer",
+      "tagline": "Conventional",
+      "description": "You like structure, accuracy, and getting the details right. People trust you to keep things on track.",
+      "color": "var(--color-chart-6)"
+    }
+  },
+  "skills": {
+    "analytical": {
+      "name": "Analytical thinking",
+      "description": "Breaking down problems and spotting patterns"
+    },
+    "creative": {
+      "name": "Creativity",
+      "description": "Generating original ideas and designs"
+    },
+    "communication": {
+      "name": "Communication",
+      "description": "Explaining ideas clearly in writing or speech"
+    },
+    "technical": {
+      "name": "Technical aptitude",
+      "description": "Picking up tools, software, and systems quickly"
+    },
+    "leadership": {
+      "name": "Leadership",
+      "description": "Rallying others and making decisions"
+    },
+    "handsOn": {
+      "name": "Hands-on skill",
+      "description": "Building, fixing, and making things physically"
+    }
+  },
+  "careers": [
+    {
+      "id": "mech-engineer",
+      "title": "Mechanical Engineer",
+      "holland": [
+        "R",
+        "I"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "handsOn"
+      ],
+      "blurb": "Designs machines, vehicles, robotics, and physical systems that move and make things.",
+      "subjects": [
+        "Physics",
+        "Calculus",
+        "Design & Tech"
+      ],
+      "explore": [
+        "Build a robotics or 3D-printing project",
+        "Join FIRST Robotics or a maker club"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SS": 55,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 0,
+        "energy": -1,
+        "variety": 0
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 60,
+      "structure": 65
+    },
+    {
+      "id": "electrician",
+      "title": "Electrician",
+      "holland": [
+        "R",
+        "C"
+      ],
+      "skills": [
+        "handsOn",
+        "technical"
+      ],
+      "blurb": "Installs and troubleshoots electrical systems in homes, businesses, and infrastructure.",
+      "subjects": [
+        "Physics",
+        "Math",
+        "Shop / Tech Studies"
+      ],
+      "explore": [
+        "Take a high school co-op placement",
+        "Help with a home renovation project"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.3,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 60,
+        "SS": 55,
+        "SA": 55
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": 0,
+        "variety": 0
+      },
+      "motivators": [
+        "mastery",
+        "security"
+      ],
+      "autonomy": 55,
+      "structure": 70
+    },
+    {
+      "id": "pilot",
+      "title": "Commercial Pilot",
+      "holland": [
+        "R",
+        "I"
+      ],
+      "skills": [
+        "technical",
+        "analytical"
+      ],
+      "blurb": "Flies passengers or cargo, working with complex systems and split-second decisions.",
+      "subjects": [
+        "Physics",
+        "Math",
+        "Geography"
+      ],
+      "explore": [
+        "Take a discovery flight at a local school",
+        "Try a flight simulator"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.5,
+        "MO": 0.3,
+        "SS": 0.3
+      },
+      "eqTargets": {
+        "SR": 80,
+        "SA": 70,
+        "MO": 60,
+        "SS": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": -1,
+        "energy": 1,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "status"
+      ],
+      "autonomy": 65,
+      "structure": 75
+    },
+    {
+      "id": "physiotherapist",
+      "title": "Physiotherapist",
+      "holland": [
+        "S",
+        "R",
+        "I"
+      ],
+      "skills": [
+        "handsOn",
+        "communication",
+        "analytical"
+      ],
+      "blurb": "Helps people recover from injury and move better — in clinics, hospitals, or with athletes.",
+      "subjects": [
+        "Biology",
+        "Kinesiology",
+        "Chemistry"
+      ],
+      "explore": [
+        "Volunteer at a sports clinic",
+        "Shadow a physio for a day"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.5,
+        "SR": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 70,
+        "SS": 65,
+        "SR": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 2,
+        "energy": 1,
+        "variety": 0
+      },
+      "motivators": [
+        "connection",
+        "impact"
+      ],
+      "autonomy": 55,
+      "structure": 60
+    },
+    {
+      "id": "software-dev",
+      "title": "Software Developer",
+      "holland": [
+        "I",
+        "A",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "creative"
+      ],
+      "blurb": "Designs and builds the apps, websites, and systems that run modern life.",
+      "subjects": [
+        "Computer Science",
+        "Math",
+        "Logic"
+      ],
+      "explore": [
+        "Build a small app or game",
+        "Try freeCodeCamp or CS50 online"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SS": 55,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": -1,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "autonomy"
+      ],
+      "autonomy": 80,
+      "structure": 40
+    },
+    {
+      "id": "data-scientist",
+      "title": "Data Scientist",
+      "holland": [
+        "I",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Finds patterns in huge amounts of data to help organizations make smarter decisions.",
+      "subjects": [
+        "Statistics",
+        "Computer Science",
+        "Calculus"
+      ],
+      "explore": [
+        "Try a Kaggle competition",
+        "Analyze your favourite sport with stats"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SA": 60,
+        "SS": 55
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": -1,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 70,
+      "structure": 50
+    },
+    {
+      "id": "doctor",
+      "title": "Physician (MD)",
+      "holland": [
+        "I",
+        "S"
+      ],
+      "skills": [
+        "analytical",
+        "communication"
+      ],
+      "blurb": "Diagnoses, treats, and supports patients across every stage of life.",
+      "subjects": [
+        "Biology",
+        "Chemistry",
+        "English"
+      ],
+      "explore": [
+        "Volunteer at a hospital",
+        "Shadow a family doctor"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.5,
+        "SR": 0.5,
+        "SA": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 70,
+        "SS": 65,
+        "SR": 70,
+        "SA": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 2,
+        "collab": 1,
+        "energy": 2,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 60,
+      "structure": 60
+    },
+    {
+      "id": "researcher",
+      "title": "Research Scientist",
+      "holland": [
+        "I",
+        "A"
+      ],
+      "skills": [
+        "analytical",
+        "creative"
+      ],
+      "blurb": "Pursues big questions in fields like biology, climate, or AI — usually at a university or lab.",
+      "subjects": [
+        "Science (any)",
+        "Math",
+        "English"
+      ],
+      "explore": [
+        "Read a popular science book",
+        "Email a local prof about lab volunteering"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.3
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 70,
+        "SA": 60,
+        "SS": 55
+      },
+      "env": {
+        "pace": -1,
+        "collab": -1,
+        "energy": -2,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "autonomy"
+      ],
+      "autonomy": 85,
+      "structure": 35
+    },
+    {
+      "id": "cybersec",
+      "title": "Cybersecurity Analyst",
+      "holland": [
+        "I",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Protects companies and people from hackers, scams, and digital threats.",
+      "subjects": [
+        "Computer Science",
+        "Math"
+      ],
+      "explore": [
+        "Try TryHackMe or HackTheBox",
+        "Set up your own home lab"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.5,
+        "MO": 0.5,
+        "SS": 0.3
+      },
+      "eqTargets": {
+        "SR": 75,
+        "SA": 65,
+        "MO": 65,
+        "SS": 55
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": -1,
+        "variety": 2
+      },
+      "motivators": [
+        "mastery",
+        "security"
+      ],
+      "autonomy": 65,
+      "structure": 50
+    },
+    {
+      "id": "graphic-designer",
+      "title": "Graphic Designer",
+      "holland": [
+        "A",
+        "E"
+      ],
+      "skills": [
+        "creative",
+        "technical",
+        "communication"
+      ],
+      "blurb": "Creates the look of brands, products, websites, and content people see every day.",
+      "subjects": [
+        "Visual Arts",
+        "Media Studies",
+        "English"
+      ],
+      "explore": [
+        "Design a logo for a friend's project",
+        "Learn Figma — it's free"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SA": 0.3,
+        "SS": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 65,
+        "SA": 60,
+        "SS": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "creativity",
+        "autonomy"
+      ],
+      "autonomy": 75,
+      "structure": 35
+    },
+    {
+      "id": "ux-designer",
+      "title": "UX / Product Designer",
+      "holland": [
+        "A",
+        "I",
+        "S"
+      ],
+      "skills": [
+        "creative",
+        "analytical",
+        "communication"
+      ],
+      "blurb": "Designs how apps and websites feel to use — bridging art, psychology, and tech.",
+      "subjects": [
+        "Visual Arts",
+        "Psychology",
+        "Computer Science"
+      ],
+      "explore": [
+        "Redesign an app you find frustrating",
+        "Watch UX case studies on YouTube"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.5,
+        "SA": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 75,
+        "SS": 65,
+        "SA": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "creativity",
+        "impact"
+      ],
+      "autonomy": 70,
+      "structure": 40
+    },
+    {
+      "id": "filmmaker",
+      "title": "Filmmaker / Video Producer",
+      "holland": [
+        "A",
+        "E"
+      ],
+      "skills": [
+        "creative",
+        "communication",
+        "leadership"
+      ],
+      "blurb": "Tells stories through video — from indie film to YouTube to advertising.",
+      "subjects": [
+        "Media Arts",
+        "English",
+        "Drama"
+      ],
+      "explore": [
+        "Film a short on your phone, edit it well",
+        "Run a YouTube or TikTok channel"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.5,
+        "MO": 0.5,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "EM": 70,
+        "SS": 65,
+        "MO": 65,
+        "SA": 60
+      },
+      "env": {
+        "pace": 2,
+        "collab": 1,
+        "energy": 1,
+        "variety": 2
+      },
+      "motivators": [
+        "creativity",
+        "status"
+      ],
+      "autonomy": 80,
+      "structure": 20
+    },
+    {
+      "id": "architect",
+      "title": "Architect",
+      "holland": [
+        "A",
+        "I",
+        "R"
+      ],
+      "skills": [
+        "creative",
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Designs buildings and spaces — balancing beauty, structure, and how people live.",
+      "subjects": [
+        "Visual Arts",
+        "Math",
+        "Physics"
+      ],
+      "explore": [
+        "Sketch buildings you love",
+        "Try a free SketchUp tutorial"
+      ],
+      "eqProfile": {
+        "EM": 0.3,
+        "SS": 0.3,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SR": 0.3
+      },
+      "eqTargets": {
+        "EM": 60,
+        "SS": 60,
+        "MO": 65,
+        "SA": 60,
+        "SR": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "creativity",
+        "mastery"
+      ],
+      "autonomy": 65,
+      "structure": 55
+    },
+    {
+      "id": "writer",
+      "title": "Writer / Content Creator",
+      "holland": [
+        "A",
+        "I"
+      ],
+      "skills": [
+        "creative",
+        "communication"
+      ],
+      "blurb": "Writes journalism, fiction, scripts, marketing copy, or builds an audience online.",
+      "subjects": [
+        "English",
+        "History",
+        "Media"
+      ],
+      "explore": [
+        "Start a blog or newsletter",
+        "Submit to your school paper"
+      ],
+      "eqProfile": {
+        "SA": 0.5,
+        "EM": 0.5,
+        "MO": 0.5,
+        "SR": 0.3
+      },
+      "eqTargets": {
+        "SA": 70,
+        "EM": 70,
+        "MO": 70,
+        "SR": 60
+      },
+      "env": {
+        "pace": -1,
+        "collab": -2,
+        "energy": -2,
+        "variety": 1
+      },
+      "motivators": [
+        "creativity",
+        "autonomy"
+      ],
+      "autonomy": 90,
+      "structure": 20
+    },
+    {
+      "id": "teacher",
+      "title": "Teacher",
+      "holland": [
+        "S",
+        "A"
+      ],
+      "skills": [
+        "communication",
+        "leadership",
+        "creative"
+      ],
+      "blurb": "Shapes the next generation in elementary, secondary, or specialty subjects.",
+      "subjects": [
+        "English",
+        "Subject of choice",
+        "Psychology"
+      ],
+      "explore": [
+        "Tutor younger students",
+        "Volunteer to coach a sport or club"
+      ],
+      "eqProfile": {
+        "SS": 0.5,
+        "EM": 0.5,
+        "SR": 0.3,
+        "MO": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SS": 70,
+        "EM": 70,
+        "SR": 60,
+        "MO": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 2,
+        "energy": 1,
+        "variety": 0
+      },
+      "motivators": [
+        "impact",
+        "connection"
+      ],
+      "autonomy": 50,
+      "structure": 65
+    },
+    {
+      "id": "nurse",
+      "title": "Registered Nurse",
+      "holland": [
+        "S",
+        "I",
+        "R"
+      ],
+      "skills": [
+        "communication",
+        "analytical",
+        "handsOn"
+      ],
+      "blurb": "Cares for patients, makes critical calls, and works as the backbone of healthcare.",
+      "subjects": [
+        "Biology",
+        "Chemistry",
+        "Psychology"
+      ],
+      "explore": [
+        "Volunteer at a long-term care home",
+        "Take a babysitting / first-aid course"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SR": 0.5,
+        "SS": 0.5,
+        "SA": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 75,
+        "SR": 70,
+        "SS": 65,
+        "SA": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 2,
+        "collab": 2,
+        "energy": 2,
+        "variety": 1
+      },
+      "motivators": [
+        "connection",
+        "impact"
+      ],
+      "autonomy": 45,
+      "structure": 70
+    },
+    {
+      "id": "psychologist",
+      "title": "Psychologist / Counsellor",
+      "holland": [
+        "S",
+        "I"
+      ],
+      "skills": [
+        "communication",
+        "analytical"
+      ],
+      "blurb": "Helps people understand themselves and work through life's hardest moments.",
+      "subjects": [
+        "Psychology",
+        "Biology",
+        "English"
+      ],
+      "explore": [
+        "Volunteer with a peer support line",
+        "Read about cognitive psychology"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SA": 0.5,
+        "SS": 0.5,
+        "SR": 0.3,
+        "MO": 0.15
+      },
+      "eqTargets": {
+        "EM": 80,
+        "SA": 75,
+        "SS": 65,
+        "SR": 65
+      },
+      "env": {
+        "pace": -1,
+        "collab": 1,
+        "energy": -1,
+        "variety": 0
+      },
+      "motivators": [
+        "impact",
+        "connection"
+      ],
+      "autonomy": 65,
+      "structure": 55
+    },
+    {
+      "id": "social-worker",
+      "title": "Social Worker",
+      "holland": [
+        "S",
+        "E"
+      ],
+      "skills": [
+        "communication",
+        "leadership"
+      ],
+      "blurb": "Supports kids, families, and communities navigating tough situations.",
+      "subjects": [
+        "Psychology",
+        "Sociology",
+        "English"
+      ],
+      "explore": [
+        "Volunteer at a shelter or food bank",
+        "Join a youth advocacy group"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SR": 0.5,
+        "SS": 0.5,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "EM": 75,
+        "SR": 70,
+        "SS": 65,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 2,
+        "energy": 1,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "connection"
+      ],
+      "autonomy": 50,
+      "structure": 55
+    },
+    {
+      "id": "entrepreneur",
+      "title": "Entrepreneur / Founder",
+      "holland": [
+        "E",
+        "A",
+        "I"
+      ],
+      "skills": [
+        "leadership",
+        "creative",
+        "communication"
+      ],
+      "blurb": "Spots problems and builds businesses to solve them. Risk + reward at every step.",
+      "subjects": [
+        "Business",
+        "Marketing",
+        "Computer Science"
+      ],
+      "explore": [
+        "Start a side hustle this summer",
+        "Run a school club or fundraiser"
+      ],
+      "eqProfile": {
+        "MO": 0.5,
+        "SS": 0.5,
+        "SA": 0.5,
+        "SR": 0.3,
+        "EM": 0.3
+      },
+      "eqTargets": {
+        "MO": 75,
+        "SS": 65,
+        "SA": 65,
+        "SR": 60,
+        "EM": 60
+      },
+      "env": {
+        "pace": 2,
+        "collab": 1,
+        "energy": 2,
+        "variety": 2
+      },
+      "motivators": [
+        "autonomy",
+        "creativity"
+      ],
+      "autonomy": 100,
+      "structure": 10
+    },
+    {
+      "id": "marketer",
+      "title": "Marketing Manager",
+      "holland": [
+        "E",
+        "A",
+        "C"
+      ],
+      "skills": [
+        "communication",
+        "creative",
+        "analytical"
+      ],
+      "blurb": "Plans how products reach customers — strategy, content, social, advertising, data.",
+      "subjects": [
+        "Business",
+        "English",
+        "Visual Arts"
+      ],
+      "explore": [
+        "Grow a niche social media account",
+        "Help a local business with their socials"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.5,
+        "MO": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "EM": 65,
+        "SS": 65,
+        "MO": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 1,
+        "energy": 1,
+        "variety": 1
+      },
+      "motivators": [
+        "creativity",
+        "status"
+      ],
+      "autonomy": 65,
+      "structure": 45
+    },
+    {
+      "id": "lawyer",
+      "title": "Lawyer",
+      "holland": [
+        "E",
+        "I",
+        "S"
+      ],
+      "skills": [
+        "communication",
+        "analytical",
+        "leadership"
+      ],
+      "blurb": "Argues cases, drafts contracts, and advises clients across business, criminal, or family law.",
+      "subjects": [
+        "English",
+        "History",
+        "Politics / Law"
+      ],
+      "explore": [
+        "Join debate or Model UN",
+        "Watch a real trial — many are public"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SS": 0.5,
+        "SA": 0.3,
+        "EM": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "SR": 70,
+        "SS": 65,
+        "SA": 60,
+        "EM": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 1,
+        "energy": 1,
+        "variety": 1
+      },
+      "motivators": [
+        "status",
+        "mastery"
+      ],
+      "autonomy": 60,
+      "structure": 70
+    },
+    {
+      "id": "sales",
+      "title": "Sales Representative / Account Manager",
+      "holland": [
+        "E",
+        "S"
+      ],
+      "skills": [
+        "communication",
+        "leadership"
+      ],
+      "blurb": "Builds relationships with clients and drives revenue. Top performers earn very well.",
+      "subjects": [
+        "Business",
+        "English",
+        "Psychology"
+      ],
+      "explore": [
+        "Take a customer-facing summer job",
+        "Practice cold-calling for a fundraiser"
+      ],
+      "eqProfile": {
+        "SS": 0.5,
+        "EM": 0.5,
+        "MO": 0.5,
+        "SR": 0.3,
+        "SA": 0.15
+      },
+      "eqTargets": {
+        "SS": 70,
+        "EM": 65,
+        "MO": 65,
+        "SR": 60
+      },
+      "env": {
+        "pace": 2,
+        "collab": 2,
+        "energy": 2,
+        "variety": 1
+      },
+      "motivators": [
+        "status",
+        "connection"
+      ],
+      "autonomy": 70,
+      "structure": 35
+    },
+    {
+      "id": "realestate",
+      "title": "Real Estate Agent / Broker",
+      "holland": [
+        "E",
+        "S",
+        "C"
+      ],
+      "skills": [
+        "communication",
+        "leadership"
+      ],
+      "blurb": "Helps people buy and sell homes — flexible schedule, commission-based, very social.",
+      "subjects": [
+        "Business",
+        "English",
+        "Math"
+      ],
+      "explore": [
+        "Attend an open house and ask questions",
+        "Follow real estate creators online"
+      ],
+      "eqProfile": {
+        "SS": 0.5,
+        "EM": 0.5,
+        "MO": 0.5,
+        "SR": 0.3
+      },
+      "eqTargets": {
+        "SS": 70,
+        "EM": 65,
+        "MO": 65,
+        "SR": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 1,
+        "energy": 1,
+        "variety": 2
+      },
+      "motivators": [
+        "autonomy",
+        "status"
+      ],
+      "autonomy": 80,
+      "structure": 30
+    },
+    {
+      "id": "accountant",
+      "title": "Accountant (CPA)",
+      "holland": [
+        "C",
+        "I",
+        "E"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Tracks money for businesses — auditing, taxes, financial strategy. Steady demand.",
+      "subjects": [
+        "Math",
+        "Business / Accounting",
+        "English"
+      ],
+      "explore": [
+        "Take an accounting elective",
+        "Help a parent or relative do their taxes"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.3,
+        "MO": 0.3,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "SA": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": -1,
+        "variety": -1
+      },
+      "motivators": [
+        "security",
+        "mastery"
+      ],
+      "autonomy": 40,
+      "structure": 85
+    },
+    {
+      "id": "finance-analyst",
+      "title": "Financial Analyst",
+      "holland": [
+        "C",
+        "I",
+        "E"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Studies markets, models companies, and helps clients invest or grow.",
+      "subjects": [
+        "Math",
+        "Business",
+        "Economics"
+      ],
+      "explore": [
+        "Try a stock market simulator",
+        "Read a personal finance book"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.3,
+        "MO": 0.3,
+        "SS": 0.3,
+        "EM": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "SA": 60,
+        "MO": 60,
+        "SS": 55
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "status"
+      ],
+      "autonomy": 60,
+      "structure": 65
+    },
+    {
+      "id": "project-manager",
+      "title": "Project Manager",
+      "holland": [
+        "C",
+        "E",
+        "S"
+      ],
+      "skills": [
+        "leadership",
+        "communication",
+        "analytical"
+      ],
+      "blurb": "Keeps complex projects on track — across tech, construction, marketing, and more.",
+      "subjects": [
+        "Business",
+        "English",
+        "Math"
+      ],
+      "explore": [
+        "Lead a school event end-to-end",
+        "Try Notion or Trello to plan a project"
+      ],
+      "eqProfile": {
+        "SS": 0.5,
+        "SR": 0.5,
+        "EM": 0.3,
+        "MO": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SS": 70,
+        "SR": 65,
+        "EM": 60,
+        "MO": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 2,
+        "energy": 1,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 65,
+      "structure": 70
+    },
+    {
+      "id": "physiotherapy-trades",
+      "title": "Skilled Tradesperson (Plumber, HVAC, Welder)",
+      "holland": [
+        "R",
+        "C"
+      ],
+      "skills": [
+        "handsOn",
+        "technical",
+        "analytical"
+      ],
+      "blurb": "Trades are in massive demand in Ontario. Apprentice and earn from year one.",
+      "subjects": [
+        "Math",
+        "Physics",
+        "Tech Studies"
+      ],
+      "explore": [
+        "Take Specialist High Skills Major (SHSM)",
+        "Look into Skills Ontario"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.5,
+        "SR": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 65,
+        "SS": 65,
+        "SR": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 0,
+        "energy": 0,
+        "variety": 0
+      },
+      "motivators": [
+        "mastery",
+        "security"
+      ],
+      "autonomy": 55,
+      "structure": 70
+    },
+    {
+      "id": "vet",
+      "title": "Veterinarian",
+      "holland": [
+        "I",
+        "S",
+        "R"
+      ],
+      "skills": [
+        "analytical",
+        "communication",
+        "handsOn"
+      ],
+      "blurb": "Diagnoses and treats animals — from family pets to livestock to wildlife.",
+      "subjects": [
+        "Biology",
+        "Chemistry",
+        "English"
+      ],
+      "explore": [
+        "Volunteer at a shelter or vet clinic",
+        "Job shadow a vet"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SR": 0.5,
+        "SS": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 70,
+        "SR": 70,
+        "SS": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 1,
+        "energy": 1,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "connection"
+      ],
+      "autonomy": 60,
+      "structure": 60
+    },
+    {
+      "id": "chef",
+      "title": "Chef / Culinary Professional",
+      "holland": [
+        "A",
+        "R",
+        "E"
+      ],
+      "skills": [
+        "creative",
+        "handsOn",
+        "leadership"
+      ],
+      "blurb": "Creates food experiences — from restaurants to catering to your own brand.",
+      "subjects": [
+        "Food & Nutrition",
+        "Business",
+        "Chemistry"
+      ],
+      "explore": [
+        "Cook one new dish a week",
+        "Get a kitchen job — even dishwashing"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SS": 0.5,
+        "MO": 0.5,
+        "EM": 0.3
+      },
+      "eqTargets": {
+        "SR": 70,
+        "SS": 60,
+        "MO": 65,
+        "EM": 55
+      },
+      "env": {
+        "pace": 2,
+        "collab": 2,
+        "energy": 2,
+        "variety": 1
+      },
+      "motivators": [
+        "creativity",
+        "mastery"
+      ],
+      "autonomy": 60,
+      "structure": 50
+    },
+    {
+      "id": "env-scientist",
+      "title": "Environmental Scientist",
+      "holland": [
+        "I",
+        "R",
+        "S"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "communication"
+      ],
+      "blurb": "Studies ecosystems, climate, and pollution — and helps protect them.",
+      "subjects": [
+        "Biology",
+        "Chemistry",
+        "Geography"
+      ],
+      "explore": [
+        "Join a local conservation group",
+        "Track local wildlife with iNaturalist"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3,
+        "EM": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SS": 60,
+        "SA": 60,
+        "EM": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 0,
+        "energy": -1,
+        "variety": 2
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 65,
+      "structure": 50
+    },
+    {
+      "id": "game-dev",
+      "title": "Game Developer",
+      "holland": [
+        "A",
+        "I"
+      ],
+      "skills": [
+        "creative",
+        "technical",
+        "analytical"
+      ],
+      "blurb": "Builds video games — code, art, design, or all three. Highly competitive but huge upside.",
+      "subjects": [
+        "Computer Science",
+        "Visual Arts",
+        "Math"
+      ],
+      "explore": [
+        "Make a game in Unity or Godot",
+        "Game-jam for a weekend"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "EM": 65,
+        "MO": 65,
+        "SS": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "creativity",
+        "mastery"
+      ],
+      "autonomy": 70,
+      "structure": 40
+    },
+    {
+      "id": "fitness",
+      "title": "Athletic Therapist / Personal Trainer",
+      "holland": [
+        "S",
+        "R"
+      ],
+      "skills": [
+        "communication",
+        "handsOn"
+      ],
+      "blurb": "Helps people get stronger, recover from injury, or train for sport.",
+      "subjects": [
+        "Phys-Ed",
+        "Biology",
+        "Psychology"
+      ],
+      "explore": [
+        "Get a gym job or teach a sport",
+        "Try a CanFitPro certification"
+      ],
+      "eqProfile": {
+        "SS": 0.5,
+        "MO": 0.5,
+        "EM": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SS": 65,
+        "MO": 70,
+        "EM": 60,
+        "SA": 55
+      },
+      "env": {
+        "pace": 1,
+        "collab": 2,
+        "energy": 2,
+        "variety": 1
+      },
+      "motivators": [
+        "connection",
+        "impact"
+      ],
+      "autonomy": 55,
+      "structure": 50
+    },
+    {
+      "id": "ai-ml-engineer",
+      "title": "AI / Machine Learning Engineer",
+      "holland": [
+        "I",
+        "A",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "creative"
+      ],
+      "blurb": "Trains and deploys the AI models behind copilots, recommendations, and autonomous systems.",
+      "subjects": [
+        "Computer Science",
+        "Calculus",
+        "Statistics"
+      ],
+      "explore": [
+        "Fine-tune a small model on Hugging Face",
+        "Build a chatbot with the OpenAI API"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 70,
+        "SA": 60,
+        "SS": 55
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": -1,
+        "variety": 2
+      },
+      "motivators": [
+        "mastery",
+        "autonomy"
+      ],
+      "autonomy": 75,
+      "structure": 40
+    },
+    {
+      "id": "prompt-ai-product",
+      "title": "AI Product Engineer / Prompt Engineer",
+      "holland": [
+        "I",
+        "A",
+        "E"
+      ],
+      "skills": [
+        "creative",
+        "analytical",
+        "communication"
+      ],
+      "blurb": "Designs how people interact with AI — crafting prompts, evals, and AI-native product features.",
+      "subjects": [
+        "Computer Science",
+        "English",
+        "Psychology"
+      ],
+      "explore": [
+        "Build a tool with ChatGPT or Claude APIs",
+        "Publish a custom GPT or agent"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.3,
+        "SR": 0.3,
+        "MO": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "EM": 70,
+        "SS": 60,
+        "SR": 60,
+        "MO": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 2,
+        "collab": 1,
+        "energy": 1,
+        "variety": 2
+      },
+      "motivators": [
+        "creativity",
+        "impact"
+      ],
+      "autonomy": 70,
+      "structure": 35
+    },
+    {
+      "id": "ai-ethicist",
+      "title": "AI Ethics & Policy Specialist",
+      "holland": [
+        "I",
+        "S",
+        "E"
+      ],
+      "skills": [
+        "analytical",
+        "communication",
+        "leadership"
+      ],
+      "blurb": "Shapes how AI gets built and regulated — fairness, safety, bias, and societal impact.",
+      "subjects": [
+        "Philosophy",
+        "Politics / Law",
+        "Computer Science"
+      ],
+      "explore": [
+        "Read about AI alignment",
+        "Write an op-ed on an AI policy issue"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SA": 0.5,
+        "SS": 0.5,
+        "SR": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 75,
+        "SA": 70,
+        "SS": 65,
+        "SR": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 70,
+      "structure": 45
+    },
+    {
+      "id": "robotics-engineer",
+      "title": "Robotics Engineer",
+      "holland": [
+        "R",
+        "I",
+        "A"
+      ],
+      "skills": [
+        "technical",
+        "analytical",
+        "handsOn"
+      ],
+      "blurb": "Designs the brains and bodies of robots — from warehouse arms to humanoids to drones.",
+      "subjects": [
+        "Physics",
+        "Computer Science",
+        "Calculus"
+      ],
+      "explore": [
+        "Build with Arduino or Raspberry Pi",
+        "Compete in FIRST or VEX Robotics"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SS": 55,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "creativity"
+      ],
+      "autonomy": 65,
+      "structure": 55
+    },
+    {
+      "id": "autonomous-vehicles",
+      "title": "Autonomous Systems Engineer",
+      "holland": [
+        "I",
+        "R",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Builds the perception and decision-making behind self-driving cars, drones, and robots.",
+      "subjects": [
+        "Physics",
+        "Computer Science",
+        "Calculus"
+      ],
+      "explore": [
+        "Try the Udacity Self-Driving Car nanodegree",
+        "Program a Lego Mindstorms robot"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.5,
+        "MO": 0.5,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "SA": 65,
+        "MO": 65
+      },
+      "env": {
+        "pace": 1,
+        "collab": -1,
+        "energy": -1,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 70,
+      "structure": 60
+    },
+    {
+      "id": "quantum-engineer",
+      "title": "Quantum Computing Engineer",
+      "holland": [
+        "I",
+        "R"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Builds the next computing paradigm — hardware or algorithms for quantum machines.",
+      "subjects": [
+        "Physics",
+        "Calculus",
+        "Computer Science"
+      ],
+      "explore": [
+        "Try IBM Qiskit tutorials",
+        "Watch MinutePhysics on quantum"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 70,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": -2,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 80,
+      "structure": 50
+    },
+    {
+      "id": "biotech-engineer",
+      "title": "Biotech / Synthetic Biology Engineer",
+      "holland": [
+        "I",
+        "R",
+        "A"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "creative"
+      ],
+      "blurb": "Engineers cells and DNA to make medicines, materials, food, and fuels.",
+      "subjects": [
+        "Biology",
+        "Chemistry",
+        "Computer Science"
+      ],
+      "explore": [
+        "Join an iGEM team",
+        "Try a biology-of-CRISPR online course"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 70,
+        "SS": 55,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 65,
+      "structure": 55
+    },
+    {
+      "id": "genomics-bioinformatics",
+      "title": "Bioinformatics / Genomics Scientist",
+      "holland": [
+        "I",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Uses code and statistics to decode genomes — powering precision medicine and drug discovery.",
+      "subjects": [
+        "Biology",
+        "Statistics",
+        "Computer Science"
+      ],
+      "explore": [
+        "Try Rosalind.info bioinformatics puzzles",
+        "Analyze open genome data"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 70,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": -2,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 75,
+      "structure": 55
+    },
+    {
+      "id": "med-device",
+      "title": "Medical Device / Biomedical Engineer",
+      "holland": [
+        "I",
+        "R",
+        "S"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "creative"
+      ],
+      "blurb": "Designs the implants, wearables, and AI tools changing how medicine is practiced.",
+      "subjects": [
+        "Biology",
+        "Physics",
+        "Computer Science"
+      ],
+      "explore": [
+        "Design a 3D-printed prosthetic concept",
+        "Job-shadow a clinical engineer"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "EM": 0.3,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 65,
+        "EM": 60,
+        "SS": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "creativity"
+      ],
+      "autonomy": 65,
+      "structure": 60
+    },
+    {
+      "id": "climate-tech",
+      "title": "Climate Tech Engineer",
+      "holland": [
+        "I",
+        "R",
+        "S"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "creative"
+      ],
+      "blurb": "Builds the technologies that decarbonize energy, transport, food, and industry.",
+      "subjects": [
+        "Chemistry",
+        "Physics",
+        "Geography"
+      ],
+      "explore": [
+        "Build a solar charger from a kit",
+        "Read about carbon capture startups"
+      ],
+      "eqProfile": {
+        "MO": 0.5,
+        "SS": 0.5,
+        "EM": 0.3,
+        "SR": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "MO": 70,
+        "SS": 60,
+        "EM": 60,
+        "SR": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 65,
+      "structure": 55
+    },
+    {
+      "id": "renewable-energy",
+      "title": "Renewable Energy Engineer",
+      "holland": [
+        "I",
+        "R",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "handsOn"
+      ],
+      "blurb": "Designs solar, wind, geothermal, and grid-scale battery systems.",
+      "subjects": [
+        "Physics",
+        "Calculus",
+        "Geography"
+      ],
+      "explore": [
+        "Tour a solar or wind farm",
+        "Model a home with HOMER Energy software"
+      ],
+      "eqProfile": {
+        "MO": 0.5,
+        "SR": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "MO": 65,
+        "SR": 65,
+        "SS": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 0,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 60,
+      "structure": 60
+    },
+    {
+      "id": "ev-battery",
+      "title": "EV / Battery Engineer",
+      "holland": [
+        "R",
+        "I"
+      ],
+      "skills": [
+        "technical",
+        "analytical",
+        "handsOn"
+      ],
+      "blurb": "Builds the batteries, motors, and software powering the electric vehicle revolution.",
+      "subjects": [
+        "Chemistry",
+        "Physics",
+        "Calculus"
+      ],
+      "explore": [
+        "Build an electric go-kart or e-bike",
+        "Tour an EV plant — Ontario has several"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SS": 55,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 60,
+      "structure": 60
+    },
+    {
+      "id": "space-aerospace",
+      "title": "Aerospace / Space Systems Engineer",
+      "holland": [
+        "I",
+        "R"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Builds satellites, rockets, and lunar systems for the new commercial space economy.",
+      "subjects": [
+        "Physics",
+        "Calculus",
+        "Computer Science"
+      ],
+      "explore": [
+        "Launch a model rocket",
+        "Join a CubeSat or rocketry team"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.5,
+        "MO": 0.5,
+        "SS": 0.3
+      },
+      "eqTargets": {
+        "SR": 75,
+        "SA": 65,
+        "MO": 70,
+        "SS": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 65,
+      "structure": 70
+    },
+    {
+      "id": "xr-developer",
+      "title": "AR / VR / Spatial Computing Developer",
+      "holland": [
+        "A",
+        "I"
+      ],
+      "skills": [
+        "creative",
+        "technical",
+        "analytical"
+      ],
+      "blurb": "Builds the immersive apps and games for headsets like Vision Pro, Quest, and beyond.",
+      "subjects": [
+        "Computer Science",
+        "Visual Arts",
+        "Math"
+      ],
+      "explore": [
+        "Build a Unity or Unreal scene for VR",
+        "Try WebXR in your browser"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.3
+      },
+      "eqTargets": {
+        "EM": 65,
+        "MO": 65,
+        "SA": 60,
+        "SS": 55
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": 0,
+        "variety": 2
+      },
+      "motivators": [
+        "creativity",
+        "mastery"
+      ],
+      "autonomy": 75,
+      "structure": 35
+    },
+    {
+      "id": "cloud-platform",
+      "title": "Cloud / Platform Engineer",
+      "holland": [
+        "I",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Runs the infrastructure that keeps modern apps and AI workloads online at scale.",
+      "subjects": [
+        "Computer Science",
+        "Math"
+      ],
+      "explore": [
+        "Get an AWS or Azure free-tier account",
+        "Self-host a small project on a VPS"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 65,
+        "SS": 55,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": -1,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "security"
+      ],
+      "autonomy": 70,
+      "structure": 55
+    },
+    {
+      "id": "data-engineer",
+      "title": "Data Engineer",
+      "holland": [
+        "I",
+        "C"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Builds the pipelines and warehouses that move data from raw events to AI-ready datasets.",
+      "subjects": [
+        "Computer Science",
+        "Statistics",
+        "Math"
+      ],
+      "explore": [
+        "Build a small ETL pipeline in Python",
+        "Try dbt or Apache Airflow tutorials"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": -1,
+        "variety": 1
+      },
+      "motivators": [
+        "mastery",
+        "impact"
+      ],
+      "autonomy": 70,
+      "structure": 55
+    },
+    {
+      "id": "blockchain-dev",
+      "title": "Blockchain / Web3 Developer",
+      "holland": [
+        "I",
+        "A"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "creative"
+      ],
+      "blurb": "Builds smart contracts, crypto wallets, and decentralized apps on blockchains.",
+      "subjects": [
+        "Computer Science",
+        "Math",
+        "Economics"
+      ],
+      "explore": [
+        "Deploy a contract on a testnet",
+        "Try CryptoZombies on Solidity"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 65,
+        "SA": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 0,
+        "energy": 0,
+        "variety": 2
+      },
+      "motivators": [
+        "autonomy",
+        "creativity"
+      ],
+      "autonomy": 85,
+      "structure": 25
+    },
+    {
+      "id": "drone-pilot",
+      "title": "Drone Operator / UAV Specialist",
+      "holland": [
+        "R",
+        "I"
+      ],
+      "skills": [
+        "technical",
+        "handsOn",
+        "analytical"
+      ],
+      "blurb": "Flies drones for mapping, agriculture, film, inspection, and emergency response.",
+      "subjects": [
+        "Geography",
+        "Physics",
+        "Media Arts"
+      ],
+      "explore": [
+        "Get your basic RPAS licence at 14+",
+        "Map your neighbourhood with a drone"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.3,
+        "MO": 0.3,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "SA": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": -1,
+        "energy": 1,
+        "variety": 2
+      },
+      "motivators": [
+        "mastery",
+        "autonomy"
+      ],
+      "autonomy": 70,
+      "structure": 45
+    },
+    {
+      "id": "cyber-threat",
+      "title": "Ethical Hacker / Penetration Tester",
+      "holland": [
+        "I",
+        "R"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "creative"
+      ],
+      "blurb": "Breaks into systems — legally — to find vulnerabilities before real attackers do.",
+      "subjects": [
+        "Computer Science",
+        "Math"
+      ],
+      "explore": [
+        "Try HackTheBox or PicoCTF",
+        "Set up a Kali Linux lab at home"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SA": 0.5,
+        "MO": 0.5,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 75,
+        "SA": 65,
+        "MO": 65
+      },
+      "env": {
+        "pace": 1,
+        "collab": -1,
+        "energy": -1,
+        "variety": 2
+      },
+      "motivators": [
+        "mastery",
+        "autonomy"
+      ],
+      "autonomy": 80,
+      "structure": 30
+    },
+    {
+      "id": "precision-ag",
+      "title": "AgTech / Precision Agriculture Specialist",
+      "holland": [
+        "R",
+        "I",
+        "C"
+      ],
+      "skills": [
+        "technical",
+        "analytical",
+        "handsOn"
+      ],
+      "blurb": "Combines drones, sensors, and AI to grow more food with less water, land, and chemicals.",
+      "subjects": [
+        "Biology",
+        "Geography",
+        "Computer Science"
+      ],
+      "explore": [
+        "Try a hydroponics kit",
+        "Visit an Ontario research farm — Guelph runs many"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SS": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 0,
+        "energy": 0,
+        "variety": 2
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 65,
+      "structure": 50
+    },
+    {
+      "id": "sustainability-analyst",
+      "title": "Sustainability / ESG Analyst",
+      "holland": [
+        "I",
+        "C",
+        "S"
+      ],
+      "skills": [
+        "analytical",
+        "communication"
+      ],
+      "blurb": "Measures and reports a company's climate, social, and governance performance.",
+      "subjects": [
+        "Business",
+        "Geography",
+        "Statistics"
+      ],
+      "explore": [
+        "Audit your school's waste for a week",
+        "Read a corporate sustainability report"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SS": 0.3,
+        "EM": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "MO": 65,
+        "SS": 60,
+        "EM": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 1,
+        "energy": 0,
+        "variety": 0
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 60,
+      "structure": 65
+    },
+    {
+      "id": "health-informatics",
+      "title": "Digital Health / Health Informatics Specialist",
+      "holland": [
+        "I",
+        "C",
+        "S"
+      ],
+      "skills": [
+        "analytical",
+        "technical",
+        "communication"
+      ],
+      "blurb": "Bridges medicine and tech — electronic records, AI diagnostics, telehealth platforms.",
+      "subjects": [
+        "Biology",
+        "Computer Science",
+        "Statistics"
+      ],
+      "explore": [
+        "Read about Canada Health Infoway",
+        "Try a health-data hackathon"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "SS": 0.3,
+        "EM": 0.3,
+        "MO": 0.3,
+        "SA": 0.3
+      },
+      "eqTargets": {
+        "SR": 65,
+        "SS": 60,
+        "EM": 60,
+        "MO": 60,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": 1,
+        "energy": 0,
+        "variety": 1
+      },
+      "motivators": [
+        "impact",
+        "mastery"
+      ],
+      "autonomy": 60,
+      "structure": 65
+    },
+    {
+      "id": "semiconductor",
+      "title": "Semiconductor / Chip Design Engineer",
+      "holland": [
+        "I",
+        "R"
+      ],
+      "skills": [
+        "analytical",
+        "technical"
+      ],
+      "blurb": "Designs the silicon chips powering AI, phones, EVs, and everything in between.",
+      "subjects": [
+        "Physics",
+        "Computer Science",
+        "Calculus"
+      ],
+      "explore": [
+        "Try a free Verilog or VHDL tutorial",
+        "Build a circuit with Tinkercad"
+      ],
+      "eqProfile": {
+        "SR": 0.5,
+        "MO": 0.5,
+        "SA": 0.3,
+        "SS": 0.15
+      },
+      "eqTargets": {
+        "SR": 70,
+        "MO": 65,
+        "SA": 60
+      },
+      "env": {
+        "pace": 0,
+        "collab": -1,
+        "energy": -2,
+        "variety": 0
+      },
+      "motivators": [
+        "mastery",
+        "security"
+      ],
+      "autonomy": 60,
+      "structure": 80
+    },
+    {
+      "id": "human-robot-ux",
+      "title": "Human-AI Interaction Designer",
+      "holland": [
+        "A",
+        "I",
+        "S"
+      ],
+      "skills": [
+        "creative",
+        "analytical",
+        "communication"
+      ],
+      "blurb": "Designs how people work with AI assistants, robots, and autonomous systems day-to-day.",
+      "subjects": [
+        "Visual Arts",
+        "Psychology",
+        "Computer Science"
+      ],
+      "explore": [
+        "Redesign a chatbot interaction you found awkward",
+        "Read about HCI research at Toronto / Waterloo"
+      ],
+      "eqProfile": {
+        "EM": 0.5,
+        "SS": 0.5,
+        "SA": 0.3,
+        "MO": 0.3
+      },
+      "eqTargets": {
+        "EM": 75,
+        "SS": 65,
+        "SA": 60,
+        "MO": 60
+      },
+      "env": {
+        "pace": 1,
+        "collab": 1,
+        "energy": 0,
+        "variety": 2
+      },
+      "motivators": [
+        "creativity",
+        "impact"
+      ],
+      "autonomy": 70,
+      "structure": 40
+    }
+  ],
+  "strengthsDimensions": [
+    {
+      "id": "SD",
+      "label": "Self-Direction",
+      "tagline": "You chart your own course",
+      "description": "How much you prefer to work independently, set your own goals, and figure things out without step-by-step guidance.",
+      "color": "var(--color-chart-1)"
+    },
+    {
+      "id": "AD",
+      "label": "Achievement Drive",
+      "tagline": "You push to get better",
+      "description": "Your hunger to improve, take on hard challenges, and keep going when things get tough.",
+      "color": "var(--color-chart-2)"
+    },
+    {
+      "id": "MD",
+      "label": "Motivational Drivers",
+      "tagline": "What energizes you",
+      "description": "The deeper motivators — mastery, connection, impact, and more — that make a job feel worth doing.",
+      "color": "var(--color-chart-3)"
+    },
+    {
+      "id": "SP",
+      "label": "Structure Preference",
+      "tagline": "How you like things organized",
+      "description": "Whether you thrive with clear plans and predictable routines, or prefer flexibility and variety.",
+      "color": "var(--color-chart-4)"
+    },
+    {
+      "id": "FG",
+      "label": "Feedback & Guidance",
+      "tagline": "How you grow best",
+      "description": "Whether you want detailed direction, a nudge and some space, or full independence when you learn something new.",
+      "color": "var(--color-chart-5)"
+    },
+    {
+      "id": "WE",
+      "label": "Work Environment Fit",
+      "tagline": "Where you do your best work",
+      "description": "Your ideal pace, how much teamwork you want, the energy of the space, and how much variety you need.",
+      "color": "var(--color-chart-6)"
+    }
+  ],
+  "motivators": [
+    {
+      "id": "mastery",
+      "label": "Mastery",
+      "tagline": "Getting really good at things",
+      "description": "You're energized by learning, improving, and becoming genuinely skilled — the journey of getting better matters as much as the result.",
+      "emoji": "🎯"
+    },
+    {
+      "id": "status",
+      "label": "Recognition",
+      "tagline": "Being seen and respected",
+      "description": "Acknowledgment, titles, and being known as someone who's excellent in your field keeps you going.",
+      "emoji": "🏆"
+    },
+    {
+      "id": "autonomy",
+      "label": "Autonomy",
+      "tagline": "Doing it your way",
+      "description": "Freedom to make your own decisions and build things your way is non-negotiable for you.",
+      "emoji": "🗺️"
+    },
+    {
+      "id": "connection",
+      "label": "Connection",
+      "tagline": "Working with great people",
+      "description": "Relationships at work — your team, your clients, or the people you help — are what make work meaningful.",
+      "emoji": "🤝"
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "tagline": "Stability and a steady path",
+      "description": "Knowing what's coming, having a clear career ladder, and a reliable income helps you feel free to focus on the work.",
+      "emoji": "🔒"
+    },
+    {
+      "id": "impact",
+      "label": "Impact",
+      "tagline": "Making a real difference",
+      "description": "You need to know your work matters — to a person, a community, or the world. Results that help people drive you.",
+      "emoji": "🌍"
+    },
+    {
+      "id": "creativity",
+      "label": "Creativity",
+      "tagline": "Making something new",
+      "description": "Inventing, designing, writing, building — any work that lets you make something original keeps your brain alive.",
+      "emoji": "✨"
+    }
+  ],
+  "strengthsSections": [
+    {
+      "key": "self-achievement",
+      "title": "Self & Achievement",
+      "subtitle": "How you direct yourself and pursue goals",
+      "emoji": "🧭",
+      "description": "These questions explore how you prefer to work — whether you set your own direction or thrive with guidance, and how much you push yourself to grow."
+    },
+    {
+      "key": "motivators",
+      "title": "What Drives You",
+      "subtitle": "What makes work feel worth it",
+      "emoji": "⚡",
+      "description": "Tell us what energizes you. There are no right answers here — what matters is what genuinely keeps you going, not what sounds impressive."
+    },
+    {
+      "key": "structure-feedback",
+      "title": "Structure & Feedback",
+      "subtitle": "How you like things organized and how you grow",
+      "emoji": "🗂️",
+      "description": "Some people love clear instructions and detailed feedback. Others want to figure it out themselves. Most are somewhere in between — let's find out where you are."
+    },
+    {
+      "key": "work-environment",
+      "title": "Where You Thrive",
+      "subtitle": "Your ideal work setting",
+      "emoji": "🌟",
+      "description": "Picture your perfect workday. These questions map out the kind of environment — pace, people, energy — where you naturally do your best work."
+    }
+  ],
+  "strengthsArchetypes": [
+    {
+      "id": "self-directed-builder",
+      "label": "Self-Directed Builder",
+      "blurb": "You thrive on autonomy, fast iteration, and producing concrete results. Give you a goal and get out of the way — you'll figure out the path and deliver.",
+      "traits": "High self-direction · High drive · Low structure need"
+    },
+    {
+      "id": "collaborative-achiever",
+      "label": "Collaborative Achiever",
+      "blurb": "You're driven to excel but you do it best alongside others. Team energy fuels your ambition, and you make the people around you better in the process.",
+      "traits": "High drive · High collaboration · Connection-motivated"
+    },
+    {
+      "id": "structured-specialist",
+      "label": "Structured Specialist",
+      "blurb": "You go deep, not wide. A clear scope, defined processes, and steady progression help you reach genuine mastery — and you'll outpace everyone who likes to wing it.",
+      "traits": "High structure preference · High mastery motivation · Steady pace"
+    },
+    {
+      "id": "creative-explorer",
+      "label": "Creative Explorer",
+      "blurb": "Novelty is your fuel. You need variety, creative freedom, and the space to experiment. Routine is your kryptonite — but unexpected challenges are where you shine.",
+      "traits": "Low structure · High creativity motivation · Variety-seeking"
+    },
+    {
+      "id": "impact-driven-connector",
+      "label": "Impact-Driven Connector",
+      "blurb": "What gets you out of bed is knowing your work matters. You're drawn to people-facing roles where you can see the difference you make — directly, in real lives.",
+      "traits": "High impact motivation · High connection · Social work environment"
+    },
+    {
+      "id": "analytical-achiever",
+      "label": "Analytical Achiever",
+      "blurb": "You combine deep thinking with real ambition. You want to master complex systems and get measurably better over time — and you prefer to work through problems independently.",
+      "traits": "High drive · High self-direction · Mastery-motivated · Quiet work environment"
+    },
+    {
+      "id": "guided-grower",
+      "label": "Guided Grower",
+      "blurb": "You know where you want to go — you just like having a strong mentor or clear system to get there faster. You absorb feedback like a sponge and make steady, visible progress.",
+      "traits": "High feedback seeking · High structure · Strong growth orientation"
+    },
+    {
+      "id": "adaptive-generalist",
+      "label": "Adaptive Generalist",
+      "blurb": "You're comfortable in the gray zone. You don't need the rules spelled out, you don't need constant feedback, and you can shift gears fast. Fluid roles and evolving organizations suit you perfectly.",
+      "traits": "Balanced dimensions · Low structure · High autonomy"
+    }
+  ],
+  "eqDimensions": [
+    {
+      "id": "SA",
+      "label": "Self-Awareness",
+      "tagline": "You know what you feel and why",
+      "description": "How clearly you recognize your own emotions, triggers, strengths, and limits in the moment — including online and under pressure.",
+      "color": "var(--color-chart-1)"
+    },
+    {
+      "id": "SR",
+      "label": "Self-Regulation",
+      "tagline": "You stay in the driver’s seat",
+      "description": "How well you manage strong emotions, impulses, and stress — pausing before reacting, especially in tense conversations or scrolling spirals.",
+      "color": "var(--color-chart-2)"
+    },
+    {
+      "id": "MO",
+      "label": "Motivation",
+      "tagline": "You bounce back and push forward",
+      "description": "Your drive to set goals, recover from setbacks, and stay engaged even when results take time or no one is watching.",
+      "color": "var(--color-chart-3)"
+    },
+    {
+      "id": "EM",
+      "label": "Empathy",
+      "tagline": "You read the room — and the chat",
+      "description": "How well you sense what others are feeling and understand their perspective, in person and across messages where tone is invisible.",
+      "color": "var(--color-chart-4)"
+    },
+    {
+      "id": "SS",
+      "label": "Social Skills",
+      "tagline": "You connect, lead, and resolve",
+      "description": "Your ability to communicate clearly, build trust, work through conflict, and collaborate with people who think differently than you.",
+      "color": "var(--color-chart-5)"
+    }
+  ],
+  "eqArchetypes": [
+    {
+      "id": "empathic-connector",
+      "label": "The Empathic Connector",
+      "blurb": "You feel what others feel before they say a word, and you turn that into real connection. People open up to you because they sense you actually get it. Your superpower: building trust fast and making people feel seen.",
+      "traits": "High empathy · High social skills · People-first"
+    },
+    {
+      "id": "steady-anchor",
+      "label": "The Steady Anchor",
+      "blurb": "When everything around you is chaos, you’re the calm one. You manage your own emotions before reacting, and that steadiness helps the people around you feel safe. Your superpower: composure under pressure.",
+      "traits": "High self-regulation · High self-awareness · Calm under pressure"
+    },
+    {
+      "id": "reflective-strategist",
+      "label": "The Reflective Strategist",
+      "blurb": "You think before you speak and before you feel reactive. You know your own patterns well, which lets you make smart, intentional choices instead of impulsive ones. Your superpower: emotional clarity.",
+      "traits": "High self-awareness · High self-regulation · Thoughtful decision-maker"
+    },
+    {
+      "id": "inspiring-catalyst",
+      "label": "The Inspiring Catalyst",
+      "blurb": "You bring energy, vision, and forward motion. You bounce back from setbacks fast and pull others along with you. People want to be on your team because you make hard things feel possible. Your superpower: motivating yourself and others.",
+      "traits": "High motivation · High social skills · Resilient and energizing"
+    },
+    {
+      "id": "adaptive-mediator",
+      "label": "The Adaptive Mediator",
+      "blurb": "You can read a room, sense who’s frustrated, and find the words to bring people back together. You’re comfortable in the middle of disagreements because you genuinely see multiple sides. Your superpower: turning tension into understanding.",
+      "traits": "High empathy · High social skills · Bridge-builder"
+    },
+    {
+      "id": "driven-growth-seeker",
+      "label": "The Driven Growth-Seeker",
+      "blurb": "You’re not done yet — and you know it, which is exactly the mindset that gets people the furthest. You’re already showing strong drive; with more practice tuning into your own and others’ emotions, your EQ will compound fast.",
+      "traits": "High motivation · Building self-awareness · Growth-oriented"
+    }
+  ],
+  "eqSections": [
+    {
+      "id": "self",
+      "label": "Knowing yourself",
+      "range": [
+        0,
+        11
+      ]
+    },
+    {
+      "id": "others",
+      "label": "Reading others",
+      "range": [
+        12,
+        19
+      ]
+    },
+    {
+      "id": "world",
+      "label": "In the real world",
+      "range": [
+        20,
+        29
+      ]
+    }
+  ],
+  "interestsSections": [
+    {
+      "key": "interests",
+      "title": "Your Interests",
+      "subtitle": "What pulls your attention?",
+      "emoji": "✨"
+    },
+    {
+      "key": "abilities",
+      "title": "Your Abilities",
+      "subtitle": "Where do you naturally shine?",
+      "emoji": "⭐"
+    },
+    {
+      "key": "workStyle",
+      "title": "Your Work Style",
+      "subtitle": "How do you like to get things done?",
+      "emoji": "🧭"
+    },
+    {
+      "key": "values",
+      "title": "What You Value",
+      "subtitle": "What makes a job meaningful to you?",
+      "emoji": "🎯"
+    }
+  ],
+  "traitProfiles": {
+    "R": {
+      "headline": "Practical, hands-on, and grounded in the real world.",
+      "strengths": [
+        "Building and fixing things",
+        "Working with tools, machines, or the outdoors",
+        "Solving problems you can see and touch"
+      ],
+      "environments": "Workshops, labs, construction sites, farms, kitchens, sports fields — anywhere action beats theory.",
+      "sampleWork": "Trades, engineering, athletics, mechanics, agriculture, culinary arts, forestry, emergency response."
+    },
+    "I": {
+      "headline": "Curious, analytical, and drawn to how things work.",
+      "strengths": [
+        "Asking hard questions",
+        "Doing research and running experiments",
+        "Spotting patterns in data"
+      ],
+      "environments": "Labs, universities, hospitals, tech companies — places that reward deep thinking and evidence.",
+      "sampleWork": "Science, medicine, data analysis, software, research, mathematics, academia."
+    },
+    "A": {
+      "headline": "Creative, expressive, and driven to make original things.",
+      "strengths": [
+        "Generating fresh ideas",
+        "Communicating through story, image, or sound",
+        "Seeing possibilities others miss"
+      ],
+      "environments": "Studios, agencies, media, theatres, design shops — places that reward originality over routine.",
+      "sampleWork": "Design, film, music, writing, marketing, architecture, illustration, product creation."
+    },
+    "S": {
+      "headline": "People-focused, empathetic, and energized by helping others.",
+      "strengths": [
+        "Teaching and mentoring",
+        "Listening and supporting",
+        "Building trust and community"
+      ],
+      "environments": "Schools, clinics, community organizations, HR teams — places where relationships matter.",
+      "sampleWork": "Teaching, counselling, healthcare, social work, coaching, community leadership."
+    },
+    "E": {
+      "headline": "Ambitious, persuasive, and comfortable leading the charge.",
+      "strengths": [
+        "Making decisions under pressure",
+        "Selling ideas and rallying people",
+        "Spotting opportunities"
+      ],
+      "environments": "Startups, sales floors, boardrooms, politics — places where influence and outcomes matter.",
+      "sampleWork": "Entrepreneurship, sales, business, law, real estate, management, politics."
+    },
+    "C": {
+      "headline": "Organized, precise, and trusted to keep things running.",
+      "strengths": [
+        "Managing details without missing things",
+        "Building systems and processes",
+        "Working with numbers and data"
+      ],
+      "environments": "Finance teams, operations, government, IT admin — places where accuracy has real consequences.",
+      "sampleWork": "Accounting, finance, operations, logistics, data admin, project management, IT support."
+    }
+  }
+}

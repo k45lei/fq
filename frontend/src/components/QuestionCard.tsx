@@ -101,7 +101,10 @@ function Marker({ selected, shape }: { selected: boolean; shape: "circle" | "squ
 
 /** The keyboard shortcut for an option. Hidden on touch, where there's no keyboard to hint at. */
 function Hint({ index }: { index: number }) {
-  if (index > 8) return null;
+  if (index > 8) {
+    return null;
+  }
+
   return (
     <kbd className="hidden shrink-0 rounded border border-line px-1.5 py-0.5 font-sans text-xs text-muted sm:block">
       {index + 1}
@@ -171,32 +174,50 @@ function Scale({
 }) {
   const values = scaleValues(question);
 
+  const agreement = question.scale_min === 1 && question.scale_max === 5;
+  const labels = ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"];
+  const hints = ["No way", "Not really", "Maybe", "Yeah", "Totally"];
+
+  const labelFor = (option: number, index: number) => {
+    if (agreement) {
+      return labels[index];
+    }
+
+    if (option === 0) {
+      return "Balanced";
+    }
+
+    if (option === question.scale_min) {
+      return question.scale_min_label;
+    }
+
+    if (option === question.scale_max) {
+      return question.scale_max_label;
+    }
+
+    return `Leans ${option < 0 ? "left" : "right"}`;
+  };
+
   return (
-    <div>
-      <div className="flex gap-2">
-        {values.map((option) => {
-          const isSelected = value === option;
-          return (
-            <button
-              key={option}
-              type="button"
-              aria-pressed={isSelected}
-              onClick={() => onChange({ numeric: option })}
-              className={`h-14 flex-1 rounded-xl border text-lg font-medium transition duration-150 ${
-                isSelected
-                  ? "border-accent bg-accent text-white shadow-card"
-                  : "border-line bg-surface hover:border-accent/50 hover:shadow-card"
-              }`}
-            >
-              {option}
-            </button>
-          );
-        })}
-      </div>
-      <div className="mt-2.5 flex justify-between text-sm text-muted">
-        <span>Strongly disagree</span>
-        <span>Strongly agree</span>
-      </div>
+    <div className="space-y-3">
+      {!agreement && (
+        <p className="text-sm text-muted">
+          {question.scale_min_label} ↔ {question.scale_max_label}
+        </p>
+      )}
+      {values.map((option, index) => (
+        <button
+          key={option}
+          type="button"
+          aria-pressed={value === option}
+          onClick={() => onChange({ numeric: option })}
+          className={`${CHOICE_BASE} ${value === option ? CHOICE_ON : CHOICE_IDLE}`}
+        >
+          <Marker selected={value === option} shape="circle" />
+          <span className="flex-1">{labelFor(option, index)}</span>
+          <span className="text-sm text-muted">{agreement ? hints[index] : option}</span>
+        </button>
+      ))}
     </div>
   );
 }

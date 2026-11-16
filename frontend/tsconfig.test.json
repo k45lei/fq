@@ -18,5 +18,12 @@
     "noEmit": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src/api/client.test.ts", "src/api/client.ts", "src/api/types.ts", "src/lib/checkout.test.ts"]
+  "include": [
+    "src/api/client.test.ts",
+    "src/api/client.ts",
+    "src/api/types.ts",
+    "src/lib/checkout.test.ts",
+    "src/lib/answers.test.ts",
+    "src/store/questionnaire.test.ts"
+  ]
 }

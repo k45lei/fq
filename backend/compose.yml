@@ -1,0 +1,21 @@
+name: backend-ts
+
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: futurequest
+      POSTGRES_PASSWORD: futurequest
+      POSTGRES_DB: futurequest
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - futurequest_ts_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U futurequest -d futurequest']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  futurequest_ts_data:
+    name: ${FUTUREQUEST_DB_VOLUME:-backend-ts_futurequest_ts_data}

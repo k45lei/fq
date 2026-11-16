@@ -1,7 +1,7 @@
 /**
  * Turning draft answers into something submittable.
  *
- * These checks mirror the server's cardinality rules in `backend/app/responses.py`. They exist
+ * These checks mirror the rules in `backend/src/questionnaire.ts`. They exist
  * for the interface — keeping Next disabled until a question is answered — not as a security
  * boundary. The server validates independently and is the authority.
  */
@@ -10,11 +10,17 @@ import type { AnswerInput, Question } from "../api/types";
 import type { DraftAnswer } from "../store/questionnaire";
 
 export function isAnswered(question: Question, draft: DraftAnswer | undefined): boolean {
-  if (!draft) return false;
+  if (!draft) {
+    return false;
+  }
 
   switch (question.answer_type) {
     case "scale":
-      return typeof draft.numeric === "number";
+      return (
+        Number.isInteger(draft.numeric) &&
+        draft.numeric! >= (question.scale_min ?? 1) &&
+        draft.numeric! <= (question.scale_max ?? 5)
+      );
 
     case "free_text":
       return Boolean(draft.text?.trim());
@@ -24,7 +30,11 @@ export function isAnswered(question: Question, draft: DraftAnswer | undefined): 
 
     case "multi_choice": {
       const count = draft.optionIds?.length ?? 0;
-      if (count === 0) return false;
+
+      if (count < (question.min_selections ?? 1)) {
+        return false;
+      }
+
       return question.max_selections === null || count <= question.max_selections;
     }
   }
@@ -33,17 +43,27 @@ export function isAnswered(question: Question, draft: DraftAnswer | undefined): 
 export function toAnswerInput(question: Question, draft: DraftAnswer): AnswerInput {
   switch (question.answer_type) {
     case "scale":
-      return { question_id: question.id, numeric: draft.numeric };
+      return {
+        question_id: question.id,
+        numeric: draft.numeric,
+      };
     case "free_text":
-      return { question_id: question.id, text: draft.text?.trim() };
+      return {
+        question_id: question.id,
+        text: draft.text?.trim(),
+      };
     default:
-      return { question_id: question.id, option_ids: draft.optionIds ?? [] };
+      return {
+        question_id: question.id,
+        option_ids: draft.optionIds ?? [],
+      };
   }
 }
 
 export function scaleValues(question: Question): number[] {
   const min = question.scale_min ?? 1;
   const max = question.scale_max ?? 5;
+
   return Array.from({ length: max - min + 1 }, (_, offset) => min + offset);
 }
 

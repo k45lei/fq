@@ -28,7 +28,7 @@ export default function CheckoutCancelled() {
       <div className="mt-7 flex flex-wrap gap-3">
         {responseId ? (
           <Link
-            to="/questionnaire"
+            to={`/questionnaire?response_id=${responseId}`}
             className="rounded-xl bg-accent px-6 py-3 font-medium text-white transition hover:bg-accent-strong"
           >
             Back to the questions

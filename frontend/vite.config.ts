@@ -31,16 +31,13 @@ const allowedHosts = [
     .filter(Boolean),
 ];
 
-// Shared between `dev` and `preview`: the browser talks to Vite, which forwards to FastAPI.
+// Shared between `dev` and `preview`: the browser talks to Vite, which forwards to Fastify.
 // Same-origin from the browser's point of view, so CORS never comes into it. The CORS
 // middleware on the backend is for deployments where the two are served separately.
 const proxy = {
   "/api": {
-    target: "http://127.0.0.1:8000",
-    // `changeOrigin` deliberately left off. It would rewrite Host to 127.0.0.1:8000, and the
-    // backend needs the browser-facing host to pick its origin out of ALLOWED_ORIGINS —
-    // that's how the Google redirect lands back on the right domain when this is served from
-    // somewhere other than localhost.
+    target: process.env.API_PROXY_TARGET ?? "http://127.0.0.1:8000",
+    // Preserve the browser origin; Fastify validates mutations against APP_ORIGIN.
     xfwd: true,
   },
 };

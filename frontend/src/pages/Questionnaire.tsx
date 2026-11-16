@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 
 import { ApiError } from "../api/client";
@@ -12,31 +12,51 @@ import { useQuestionnaireStore } from "../store/questionnaire";
 
 export default function Questionnaire() {
   const navigate = useNavigate();
+  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (advanceTimer.current) {
+        clearTimeout(advanceTimer.current);
+      }
+    },
+    [],
+  );
   const [searchParams] = useSearchParams();
-  const { responseId: storedResponseId, reportId, answers, currentQuestionId, setAnswer, goTo, complete } =
-    useQuestionnaireStore();
+  const {
+    responseId: storedResponseId,
+    reportId,
+    answers,
+    currentQuestionId,
+    setAnswer,
+    goTo,
+    complete,
+    begin,
+  } = useQuestionnaireStore();
   // The response may come from the store (this browser started it) or from the URL — the
   // "continue" link on a report, which a signed-in visitor on another device reaches
   // without ever having started it here.
   const urlResponseId = searchParams.get("response_id");
   const responseId = urlResponseId ?? storedResponseId;
+
+  useEffect(() => {
+    if (responseId && responseId !== storedResponseId) {
+      begin(responseId);
+    }
+  }, [responseId, storedResponseId, begin]);
   // Asked about this response, not in general: the entitlement gate looks entitlements up by
   // user *and* response, so a preview with no response to ask about can't widen. Without
   // this, a visitor who has just paid would still be served only the free sections.
   const { data: questionnaire, isPending, error } = useQuestionnaire(responseId ?? undefined);
   const submit = useSubmitSection();
 
-  // A section can only be submitted once, so a section that's already done is not shown
-  // again. This is what makes the paid-sections-after-payment flow work: the visitor has
-  // finished interests, buys the report, comes back, and is shown the two sections they
-  // haven't answered — rather than the interests questions they already submitted, which
-  // the server would refuse.
+  // Resume at the first unfinished stage, including after a payment return.
   const completed = new Set(questionnaire?.completed_sections ?? []);
   const pendingSections = (questionnaire?.sections ?? []).filter(
     (section) => !completed.has(section),
   );
   const questions = (questionnaire?.questions ?? []).filter(
-    (question) => !completed.has(question.category),
+    (question) => question.category === pendingSections[0],
   );
   // Positioned by question id rather than by index: the question list is filtered — a
   // completed section drops out of it — so an index would be a position in the wrong list
@@ -58,31 +78,51 @@ export default function Questionnaire() {
   const next = questions[index + 1];
   const previous = questions[index - 1];
 
-  // Number keys pick an option or a scale point; Enter moves on. Forty questions is a lot of
-  // mousing, and the shortcut hints on each option are only honest if they work.
+  // Number keys pick an option or scale point; Enter moves to the next question.
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (!question) return;
+      if (!question) {
+        return;
+      }
+
       const target = event.target as HTMLElement | null;
-      if (target?.tagName === "TEXTAREA" || target?.tagName === "INPUT") return;
+
+      if (target?.tagName === "TEXTAREA" || target?.tagName === "INPUT") {
+        return;
+      }
 
       if (event.key === "Enter" && canAdvance && !isLast) {
-        if (next) goTo(next.id);
+        if (next) {
+          goTo(next.id);
+        }
+
         return;
       }
 
       const digit = Number(event.key);
-      if (!Number.isInteger(digit) || digit < 1) return;
+
+      if (!Number.isInteger(digit) || digit < 1) {
+        return;
+      }
 
       if (question.answer_type === "scale") {
         const min = question.scale_min ?? 1;
         const max = question.scale_max ?? 5;
-        if (digit >= min && digit <= max) setAnswer(question.id, { numeric: digit });
+
+        const value = min + digit - 1;
+
+        if (value <= max) {
+          setAnswer(question.id, { numeric: value });
+        }
+
         return;
       }
 
       const option = question.options[digit - 1];
-      if (!option) return;
+
+      if (!option) {
+        return;
+      }
 
       if (question.answer_type === "single_choice") {
         setAnswer(question.id, { optionIds: [option.id] });
@@ -104,12 +144,19 @@ export default function Questionnaire() {
   // Remember where the visitor is, so closing the tab and coming back lands on the same
   // question. Recorded by id, because the question list is filtered as sections complete.
   useEffect(() => {
-    if (question && question.id !== currentQuestionId) goTo(question.id);
+    if (question && question.id !== currentQuestionId) {
+      goTo(question.id);
+    }
   }, [question, currentQuestionId, goTo]);
 
-  if (!responseId) return <Navigate to="/" replace />;
+  if (!responseId) {
+    return <Navigate to="/" replace />;
+  }
 
-  if (isPending) return <Centered>Loading…</Centered>;
+  if (isPending || responseId !== storedResponseId) {
+    return <Centered>Loading…</Centered>;
+  }
+
   if (error || !questionnaire) {
     return (
       <Centered>
@@ -140,61 +187,90 @@ export default function Questionnaire() {
     // Everything is answered. The report is found by id, and the id lives in the store —
     // so this is only reachable if it was lost, which is rare but shouldn't be a dead end.
     // The newest report for the response is findable without an id, so use it.
-    if (ownReportId) return <Navigate to={`/report/${ownReportId}`} replace />;
+    if (ownReportId) {
+      return <Navigate to={`/report/${ownReportId}`} replace />;
+    }
+
     return <LatestReportRedirect responseId={responseId} />;
   }
 
   const everythingAnswered = isSectionComplete(questions, answers);
   const meta = SECTION_META[question.category];
 
-  // Position within the section, so progress reads as "3 of 14" rather than "17 of 40" —
-  // the same length feels finite when it's broken into named stretches.
+  // Progress is relative to the current stage.
   const inSection = questions.filter((item) => item.category === question.category);
   const positionInSection = inSection.findIndex((item) => item.id === question.id);
 
   const finish = async () => {
-    // One request per section, in order. Each produces a report — a response being scored more
-    // than once as more of it is answered is the design, not a quirk — and the last one, built
-    // from every answer, is the one worth showing.
-    //
-    // Only the sections still to do are submitted: a section can only be submitted once, and
-    // the server refuses a second attempt. That's what lets a visitor who has already
-    // finished the free tier come back and answer only the paid sections.
-    let newReportId: string | null = null;
-
-    for (const section of pendingSections) {
-      const sectionQuestions = questions.filter((item) => item.category === section);
-      if (sectionQuestions.length === 0) continue;
-
+    try {
       const result = await submit.mutateAsync({
         responseId,
-        section,
-        answers: sectionQuestions.map((item) => toAnswerInput(item, answers[item.id] ?? {})),
+        section: question.category,
+        answers: questions.map((item) => toAnswerInput(item, answers[item.id] ?? {})),
       });
-      newReportId = result.report_id;
+      complete(result.report_id);
+      navigate(`/report/${result.report_id}`);
+    } catch {
+      // Keep the draft intact; the mutation error offers a safe retry below.
     }
-
-    if (!newReportId) return;
-    complete(newReportId);
-    navigate(`/report/${newReportId}`);
   };
+
+  const subsectionNames: Record<string, string> = {
+    interests: "Interests",
+    abilities: "Abilities",
+    workStyle: "Work style",
+    values: "Values",
+    "self-achievement": "Self & achievement",
+    motivators: "Motivators",
+    "structure-feedback": "Structure & feedback",
+    "work-environment": "Work environment",
+    self: "Knowing yourself",
+    others: "Reading others",
+    world: "In the real world",
+  };
+  const subsections = [...new Set(questions.map((item) => item.subsection).filter(Boolean))];
 
   return (
     <Layout>
-      <ProgressBar
-        current={positionInSection}
-        total={inSection.length}
-        section={pendingSections.length > 1 ? meta.label : undefined}
-      />
+      <div className="mb-5 flex items-center justify-between">
+        <p className="text-lg font-bold">{meta.label}</p>
+        <Link to="/" aria-label="Exit quiz" className="rounded-full p-2 text-muted">
+          ✕
+        </Link>
+      </div>
+      <ProgressBar current={positionInSection} total={inSection.length} section={meta.label} />
 
+      <div className="mt-5 flex flex-wrap gap-3 text-xs">
+        {subsections.map((section) => (
+          <span
+            key={section}
+            className={section === question.subsection ? "font-bold text-accent" : "text-muted"}
+          >
+            {subsectionNames[section!] ?? section}
+          </span>
+        ))}
+      </div>
       <section
         key={question.id}
+        data-question-id={question.id}
         className="animate-rise mt-9 rounded-2xl border border-line bg-surface p-6 shadow-card sm:p-8"
       >
         <QuestionCard
           question={question}
           draft={answers[question.id]}
-          onChange={(answer) => setAnswer(question.id, answer)}
+          onChange={(answer) => {
+            setAnswer(question.id, answer);
+            if (advanceTimer.current) {
+              clearTimeout(advanceTimer.current);
+            }
+            if (
+              next &&
+              question.answer_type !== "multi_choice" &&
+              question.answer_type !== "free_text"
+            ) {
+              advanceTimer.current = setTimeout(() => goTo(next.id), 250);
+            }
+          }}
         />
       </section>
 
@@ -209,7 +285,14 @@ export default function Questionnaire() {
       <div className="mt-7 flex items-center justify-between">
         <button
           type="button"
-          onClick={() => previous && goTo(previous.id)}
+          onClick={() => {
+            if (advanceTimer.current) {
+              clearTimeout(advanceTimer.current);
+            }
+            if (previous) {
+              goTo(previous.id);
+            }
+          }}
           disabled={index === 0}
           className="rounded-xl px-4 py-3 text-muted transition hover:text-ink disabled:invisible"
         >
@@ -238,7 +321,7 @@ export default function Questionnaire() {
       </div>
 
       <p className="mt-10 text-center text-sm text-muted">
-        Saved as you go — close this and come back whenever.
+        Drafts stay in this browser. Completed stages are saved to your account or guest session.
       </p>
     </Layout>
   );
@@ -262,7 +345,10 @@ function Centered({ children }: { children: React.ReactNode }) {
 function LatestReportRedirect({ responseId }: { responseId: string }) {
   const { data, isPending, error } = useLatestReport(responseId);
 
-  if (isPending) return <Centered>Finding your results…</Centered>;
+  if (isPending) {
+    return <Centered>Finding your results…</Centered>;
+  }
+
   if (error || !data) {
     return (
       <Centered>

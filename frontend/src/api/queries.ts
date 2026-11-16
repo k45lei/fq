@@ -42,6 +42,7 @@ export function useStartResponse() {
 
 export function useSubmitSection() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({
       responseId,
@@ -56,6 +57,8 @@ export function useSubmitSection() {
       // A submitted section is now done, and the server won't accept it again. The
       // questionnaire carries that list, so it has to be refetched — otherwise the client
       // would offer a section the server refuses.
+      queryClient.invalidateQueries({ queryKey: queryKeys.me });
+      queryClient.invalidateQueries({ queryKey: queryKeys.latestReport(variables.responseId) });
       queryClient.invalidateQueries({
         queryKey: queryKeys.questionnaire(variables.responseId),
       });
@@ -76,6 +79,7 @@ export function useMe() {
 
 export function useLogout() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: api.logout,
     onSuccess: () => {
@@ -91,7 +95,7 @@ export function useReport(reportId: string | undefined) {
     queryFn: () => api.report(reportId!),
     enabled: Boolean(reportId),
     staleTime: 0,
-    refetchInterval: (query) => query.state.data?.status === "pending" ? 5000 : false,
+    refetchInterval: (query) => (query.state.data?.status === "pending" ? 5000 : false),
   });
 }
 
@@ -127,9 +131,15 @@ export function usePricing() {
 
 export function useCreateCheckout() {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ responseId, discountCode }: { responseId: string; discountCode?: string }) =>
-      api.createCheckout(responseId, discountCode),
+    mutationFn: ({
+      responseId,
+      discountCode,
+    }: {
+      responseId: string;
+      discountCode?: string;
+    }) => api.createCheckout(responseId, discountCode),
     onSuccess: () => {
       // The entitlement may now exist, so the sections this visitor may answer have changed.
       queryClient.invalidateQueries({ queryKey: ["questionnaire"] });
@@ -139,15 +149,22 @@ export function useCreateCheckout() {
 
 export function useApplyDiscount() {
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ responseId, discountCode }: { responseId: string; discountCode: string }) =>
-      api.applyDiscount(responseId, discountCode),
+    mutationFn: ({
+      responseId,
+      discountCode,
+    }: {
+      responseId: string;
+      discountCode: string;
+    }) => api.applyDiscount(responseId, discountCode),
     onSuccess: () => {
       // After applying a discount, entitlement may be granted; refresh questionnaire.
       queryClient.invalidateQueries({ queryKey: ["questionnaire"] });
     },
   });
 }
+
 /**
  * Whether a checkout has resulted in access.
  *
@@ -166,6 +183,7 @@ export function useCheckoutStatus(sessionId: string | undefined) {
     // an unpaid one never will.
     refetchInterval: (query) => {
       const status = query.state.data;
+
       return status?.payment_status === "pending" ? 3000 : false;
     },
   });

@@ -72,7 +72,13 @@ export const useQuestionnaireStore = create<QuestionnaireState>()(
 
       complete: (reportId) => set({ reportId }),
 
-      unlock: (responseId) => set({ responseId, reportId: null, currentQuestionId: null }),
+      unlock: (responseId) =>
+        set((state) => ({
+          responseId,
+          answers: state.responseId === responseId ? state.answers : {},
+          reportId: null,
+          currentQuestionId: null,
+        })),
 
       reset: () => set(EMPTY),
     }),

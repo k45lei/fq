@@ -5,7 +5,7 @@
  * status codes. When the backend contract changes, this file and `types.ts` change — not six
  * components.
  *
- * Requests go to a relative `/api`, which the Vite dev server proxies to FastAPI. Same-origin
+ * Requests go to a relative `/api`, which the Vite dev server proxies to Fastify. Same-origin
  * from the browser's perspective, so CORS doesn't apply in development.
  */
 
@@ -62,17 +62,23 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 /**
- * FastAPI puts a plain string in `detail` for HTTPException, and a list of field errors there
- * for request-validation failures. The former are messages we wrote for users, so they're worth
- * surfacing verbatim.
+ * The API returns user-facing messages in `detail`. Continue accepting the legacy field-error
+ * array as well so both response shapes produce a readable message.
  */
 async function errorMessage(response: Response): Promise<string> {
   try {
     const body = (await response.json()) as { detail?: unknown };
-    if (typeof body.detail === "string") return body.detail;
+
+    if (typeof body.detail === "string") {
+      return body.detail;
+    }
+
     if (Array.isArray(body.detail)) {
       const first = body.detail[0] as { msg?: string } | undefined;
-      if (first?.msg) return first.msg;
+
+      if (first?.msg) {
+        return first.msg;
+      }
     }
   } catch {
     // Not JSON — fall through to the generic message.

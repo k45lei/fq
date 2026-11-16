@@ -5,16 +5,15 @@
  * access exists. The webhook that writes the purchase and the entitlement may not have
  * landed yet, so this page asks the server rather than assuming. The server verifies the
  * session with Stripe and, if the webhook is behind, performs the same grant inline
- * (see `backend/app/routes/payments.py`).
+ * (see `backend/src/payments.ts`).
  *
  * The query polls while the answer is still "not yet", because the webhook can land a
  * moment after the redirect. A paid session resolves at once; an unpaid one never will, so
  * the polling stops rather than running forever.
  *
- * **Payment unlocks the questionnaire; it doesn't produce a report.** A full report is
- * scored from the answers, so it can't exist until the paid sections have been answered.
- * The visitor is therefore sent *into* the questionnaire, not to a report. Only once a full
- * report exists does the newest-report lookup take over and send them to read it.
+ * Payment unlocks the remaining questions. Each completed stage stores a report;
+ * its existence alone does not mean all questions have been answered. Continue unanswered
+ * sections first, then show the latest stored result or placeholder.
  */
 
 import { useEffect } from "react";
@@ -30,20 +29,19 @@ export default function CheckoutSuccess() {
   const navigate = useNavigate();
   const sessionId = params.get("session_id") ?? undefined;
   const { data, isPending, error } = useCheckoutStatus(sessionId);
-  // The visitor has a response but no report id — the checkout gave them a Stripe session
-  // id, not one of ours. The newest report for the response is the full one, because
-  // reports are append-only.
-  //
-  // `isPending` matters: a report that is *loading* is not the same as a report that is
-  // *absent*, and treating the first as the second would send a visitor who has already
-  // finished the paid sections back into the questionnaire to answer them again.
+
+  // Checkout provides a session ID. Fetch the attempt's latest report and completion
+  // state before deciding whether to show results or continue unanswered sections.
   const { data: report } = useLatestReport(data?.response_id ?? undefined);
-  const { data: questionnaire, error: questionnaireError } = useQuestionnaire(data?.response_id ?? undefined);
+  const { data: questionnaire, error: questionnaireError } = useQuestionnaire(
+    data?.response_id ?? undefined,
+  );
   const unlock = useQuestionnaireStore((state) => state.unlock);
 
-  // Report existence does not imply completion: each stage creates a pending record.
+  // Report existence does not imply completion: each stage creates its own report.
   useEffect(() => {
     const next = checkoutNextStep(data, questionnaire, report);
+
     if (next?.kind === "report") {
       navigate(`/report/${next.reportId}`, { replace: true });
     } else if (next?.kind === "continue") {
@@ -61,8 +59,8 @@ export default function CheckoutSuccess() {
       {(error || questionnaireError) && (
         <>
           <p className="mt-4 text-muted text-pretty">
-            We couldn&rsquo;t confirm your payment just now. If you were charged, it will still
-            show up — email us and we&rsquo;ll check.
+            We couldn&rsquo;t confirm your payment just now. If you were charged, it will still show
+            up — email us and we&rsquo;ll check.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
@@ -93,11 +91,7 @@ export default function CheckoutSuccess() {
         </>
       )}
 
-      {data?.entitled && (
-        <p className="mt-4 text-muted">
-          Taking you back to your questionnaire…
-        </p>
-      )}
+      {data?.entitled && <p className="mt-4 text-muted">Taking you back to your questionnaire…</p>}
     </Layout>
   );
 }

@@ -38,12 +38,15 @@ function polygon(distances: number[]): string {
 }
 
 export default function TraitRadar({ traits, code }: Props) {
-  const present = RIASEC.filter((trait) => traits[trait] !== undefined);
+  const order = traits.R ? ["R", "I", "A", "S", "E", "C"] : RIASEC;
+  const present = order.filter((trait) => traits[trait] !== undefined);
 
   // Fewer than three axes can't enclose an area, so the shape would be meaningless.
-  if (present.length < 3) return null;
+  if (present.length < 3) {
+    return null;
+  }
 
-  const scores = RIASEC.map((trait) => traits[trait]?.score ?? 0);
+  const scores = order.map((trait) => traits[trait]?.score ?? 0);
   const shape = polygon(scores.map((score) => Math.max(score, 0.02) * RADIUS));
 
   return (
@@ -52,7 +55,8 @@ export default function TraitRadar({ traits, code }: Props) {
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         className="w-full max-w-[280px]"
         role="img"
-        aria-label={RIASEC.filter((t) => traits[t])
+        aria-label={order
+          .filter((t) => traits[t])
           .map((t) => `${traits[t]!.label} ${Math.round(traits[t]!.score * 100)}%`)
           .join(", ")}
       >
@@ -60,13 +64,13 @@ export default function TraitRadar({ traits, code }: Props) {
         {RINGS.map((ring) => (
           <polygon
             key={ring}
-            points={polygon(RIASEC.map(() => ring * RADIUS))}
+            points={polygon(order.map(() => ring * RADIUS))}
             fill="none"
             stroke="var(--color-line)"
             strokeWidth="1"
           />
         ))}
-        {RIASEC.map((trait, index) => {
+        {order.map((trait, index) => {
           const [x, y] = point(index, RADIUS);
           return (
             <line
@@ -90,9 +94,13 @@ export default function TraitRadar({ traits, code }: Props) {
           strokeLinejoin="round"
         />
 
-        {RIASEC.map((trait, index) => {
+        {order.map((trait, index) => {
           const score = traits[trait];
-          if (!score) return null;
+
+          if (!score) {
+            return null;
+          }
+
           const [x, y] = point(index, Math.max(score.score, 0.02) * RADIUS);
           const inCode = code.includes(trait);
           return (
@@ -109,9 +117,13 @@ export default function TraitRadar({ traits, code }: Props) {
           );
         })}
 
-        {RIASEC.map((trait, index) => {
+        {order.map((trait, index) => {
           const score = traits[trait];
-          if (!score) return null;
+
+          if (!score) {
+            return null;
+          }
+
           const [x, y] = point(index, RADIUS + 26);
           return (
             <text
@@ -122,7 +134,7 @@ export default function TraitRadar({ traits, code }: Props) {
               dominantBaseline="middle"
               className="fill-muted text-[11px]"
             >
-              {score.label}
+              {trait.length === 1 ? trait : score.label}
             </text>
           );
         })}

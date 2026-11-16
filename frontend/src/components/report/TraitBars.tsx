@@ -23,8 +23,7 @@ interface Props {
 }
 
 export default function TraitBars({ traits, code }: Props) {
-  // Insertion order is the server's ranking, highest first — including its tie-break, which
-  // re-sorting here would lose.
+  // Keep the server’s trait order; the Holland code identifies the strongest signals.
   const entries = Object.entries(traits);
 
   return (

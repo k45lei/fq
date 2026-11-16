@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --color-canvas: #f8f5ef;
+  --color-surface: #ffffff;
+  --color-warm: #f3e6d0;
+  --color-ink: #1d1c1a;
+  --color-muted: #635e58;
+  --color-line: #e8e2d9;
+  --color-accent: #3849c7;
+  --color-accent-strong: #2d3ba8;
+  --color-accent-weak: #8791df;
+  --color-accent-soft: #eef0fb;
+  --shadow-card: 0 2px 12px rgb(29 28 26 / 4%);
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 10% 10%, #f3d9ad55, transparent 45%),
+    radial-gradient(ellipse at 90% 50%, #e2e5f866, transparent 45%);
+}
+
+html[data-theme="dark"] {
+  --color-canvas: #171820;
+  --color-surface: #222430;
+  --color-warm: #343041;
+  --color-ink: #f5f3f0;
+  --color-muted: #bebac9;
+  --color-line: #424352;
+  --color-accent: #9aa6ff;
+  --color-accent-strong: #b2bbff;
+  --color-accent-soft: #323754;
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+summary {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+input {
+  color-scheme: light;
+}
+html[data-theme="dark"] input {
+  color-scheme: dark;
+}
+.gradient-text {
+  background: linear-gradient(90deg, #3849c7, #86689b 55%, #df9a28);
+  background-clip: text;
+  color: transparent;
+}
+.compass-banner {
+  background: linear-gradient(120deg, #3244c7, #6353a3 48%, #c68634 88%, #de9b28);
+}
+.primary-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.9rem 1.75rem;
+  background: #3849c7;
+  color: white;
+  font-weight: 700;
+  transition: background 150ms;
+}
+.primary-button:hover {
+  background: #2d3ba8;
+}
+.primary-button:disabled {
+  opacity: 0.5;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
