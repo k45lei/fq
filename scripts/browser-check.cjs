@@ -51,12 +51,16 @@ const run = async () => {
     await page.reload();
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
     await page.getByRole('button', { name: 'Use light theme' }).click();
-    await page.getByRole('link', { name: 'Start free →', exact: true }).click();
+    await page.getByRole('link', { name: /Start free/ }).click();
     await page.getByRole('link', { name: 'Start the quiz →', exact: true }).click();
     await page.getByLabel('First name', { exact: true }).fill('Taylor');
     await page.getByLabel('Last name').fill('Student');
     await page.getByLabel('Email', { exact: true }).fill('taylor@example.com');
+    await page.getByLabel('School', { exact: true }).fill('Central Toronto Academy');
+    await page.screenshot({ path: join(screenshots, 'start-mobile.png'), fullPage: true });
+    const startRequest = page.waitForRequest((request) => request.url().endsWith('/api/responses') && request.method() === 'POST');
     await page.getByRole('button', { name: 'Start my quiz →' }).click();
+    assert.equal((await startRequest).postDataJSON().school, 'Central Toronto Academy');
     await page.waitForURL('**/questionnaire');
     const responseId = (await stored()).responseId;
 
@@ -72,18 +76,43 @@ const run = async () => {
       for (let index = 0; index < questions.length; index += 1) {
         const question = questions[index];
         await visible(page.locator(`section[data-question-id="${question.id}"]`));
-        const buttons = page.locator('section button[aria-pressed]');
+        const options = page.locator('section[data-question-id] .option-row');
+        const navigation = page.getByRole('button', { name: index === questions.length - 1 ? 'Submit answers' : 'Next', exact: true });
+        assert.equal(await navigation.isDisabled(), true);
 
         if (question.answer_type === 'multi_choice') {
           for (let choice = 0; choice < question.min_selections; choice += 1) {
-            await buttons.nth(choice).click();
-          }
-
-          if (index < questions.length - 1) {
-            await page.getByRole('button', { name: 'Next', exact: true }).click();
+            await options.nth(choice).click();
+            if (choice < question.min_selections - 1) {
+              assert.equal(await navigation.isDisabled(), true);
+            }
           }
         } else {
-          await buttons.nth(question.answer_type === 'scale' ? 2 : 0).click();
+          await options.nth(question.answer_type === 'scale' ? 2 : 0).click();
+        }
+
+        // Give any accidental auto-advance timer a chance to fire on the first and last question.
+        if (index === 0 || index === questions.length - 1) {
+          await page.waitForTimeout(400);
+        }
+        assert.equal(await page.locator('section[data-question-id]').getAttribute('data-question-id'), question.id);
+        assert.equal(await navigation.isEnabled(), true);
+        assert(page.url().includes('/questionnaire'));
+
+        if (stage === 'interests' && index === 0) {
+          await page.screenshot({ path: join(screenshots, 'quiz-mobile.png'), fullPage: true });
+          await page.setViewportSize({ width: 1280, height: 900 });
+          await page.screenshot({ path: join(screenshots, 'quiz-desktop.png'), fullPage: true });
+          await page.setViewportSize({ width: 390, height: 844 });
+        }
+        if (index < questions.length - 1) {
+          await navigation.click();
+          if (stage === 'interests' && index === 0) {
+            await page.getByRole('button', { name: 'Back', exact: false }).click();
+            await visible(page.locator(`section[data-question-id="${question.id}"]`));
+            assert.equal(await page.locator('section input:checked').count(), 1);
+            await page.getByRole('button', { name: 'Next', exact: true }).click();
+          }
         }
 
         if (stage === 'interests' && index === 3) {
@@ -95,7 +124,16 @@ const run = async () => {
         }
       }
 
-      await page.getByRole('button', { name: 'See my results', exact: true }).click();
+      if (stage === 'interests') {
+        await page.route(`**/api/responses/${responseId}/sections/interests`, async (route) => {
+          await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ detail: 'Please retry your submission.' }) });
+        }, { times: 1 });
+        await page.getByRole('button', { name: 'Submit answers', exact: true }).click();
+        await visible(page.getByRole('alert'));
+        assert.equal(Object.keys((await stored()).answers).length, 32);
+        assert.equal(await page.locator('section input:checked').count(), 1);
+      }
+      await page.getByRole('button', { name: 'Submit answers', exact: true }).click();
       await page.waitForURL('**/report/*');
       await visible(page.getByRole('heading', { name: 'Your top career matches' }));
       console.info(`PASS ${stage}: all questions completed and report displayed`);
@@ -105,6 +143,9 @@ const run = async () => {
     await visible(page.locator('svg[role="img"]'));
     assert.equal(await page.locator('ol > li').count(), 8);
     await page.screenshot({ path: join(screenshots, 'report-mobile.png'), fullPage: true });
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.screenshot({ path: join(screenshots, 'report-desktop.png'), fullPage: true });
+    await page.setViewportSize({ width: 390, height: 844 });
     await page.reload();
     await visible(page.getByRole('heading', { name: 'Your top career matches' }));
 

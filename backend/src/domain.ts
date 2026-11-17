@@ -60,7 +60,7 @@ export const startInput = z
   .object({
     name: z.string().trim().min(1).max(200),
     email: z.email().max(320),
-    school: z.string().max(300).nullable().optional(), // Accepted for frontend compatibility only.
+    school: z.string().trim().max(300).nullable().optional(),
   })
   .strict();
 

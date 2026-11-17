@@ -1,5 +1,36 @@
 # FutureQuest — interface conventions
 
+## Current reference implementation (2026-11-16)
+
+The five HTML files in `frontend/example_frontend/` are the visual source of truth for
+landing, introduction, student information, quiz, and report pages. Their originals remain
+unchanged. `frontend/src/mockups.css` scopes the reference dimensions, Plus Jakarta Sans
+typography, cream/indigo/gold palette, cards, and responsive layouts to each page. Shared
+utilities and non-reference pages still use `frontend/src/app.css`.
+
+Preserve these intentional differences from the static examples:
+
+- Selection requires **Next**; the last question requires **Submit answers**. There is no
+  automatic advance or submission. Back and refresh preserve browser drafts.
+- School is optional text sent to the start API and stored per attempt. Verified account
+  identity replaces editable name/email fields for signed-in students.
+- Pricing, names, scores, and career matches come from the API. Timing estimates reflect the
+  actual question counts. Saved-data descriptions reflect server storage on completion.
+- Account controls remain available below the reference content. Email delivery, PDF,
+  sharing, unsourced salary/qualification claims, and school management are not implemented.
+- The reference's native radio appearance also applies to bipolar questions. Multiple-choice
+  questions use matching checkboxes and enforce selection limits.
+
+The browser journey and `scripts/visual-check.cjs` exercise the implementation; see
+[verification](verification.md). Visual comparisons measure selected font sizes, padding,
+and border radii and save paired screenshots at desktop/mobile widths. They do not claim
+pixel-identical content when live results or supported behavior differ.
+
+## Historical design notes
+
+The sections below describe the previous interface and are retained as background. They do
+not override the current reference implementation above.
+
 What the UI is made of and why, so the next screen matches the existing ones without
 re-deciding anything. Tokens live in `frontend/src/index.css`; this explains the choices.
 

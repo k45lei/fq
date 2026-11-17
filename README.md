@@ -12,7 +12,7 @@ The questionnaire has three ordered stages:
 
 Students can start as guests and optionally sign in with Google. Drafts stay in browser storage. Completed stages, cumulative answer snapshots, and reports are stored on the server. A new attempt starts free and does not inherit an earlier attempt's payment.
 
-The interface follows `frontend/example_frontend/`. Original HTML/CSS references remain available. Production styles live in `frontend/src/app.css`.
+The interface follows `frontend/example_frontend/`. Original HTML/CSS references remain available. Shared styles live in `frontend/src/app.css`; page-specific reference styles live in `frontend/src/mockups.css`. The start form accepts optional school text. Quiz selections stay on the current question until Next is selected; Submit answers completes the stage.
 
 ## Local setup
 
@@ -91,4 +91,4 @@ Production startup requires HTTPS and Google/Stripe configuration. No hosting de
 
 The reference instrument and scoring rules are documented in [the backend guide](backend/README.md). Confidence describes agreement between the three scores, not a probability of career success or a psychometrically validated assessment. Reference salary, outlook, and qualification claims are omitted because the supplied material has no supporting sources. Career descriptions, subjects, and activities are exploration suggestions.
 
-PDF exports, email delivery, public sharing, discounts, schools/events, and additional roles are not implemented. The protected publication endpoint remains available for older pending reports; local ready results cannot be replaced. See [AGENTS.md](AGENTS.md) for coding conventions and project invariants.
+PDF exports, email delivery, public sharing, discounts, school/event management, and additional roles are not implemented. The protected publication endpoint remains available for older pending reports; local ready results cannot be replaced. See [AGENTS.md](AGENTS.md) for coding conventions and project invariants.

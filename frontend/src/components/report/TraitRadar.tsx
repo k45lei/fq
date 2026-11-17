@@ -1,25 +1,11 @@
-/**
- * The six trait scores as a hexagon.
- *
- * A radar is usually the wrong call — area scales with the square of the radius, so it
- * exaggerates differences, and axis order changes the shape arbitrarily. Neither objection
- * applies here, for one domain reason: **RIASEC is canonically a hexagon**, and the order is
- * not arbitrary. Adjacent types on Holland's hexagon are genuinely more similar than opposite
- * ones, so the shape carries real meaning — a profile leaning to one side reads differently
- * from one spread across opposites.
- *
- * It is the gestalt, not the reading. Every vertex is labelled with its value, and the bars
- * beside it are what you actually compare magnitudes with.
- */
+// Display the reference radar with live scores in canonical RIASEC order.
 
 import type { TraitScore } from "../../api/types";
 
 /** Canonical Holland order. NOT score order — the adjacency is the point. */
 const RIASEC = ["realistic", "investigative", "artistic", "social", "enterprising", "conventional"];
 
-const SIZE = 260;
-const CENTRE = SIZE / 2;
-const RADIUS = 88;
+const RADIUS = 100;
 const RINGS = [0.25, 0.5, 0.75, 1];
 
 interface Props {
@@ -30,7 +16,7 @@ interface Props {
 /** Vertex position. Starts at twelve o'clock and runs clockwise. */
 function point(index: number, distance: number): [number, number] {
   const angle = (Math.PI * 2 * index) / RIASEC.length - Math.PI / 2;
-  return [CENTRE + Math.cos(angle) * distance, CENTRE + Math.sin(angle) * distance];
+  return [160 + Math.cos(angle) * distance, 135 + Math.sin(angle) * distance];
 }
 
 function polygon(distances: number[]): string {
@@ -50,10 +36,10 @@ export default function TraitRadar({ traits, code }: Props) {
   const shape = polygon(scores.map((score) => Math.max(score, 0.02) * RADIUS));
 
   return (
-    <figure className="flex flex-col items-center">
+    <figure className="radar-figure">
       <svg
-        viewBox={`0 0 ${SIZE} ${SIZE}`}
-        className="w-full max-w-[280px]"
+        viewBox="0 0 320 270"
+        className="radar-svg"
         role="img"
         aria-label={order
           .filter((t) => traits[t])
@@ -75,8 +61,8 @@ export default function TraitRadar({ traits, code }: Props) {
           return (
             <line
               key={trait}
-              x1={CENTRE}
-              y1={CENTRE}
+              x1={160}
+              y1={135}
               x2={x}
               y2={y}
               stroke="var(--color-line)"
@@ -88,7 +74,7 @@ export default function TraitRadar({ traits, code }: Props) {
         <polygon
           points={shape}
           fill="var(--color-accent)"
-          fillOpacity="0.16"
+          fillOpacity="0.25"
           stroke="var(--color-accent)"
           strokeWidth="2"
           strokeLinejoin="round"
@@ -124,25 +110,30 @@ export default function TraitRadar({ traits, code }: Props) {
             return null;
           }
 
-          const [x, y] = point(index, RADIUS + 26);
+          const [x, y] = point(index, RADIUS + 12);
+          let textAnchor: "middle" | "start" | "end" = "middle";
+          if (index === 1 || index === 2) {
+            textAnchor = "start";
+          } else if (index === 4 || index === 5) {
+            textAnchor = "end";
+          }
+          const label = RIASEC[index] ?? score.label;
           return (
             <text
               key={trait}
               x={x}
               y={y}
-              textAnchor="middle"
+              textAnchor={textAnchor}
               dominantBaseline="middle"
-              className="fill-muted text-[11px]"
+              fill="var(--text-dark)"
+              fontSize="10.5"
+              fontWeight="700"
             >
-              {trait.length === 1 ? trait : score.label}
+              {label.charAt(0).toUpperCase() + label.slice(1)}
             </text>
           );
         })}
       </svg>
-
-      <figcaption className="mt-2 text-center text-xs text-muted">
-        Traits in their standard order — neighbouring ones are the most alike.
-      </figcaption>
     </figure>
   );
 }

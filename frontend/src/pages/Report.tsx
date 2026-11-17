@@ -22,14 +22,14 @@ export default function Report() {
 
   if (isPending) {
     return (
-      <Layout>
+      <Layout variant="report">
         <p className="py-12 text-center text-muted">Loading your report…</p>
       </Layout>
     );
   }
   if (error || !data) {
     return (
-      <Layout>
+      <Layout variant="report">
         <h1 className="text-2xl font-bold">We couldn’t load your report</h1>
         <button type="button" onClick={() => refetch()} className="primary-button mt-5">
           Try again
@@ -47,6 +47,9 @@ export default function Report() {
   const next = SECTION_ORDER.find((section) => available.has(section) && !completed.has(section));
   const report = data.payload;
   const firstName = data.display_name?.split(/\s+/)[0];
+  const [primaryHeadline, ...secondaryHeadline] = (report?.headline ?? "Your career profile").split(
+    " + ",
+  );
   const subjects = [
     ...new Set(report?.careers.slice(0, 3).flatMap((career) => career.subjects ?? [])),
   ];
@@ -55,9 +58,9 @@ export default function Report() {
   ];
 
   return (
-    <Layout width="wide">
-      <header className="mx-auto max-w-3xl text-center">
-        <p className="inline-block rounded-full bg-warm px-4 py-2 text-xs font-semibold">
+    <Layout variant="report">
+      <header className="report-hero">
+        <p className="eyebrow-pill">
           {data.stage === "eq"
             ? "Your Compass report"
             : `Your ${SECTION_META[data.stage].label.toLowerCase()} report`}
@@ -65,17 +68,23 @@ export default function Report() {
         </p>
         {report ? (
           <>
-            <p className="mt-7 text-xl">
+            <p className="hero-kicker">
               {firstName ? `${firstName}, here’s what stands out.` : "Here’s what stands out."}
             </p>
-            <h1 className="gradient-text mt-3 text-4xl font-extrabold leading-tight sm:text-5xl">
-              {report.headline ?? "Your career profile"}
+            <h1>
+              {primaryHeadline}
+              {secondaryHeadline.length > 0 && (
+                <>
+                  {" "}
+                  + <span className="hero-gradient-text">{secondaryHeadline.join(" + ")}</span>
+                </>
+              )}
             </h1>
-            <p className="mt-4 text-sm text-muted">
+            <p className="holland-code">
               Your Holland code:{" "}
-              <strong className="text-ink">{report.holland_code.join("")}</strong>
+              <strong className="code-badge">{report.holland_code.join("")}</strong>
             </p>
-            <p className="mx-auto mt-5 max-w-xl leading-relaxed text-muted">{report.summary}</p>
+            <p className="hero-summary">{report.summary}</p>
           </>
         ) : (
           <>
@@ -89,67 +98,80 @@ export default function Report() {
 
       {report && (
         <>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
-            <section className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-              <h2 className="text-xl font-bold">Your six-trait profile</h2>
-              <p className="mt-2 text-sm text-muted">A picture of the interests you described.</p>
-              <div className="mx-auto mt-6 max-w-xs">
+          <div className="profile-overview-grid">
+            <section className="card">
+              <h2 className="card-title">Your six-trait profile</h2>
+              <p className="card-subtitle">A picture of the interests you described.</p>
+              <div className="radar-wrapper">
                 <TraitRadar traits={report.traits} code={report.holland_code} />
               </div>
             </section>
-            <section className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-              <h2 className="text-xl font-bold">Your top abilities</h2>
+            <section className="card">
+              <h2 className="card-title">Your top abilities</h2>
               <ScoreList scores={report.abilities ?? []} />
               {!!report.values?.length && (
-                <>
-                  <h3 className="mt-7 text-xs font-bold uppercase tracking-wide text-muted">
-                    What matters most to you
-                  </h3>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                <div className="values-divider">
+                  <h3 className="micro-label">What matters most to you</h3>
+                  <div className="value-tags">
                     {report.values.map((value) => (
-                      <span key={value.name} className="rounded-full bg-warm px-3 py-1 text-sm">
+                      <span key={value.name} className="value-tag">
                         {value.name}
                       </span>
                     ))}
                   </div>
-                </>
+                </div>
               )}
             </section>
           </div>
-          <section className="mt-6 rounded-2xl border border-line bg-surface p-6">
-            <TraitBars traits={report.traits} code={report.holland_code} />
-          </section>
+          {!report.trait_profiles?.length && (
+            <section className="card report-extra">
+              <TraitBars traits={report.traits} code={report.holland_code} />
+            </section>
+          )}
           {!!report.trait_profiles?.length && (
-            <section className="mt-6 grid gap-5 md:grid-cols-2">
+            <section className="traits-grid">
               {report.trait_profiles.map((trait) => (
-                <article key={trait.name} className="rounded-2xl border border-line bg-surface p-6">
-                  <h2 className="text-xl font-bold">
-                    {trait.name} · {formatPercent(trait.score)}
-                  </h2>
-                  <p className="mt-3 text-sm text-muted">{trait.headline}</p>
-                  <h3 className="mt-5 font-semibold">Strengths</h3>
-                  <ul className="mt-2 space-y-2 text-sm text-muted">
-                    {trait.strengths.map((strength) => (
-                      <li key={strength}>→ {strength}</li>
-                    ))}
-                  </ul>
-                  <h3 className="mt-5 font-semibold">Where you might thrive</h3>
-                  <p className="mt-2 text-sm text-muted">{trait.environments}</p>
-                  <h3 className="mt-5 font-semibold">Example career paths</h3>
-                  <p className="mt-2 text-sm text-muted">{trait.example_work}</p>
+                <article key={trait.name} className="card">
+                  <div className="trait-header">
+                    <h2 className="trait-name">{trait.name}</h2>
+                    <div className="trait-score">
+                      {Math.round(trait.score * 100)}
+                      <span>/100</span>
+                    </div>
+                  </div>
+                  <p className="trait-tagline">{trait.headline}</p>
+                  <div className="trait-bar-track">
+                    <div className="trait-bar-fill" style={{ width: `${trait.score * 100}%` }} />
+                  </div>
+                  <div className="trait-block">
+                    <h3 className="micro-label">Strengths</h3>
+                    <ul className="trait-bullets">
+                      {trait.strengths.map((strength) => (
+                        <li key={strength}>{strength}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="trait-block">
+                    <h3 className="micro-label">Where you thrive</h3>
+                    <p>{trait.environments}</p>
+                  </div>
+                  <div className="trait-block">
+                    <h3 className="micro-label">Example career paths</h3>
+                    <p>{trait.example_work}</p>
+                  </div>
                 </article>
               ))}
             </section>
           )}
           {!!report.motivators?.length && (
-            <section className="mt-8 rounded-2xl border border-line bg-surface p-7">
-              <h2 className="text-xl font-bold">What motivates you</h2>
+            <section className="card report-extra">
+              <h2 className="card-title">What motivates you</h2>
               <ScoreList scores={report.motivators} />
             </section>
           )}
           {!!report.work_environment?.length && (
-            <section className="mt-8 rounded-2xl border border-line bg-surface p-7">
-              <h2 className="text-xl font-bold">Your preferred environment</h2>
+            <section className="card report-extra">
+              <h2 className="card-title">Your preferred environment</h2>
               <ul className="mt-5 space-y-5">
                 {report.work_environment.map((axis) => (
                   <li key={axis.name}>
@@ -198,10 +220,10 @@ export default function Report() {
               </div>
             </section>
           )}
-          <section className="mt-12">
-            <div className="flex items-center justify-between gap-4">
+          <section className="matches-section">
+            <div className="matches-header">
               <h2 className="text-2xl font-bold">Your top career matches</h2>
-              <span className="text-sm text-muted">{report.careers.length} matches</span>
+              <span className="matches-count">{report.careers.length} matches</span>
             </div>
             <p className="mt-3 text-sm text-muted">
               {data.stage === "interests"
@@ -211,9 +233,13 @@ export default function Report() {
                   : "Ranked using all three assessments together."}{" "}
               Fit scores compare your answers with our reference profiles.
             </p>
-            <ol className="mt-6 space-y-4">
-              {report.careers.map((career) => (
-                <CareerCard key={career.career_id ?? career.name} career={career} />
+            <ol className="careers-grid">
+              {report.careers.map((career, index) => (
+                <CareerCard
+                  key={career.career_id ?? career.name}
+                  career={career}
+                  rank={index + 1}
+                />
               ))}
             </ol>
           </section>
@@ -246,7 +272,7 @@ export default function Report() {
         <PaywallTeaser sections={locked} responseId={data.response_id} />
       )}
       {questionnaire && next && (
-        <section className="mt-10 rounded-2xl border border-line bg-surface p-7">
+        <section className="card report-extra">
           <h2 className="text-2xl font-bold">Next: {SECTION_META[next].label}</h2>
           <p className="mt-3 text-muted">
             Your completed stage is saved. Add another lens to your report.
@@ -260,18 +286,30 @@ export default function Report() {
         </section>
       )}
       {report && (
-        <section className="mt-12">
-          <h2 className="text-2xl font-bold">Your next moves</h2>
-          <div className="mt-5 grid gap-5 sm:grid-cols-2">
-            <div className="rounded-2xl border border-line bg-surface p-6">
-              <h3 className="font-bold">Subjects to explore</h3>
-              <p className="mt-3 text-sm leading-loose text-muted">{subjects.join(" · ")}</p>
+        <section className="card next-moves-card">
+          <h2 className="card-title">Your next moves</h2>
+          <p className="card-subtitle">Based on your top three matches — start small, start now.</p>
+          <div className="next-moves-grid">
+            <div>
+              <h3 className="micro-label">Lean into these subjects</h3>
+              <div className="subject-pills">
+                {subjects.map((subject) => (
+                  <span className="subject-pill" key={subject}>
+                    {subject}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="rounded-2xl border border-line bg-surface p-6">
-              <h3 className="font-bold">Try something small</h3>
-              <ul className="mt-3 space-y-3 text-sm text-muted">
+            <div>
+              <h3 className="micro-label">Try this in the next 6 months</h3>
+              <ul className="checklist">
                 {activities.map((activity) => (
-                  <li key={activity}>→ {activity}</li>
+                  <li key={activity}>
+                    <span className="check-icon" aria-hidden="true">
+                      ✓
+                    </span>
+                    <span>{activity}</span>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -305,26 +343,38 @@ export default function Report() {
           A new attempt starts free; paid access belongs to the original attempt.
         </p>
       </footer>
+      {questionnaire && locked.length > 0 && (
+        <div className="sticky-bottom-bar">
+          <div className="sticky-bottom-inner">
+            <div>
+              <div className="sticky-left-title">Next step</div>
+              <div className="sticky-left-sub">
+                Strengths + EQ + your combined Compass career report
+              </div>
+            </div>
+            <a href="#unlock" className="btn-sticky-cta">
+              Unlock the full picture →
+            </a>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 }
 
 function ScoreList({ scores }: { scores: ScoredLabel[] }) {
   return (
-    <ul className="mt-5 space-y-5">
+    <ul className="ability-list">
       {scores.map((item) => (
-        <li key={item.name}>
-          <div className="flex justify-between gap-3 text-sm font-semibold">
-            <span>{item.name}</span>
-            <span>{formatPercent(item.score)}</span>
+        <li key={item.name} className="ability-item">
+          <div className="ability-header">
+            <span className="ability-name">{item.name}</span>
+            <span className="ability-score">{formatPercent(item.score)}</span>
           </div>
-          <div className="mt-2 h-2 overflow-hidden rounded-full bg-line">
-            <div
-              className="h-full rounded-full bg-accent"
-              style={{ width: `${item.score * 100}%` }}
-            />
+          <div className="ability-bar-track">
+            <div className="ability-bar-fill" style={{ width: `${item.score * 100}%` }} />
           </div>
-          <p className="mt-2 text-xs text-muted">{item.description}</p>
+          <p className="ability-desc">{item.description}</p>
         </li>
       ))}
     </ul>
@@ -333,7 +383,7 @@ function ScoreList({ scores }: { scores: ScoredLabel[] }) {
 
 function Profile({ profile, title }: { profile: ScoredProfile; title: string }) {
   return (
-    <section className="mt-8 rounded-2xl border border-line bg-surface p-7">
+    <section className="card report-extra">
       <p className="text-xs font-bold uppercase text-accent">{title}</p>
       <h2 className="mt-3 text-2xl font-bold">{profile.name}</h2>
       <p className="mt-3 text-sm leading-relaxed text-muted">{profile.description}</p>

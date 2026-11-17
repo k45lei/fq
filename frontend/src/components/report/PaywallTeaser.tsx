@@ -36,30 +36,45 @@ export default function PaywallTeaser({
   };
 
   return (
-    <section className="compass-banner mt-12 rounded-3xl p-8 text-white sm:p-10">
-      <p className="text-sm font-semibold">Get the complete picture</p>
-      <h2 className="mt-3 text-3xl font-bold">Interests are just the beginning.</h2>
-      <p className="mt-4 max-w-2xl text-white/90">
+    <section id="unlock" className="upsell-banner">
+      <p className="upsell-pill">The full picture</p>
+      <h2>Interests alone don’t tell the whole story</h2>
+      <p className="upsell-subtitle">
         Unlock the strengths and EQ assessments, then see how all three signals combine in your
         Compass report.
       </p>
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        {["Strengths · 76 questions", "EQ · 30 questions", "Combined Compass report"].map(
-          (label) => (
-            <p
-              key={label}
-              className="rounded-xl border border-white/25 bg-white/10 p-4 text-sm font-semibold"
-            >
-              {label}
-            </p>
-          ),
-        )}
+      <div className="upsell-cards">
+        {[
+          {
+            title: "Strengths",
+            icon: "✦",
+            description: "Discover your work style and where your talents shine.",
+          },
+          {
+            title: "EQ",
+            icon: "♡",
+            description: "Understand how you handle emotions, people, and pressure.",
+          },
+          {
+            title: "Compass Report",
+            icon: "⌾",
+            description: "All three lenses combined into one ranked career list.",
+          },
+        ].map((card, index) => (
+          <div key={card.title} className={`upsell-subcard${index === 2 ? " featured" : ""}`}>
+            <div className="upsell-subcard-icon" aria-hidden="true">
+              {card.icon}
+            </div>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+          </div>
+        ))}
       </div>
       <button
         type="button"
         onClick={startCheckout}
         disabled={checkout.isPending || !responseId || !pricing}
-        className="mt-7 rounded-full bg-white px-7 py-4 font-bold text-[#3244c7] disabled:opacity-50"
+        className="btn-white"
       >
         {checkout.isPending
           ? "Opening checkout…"
@@ -67,7 +82,7 @@ export default function PaywallTeaser({
             ? `Unlock the remaining assessments — ${formatPrice(pricing.amount_cents, pricing.currency)}`
             : "Loading price…"}
       </button>
-      <p className="mt-3 text-xs text-white/85">One payment for this attempt. No subscription.</p>
+      <p className="upsell-note">One payment for this attempt. No subscription.</p>
       {pricingError && (
         <p role="alert" className="mt-3 text-sm">
           Pricing is unavailable.{" "}

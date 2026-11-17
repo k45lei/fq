@@ -220,6 +220,95 @@ const begin = async () => {
 
 type Guest = Awaited<ReturnType<typeof begin>>;
 
+test('attempts store trimmed school text and normalize absent or blank values', async () => {
+  for (const school of [undefined, null, '', '   ', '  Central Toronto Academy  ', 'S'.repeat(300)]) {
+    const result = await app.inject({
+      method: 'POST',
+      url: '/api/responses',
+      payload: {
+        name: 'Student',
+        email: 'student@example.com',
+        ...(school === undefined ? {} : { school }),
+      },
+    });
+
+    assert.equal(result.statusCode, 201, result.body);
+    const attempt = await db.attempt.findUniqueOrThrow({
+      where: { id: result.json().response_id },
+    });
+
+    assert.equal(attempt.school, school?.trim() || null);
+  }
+});
+
+test('invalid school input creates neither an attempt nor a guest user', async () => {
+  for (const school of ['S'.repeat(301), 123, { name: 'School' }]) {
+    const result = await app.inject({
+      method: 'POST',
+      url: '/api/responses',
+      payload: {
+        name: 'Student',
+        email: 'student@example.com',
+        school,
+      },
+    });
+
+    assert.equal(result.statusCode, 422, result.body);
+  }
+
+  assert.equal(await db.attempt.count(), 0);
+  assert.equal(await db.user.count(), 0);
+});
+
+test('school stays with each attempt through Google claiming and signed-in starts', async () => {
+  const guestResponse = await app.inject({
+    method: 'POST',
+    url: '/api/responses',
+    payload: {
+      name: 'Student',
+      email: 'student@example.com',
+      school: 'Original School',
+    },
+  });
+
+  assert.equal(guestResponse.statusCode, 201, guestResponse.body);
+  const guestId = guestResponse.json().response_id;
+  const user = await linkIdentity(
+    db,
+    {
+      sub: 'school-test-student',
+      email: 'verified@example.com',
+      name: 'Verified Student',
+    },
+    [guestId],
+  );
+  const cookie = app.encodeSecureSession(app.createSecureSession({ userId: user.id }));
+  const nextResponse = await app.inject({
+    method: 'POST',
+    url: '/api/responses',
+    cookies: { fq_ts_session: cookie },
+    payload: {
+      name: 'Unverified Name',
+      email: 'unverified@example.com',
+      school: '  New School  ',
+    },
+  });
+
+  assert.equal(nextResponse.statusCode, 201, nextResponse.body);
+  const original = await db.attempt.findUniqueOrThrow({ where: { id: guestId } });
+  const next = await db.attempt.findUniqueOrThrow({
+    where: { id: nextResponse.json().response_id },
+    include: { user: true },
+  });
+
+  assert.equal(original.school, 'Original School');
+  assert.equal(original.userId, user.id);
+  assert.equal(next.school, 'New School');
+  assert.equal(next.userId, user.id);
+  assert.equal(next.user.name, 'Verified Student');
+  assert.equal(next.user.email, 'verified@example.com');
+});
+
 const answers = async (guest: Guest, stage: Stage) => {
   const attempt = await db.attempt.findUniqueOrThrow({ where: { id: guest.id } });
   const qs = (attempt.questionnaireSnapshot as unknown as { questions: Questions }).questions;

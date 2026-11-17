@@ -8,17 +8,18 @@ tree. It does not establish that a hosting environment or provider account is co
 | Check | Result |
 | --- | --- |
 | Backend `npm run typecheck` | Passed |
-| Backend `npm test` | 29 passed |
+| Backend `npm test` | 32 passed, including optional school persistence |
 | Backend `npm run build` | Passed |
 | Frontend `pnpm typecheck` | Passed |
 | Frontend `pnpm test` | 24 passed |
 | Frontend `pnpm build` | Passed |
 | Local Compose configuration, root and backend | Passed |
 | Production Compose configuration with example variables | Passed |
-| Chromium journey with mocked Google and Stripe | Passed, all 138 questions and three reports |
+| Chromium journey with mocked Google and Stripe | Passed on the final UI build, all 138 questions and three reports |
+| Mockup style comparison | Passed, all five pages at 1280px and 390px |
 | Application diff whitespace checks | Passed; supplied reference bundles excluded |
 
-Backend integration tests create disposable PostgreSQL, apply both checked-in migrations,
+Backend integration tests create disposable PostgreSQL, apply all checked-in migrations,
 and seed all 138 questions. They cover unchanged reseeding, cumulative report snapshots,
 ownership, stage ordering, immutable submissions, concurrent retries, rollback on scoring
 failure, exact forced-choice counts, bipolar limits, and protected publication. Payment
@@ -43,10 +44,10 @@ Stripe checkout are mocked; actual session, API, database, scoring, and React co
 The journey exercises desktop/mobile layout, theme persistence, guest start, draft recovery
 after refresh, all 138 question controls, three ready reports, checkout cancellation and
 return, paid continuation, Compass, Google guest-claiming, account history, and logout.
-It also checks for browser exceptions and horizontal overflow. This journey passed on
-2026-11-16. The subsequent cross-attempt draft fix passed the frontend regression suite;
-the complete browser journey was not repeated for that isolated change. Screenshots are
-saved outside the repository by default.
+It also checks for browser exceptions and horizontal overflow. The updated journey verifies
+that school is sent to the API, answer selection never advances or submits, Back preserves
+selections, and a failed submission retains all answers for retry. Screenshots are saved
+outside the repository by default.
 
 Run the frontend production build first. With dependencies installed, start these in
 separate terminals:
@@ -75,6 +76,16 @@ fixture removes its temporary database when it receives SIGINT or SIGTERM. Resta
 fixture before repeating the journey so account history starts empty. These test routes
 are not registered by the application server.
 
+## Mockup comparison
+
+Run `scripts/visual-check.cjs` with the same `PLAYWRIGHT_MODULE` and servers used above.
+It creates a guest attempt in the disposable database, compares all five pages with
+`frontend/example_frontend/` at 1280px and 390px, and saves paired screenshots. Assertions
+cover selected font sizes, padding, border radii, and horizontal overflow. Live content,
+explicit Next/Submit controls, account controls, and unsupported features intentionally
+differ from the static examples. All ten comparisons passed on 2026-11-16; paired quiz
+and form screenshots were also inspected visually. Original reference files are not modified.
+
 ## Remaining release gates
 
 - **Container build/runtime:** configuration validates, but the Docker daemon is unavailable
@@ -96,5 +107,5 @@ for this instrument; existing application databases and Docker volumes were not 
 The reference's MD Likert answers are retained as context but do not affect motivator scores;
 the reference uses forced choices and scenarios for those scores. Confidence means agreement
 between component scores, not a probability of career success. Unsourced salary, outlook,
-and qualification claims are omitted. PDF, email, sharing, discounts, school/event features,
-and active worker jobs remain outside this release.
+and qualification claims are omitted. PDF, email, sharing, discounts, school/event management,
+and active worker jobs remain outside this release. Optional school text is stored per attempt.

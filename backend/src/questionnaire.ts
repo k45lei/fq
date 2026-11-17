@@ -114,6 +114,7 @@ export const questionnaireRoutes = (app: FastifyInstance, db: PrismaClient) => {
       return tx.attempt.create({
         data: {
           userId: owner.id,
+          school: input.school || null,
           questionnaireSnapshot: {
             ...metadata,
             questions,

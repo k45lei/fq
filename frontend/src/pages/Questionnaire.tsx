@@ -1,10 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 
 import { ApiError } from "../api/client";
 import { useLatestReport, useQuestionnaire, useSubmitSection } from "../api/queries";
 import Layout from "../components/Layout";
-import ProgressBar from "../components/ProgressBar";
 import QuestionCard from "../components/QuestionCard";
 import { isAnswered, isSectionComplete, toAnswerInput } from "../lib/answers";
 import { SECTION_META } from "../lib/sections";
@@ -12,16 +11,6 @@ import { useQuestionnaireStore } from "../store/questionnaire";
 
 export default function Questionnaire() {
   const navigate = useNavigate();
-  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(
-    () => () => {
-      if (advanceTimer.current) {
-        clearTimeout(advanceTimer.current);
-      }
-    },
-    [],
-  );
   const [searchParams] = useSearchParams();
   const {
     responseId: storedResponseId,
@@ -87,11 +76,12 @@ export default function Questionnaire() {
 
       const target = event.target as HTMLElement | null;
 
-      if (target?.tagName === "TEXTAREA" || target?.tagName === "INPUT") {
+      if (target?.closest("input, textarea, button, a, select") || event.repeat) {
         return;
       }
 
       if (event.key === "Enter" && canAdvance && !isLast) {
+        event.preventDefault();
         if (next) {
           goTo(next.id);
         }
@@ -130,7 +120,9 @@ export default function Questionnaire() {
         const selected = answers[question.id]?.optionIds ?? [];
         const limit = question.max_selections;
         if (selected.includes(option.id)) {
-          setAnswer(question.id, { optionIds: selected.filter((id) => id !== option.id) });
+          setAnswer(question.id, {
+            optionIds: selected.filter((id) => id !== option.id),
+          });
         } else if (limit === null || selected.length < limit) {
           setAnswer(question.id, { optionIds: [...selected, option.id] });
         }
@@ -197,11 +189,11 @@ export default function Questionnaire() {
   const everythingAnswered = isSectionComplete(questions, answers);
   const meta = SECTION_META[question.category];
 
-  // Progress is relative to the current stage.
-  const inSection = questions.filter((item) => item.category === question.category);
-  const positionInSection = inSection.findIndex((item) => item.id === question.id);
-
   const finish = async () => {
+    if (!everythingAnswered || submit.isPending) {
+      return;
+    }
+
     try {
       const result = await submit.mutateAsync({
         responseId,
@@ -216,10 +208,10 @@ export default function Questionnaire() {
   };
 
   const subsectionNames: Record<string, string> = {
-    interests: "Interests",
-    abilities: "Abilities",
-    workStyle: "Work style",
-    values: "Values",
+    interests: "✨ Interests",
+    abilities: "⭐ Abilities",
+    workStyle: "🧭 Work Style",
+    values: "🎯 What You Value",
     "self-achievement": "Self & achievement",
     motivators: "Motivators",
     "structure-feedback": "Structure & feedback",
@@ -230,106 +222,125 @@ export default function Questionnaire() {
   };
   const subsections = [...new Set(questions.map((item) => item.subsection).filter(Boolean))];
 
+  const nextLabel = isLast ? "Submit answers" : "Next";
+  const descriptions = {
+    interests: "What pulls your attention?",
+    strengths: "Where do you naturally shine?",
+    eq: "How do you connect with the world?",
+  };
+
   return (
-    <Layout>
-      <div className="mb-5 flex items-center justify-between">
-        <p className="text-lg font-bold">{meta.label}</p>
-        <Link to="/" aria-label="Exit quiz" className="rounded-full p-2 text-muted">
-          ✕
-        </Link>
+    <Layout variant="quiz">
+      <div className="quiz-progress-header">
+        <div className="progress-top-row">
+          <div className="category-heading">
+            <span aria-hidden="true">✨</span>
+            <span className="category-title">Your {meta.label}</span>
+            <span className="category-subtitle">— {descriptions[question.category]}</span>
+          </div>
+          <div className="progress-meta">
+            <span>
+              {index + 1} of {questions.length}
+            </span>
+            <Link to="/" aria-label="Exit quiz" className="close-btn">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <path d="m18 6-12 12M6 6l12 12" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+        <div
+          className="progress-track"
+          role="progressbar"
+          aria-label="Progress through the questionnaire"
+          aria-valuenow={index}
+          aria-valuemin={0}
+          aria-valuemax={questions.length}
+        >
+          <div
+            className="progress-fill"
+            style={{ width: `${(index / questions.length) * 100}%` }}
+          />
+        </div>
+        <div className="progress-stages">
+          {subsections.map((section) => (
+            <span
+              key={section}
+              className={`stage-item${section === question.subsection ? " active" : ""}`}
+            >
+              {subsectionNames[section!] ?? section}
+            </span>
+          ))}
+        </div>
       </div>
-      <ProgressBar current={positionInSection} total={inSection.length} section={meta.label} />
-
-      <div className="mt-5 flex flex-wrap gap-3 text-xs">
-        {subsections.map((section) => (
-          <span
-            key={section}
-            className={section === question.subsection ? "font-bold text-accent" : "text-muted"}
-          >
-            {subsectionNames[section!] ?? section}
-          </span>
-        ))}
-      </div>
-      <section
-        key={question.id}
-        data-question-id={question.id}
-        className="animate-rise mt-9 rounded-2xl border border-line bg-surface p-6 shadow-card sm:p-8"
-      >
-        <QuestionCard
-          question={question}
-          draft={answers[question.id]}
-          onChange={(answer) => {
-            setAnswer(question.id, answer);
-            if (advanceTimer.current) {
-              clearTimeout(advanceTimer.current);
-            }
-            if (
-              next &&
-              question.answer_type !== "multi_choice" &&
-              question.answer_type !== "free_text"
-            ) {
-              advanceTimer.current = setTimeout(() => goTo(next.id), 250);
-            }
-          }}
-        />
+      <section key={question.id} data-question-id={question.id} className="question-card">
+        <div className="question-label">Question {index + 1}</div>
+        <fieldset disabled={submit.isPending}>
+          <QuestionCard
+            question={question}
+            draft={answers[question.id]}
+            onChange={(answer) => setAnswer(question.id, answer)}
+          />
+        </fieldset>
       </section>
-
       {submit.error && (
-        <p className="mt-4 text-sm text-red-700">
+        <p className="form-error" role="alert">
           {submit.error instanceof ApiError
             ? submit.error.message
-            : "Couldn't submit your answers."}
+            : "Couldn't submit your answers. Please try again."}
         </p>
       )}
-
-      <div className="mt-7 flex items-center justify-between">
+      <div className="quiz-bottom-bar">
         <button
           type="button"
+          className="back-link"
+          disabled={!previous || submit.isPending}
           onClick={() => {
-            if (advanceTimer.current) {
-              clearTimeout(advanceTimer.current);
-            }
             if (previous) {
               goTo(previous.id);
             }
           }}
-          disabled={index === 0}
-          className="rounded-xl px-4 py-3 text-muted transition hover:text-ink disabled:invisible"
         >
-          Back
+          ← Back
         </button>
-
-        {isLast ? (
-          <button
-            type="button"
-            onClick={finish}
-            disabled={!everythingAnswered || submit.isPending}
-            className="rounded-xl bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong disabled:opacity-40"
-          >
-            {submit.isPending ? "Building your results…" : "See my results"}
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => next && goTo(next.id)}
-            disabled={!canAdvance}
-            className="rounded-xl bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong disabled:opacity-40"
-          >
-            Next
-          </button>
-        )}
+        <span className="auto-advance-hint">
+          {isLast
+            ? "Review your answers, then submit when you're ready."
+            : "Choose your answer, then select Next."}
+        </span>
+        <button
+          type="button"
+          className="quiz-next"
+          onClick={
+            isLast
+              ? finish
+              : () => {
+                  if (next && canAdvance) {
+                    goTo(next.id);
+                  }
+                }
+          }
+          disabled={submit.isPending || (isLast ? !everythingAnswered : !canAdvance)}
+        >
+          {submit.isPending ? "Building your results…" : nextLabel}
+        </button>
       </div>
-
-      <p className="mt-10 text-center text-sm text-muted">
-        Drafts stay in this browser. Completed stages are saved to your account or guest session.
-      </p>
     </Layout>
   );
 }
 
 function Centered({ children }: { children: React.ReactNode }) {
   return (
-    <Layout>
+    <Layout variant="quiz">
       <p className="py-16 text-center text-muted">{children}</p>
     </Layout>
   );

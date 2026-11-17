@@ -26,6 +26,7 @@ Preserve these decisions unless the user explicitly changes them:
 - Keep a separate worker entrypoint, intentionally idle until background work is needed.
 - Schools, events, event participations, participant access, questionnaire versioning,
   PDF generation, email delivery, and job queues are outside this phase.
+  Optional school text on an attempt is supported; school entities and management remain out of scope.
 - The new database is a fresh installation. Migrating legacy application data is outside
   the agreed scope.
 
@@ -113,6 +114,8 @@ hosting deployment. No new database tables are required.
   in snapshots and reports. Omit unsourced salary, outlook, and qualification claims.
 - Integrate the example frontend design with real APIs, guest access, paid continuation,
   sign-in, account history, ready reports, and the final Compass. Preserve reference HTML/CSS.
+  Match the five mockups through scoped styles in `frontend/src/mockups.css`. Selection
+  requires Next; completing a stage requires Submit answers. Do not auto-advance.
 - Pass backend and frontend checks and exercise the browser journey. Distinguish mocked
   Google/Stripe tests from actual configured-provider verification.
 - Keep production instructions current: HTTPS/static hosting, required secrets, database
@@ -120,7 +123,7 @@ hosting deployment. No new database tables are required.
 
 See [deployment instructions](deploy/README.md) and [verification record](docs/verification.md)
 for the current evidence and external release gates. Do not claim live readiness solely from
-mocked tests. Email, sharing, PDF, discounts, schools/events, and active worker jobs remain out
+mocked tests. Email, sharing, PDF, discounts, school/event management, and active worker jobs remain out
 of scope. The worker remains idle because deterministic scoring runs synchronously.
 
 ## Commands and verification

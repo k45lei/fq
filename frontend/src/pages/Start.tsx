@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { ApiError } from "../api/client";
@@ -20,6 +20,7 @@ export default function Start() {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [lastName, setLastName] = useState("");
+  const [school, setSchool] = useState("");
 
   const questionCount = questionnaire?.questions.length ?? 0;
   const minutes = questionCount > 0 ? Math.max(2, Math.round((questionCount * 15) / 60)) : null;
@@ -36,6 +37,7 @@ export default function Start() {
           ? (me?.name ?? "")
           : [firstName.trim(), lastName.trim()].filter(Boolean).join(" "),
         email: signedIn ? (me?.email ?? "") : email.trim(),
+        school: school.trim() || null,
       });
       begin(result.response_id);
       navigate("/questionnaire");
@@ -45,80 +47,122 @@ export default function Start() {
   };
 
   return (
-    <Layout>
-      <Link to="/" className="text-sm text-muted underline underline-offset-4 hover:text-ink">
-        Back
-      </Link>
-
-      <h1 className="mt-6 font-display text-4xl leading-tight font-semibold">
-        One quick step before we start.
-      </h1>
-      <p className="mt-3 text-muted text-pretty">
-        {signedIn ? "Continue with your account" : "Tell us your name to personalize your report"}.
-        {minutes ? ` It takes about ${minutes} minutes.` : ""}
-      </p>
-
-      <form
-        onSubmit={submit}
-        className="mt-8 rounded-2xl border border-line bg-surface p-6 shadow-card sm:p-7"
-      >
-        {/* Signed in, we already know who this is. Offering an email field here was the bug:
-            typing a different address attached the response to another account, where it was
-            invisible in their history and unreachable once the cookie expired. */}
+    <Layout variant="gatherinfo">
+      <div className="step-header">
+        <div className="eyebrow-pill">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <span>
+            {minutes ? `Takes about ${minutes} minutes` : "Discover your interests"} · Free
+          </span>
+        </div>
+        <h1>
+          One quick step
+          <br />
+          before we start.
+        </h1>
+        <p className="step-subtitle">
+          Tell us who you are so we can personalize your career report and save your results to
+          review later.
+        </p>
+      </div>
+      <form onSubmit={submit} className="form-card">
         {signedIn ? (
-          <div className="rounded-xl border border-line bg-warm px-5 py-4">
-            <p className="text-sm text-muted">Continuing as</p>
-            <p className="mt-0.5 font-medium">{me?.name ?? me?.email}</p>
-            {me?.name && me?.email && <p className="text-sm text-muted">{me.email}</p>}
+          <div className="signed-in-summary">
+            <p>Continuing as</p>
+            <strong>{me?.name ?? me?.email}</strong>
+            {me?.name && me?.email && <p>{me.email}</p>}
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field
-              label="First name"
-              value={firstName}
-              onChange={setFirstName}
-              autoComplete="given-name"
-              required
-            />
-            <Field
-              label="Last name"
-              value={lastName}
-              onChange={setLastName}
-              autoComplete="family-name"
-              hint="Optional."
-            />
+          <>
+            <div className="form-row">
+              <Field
+                label="First name"
+                value={firstName}
+                onChange={setFirstName}
+                autoComplete="given-name"
+                maxLength={100}
+                required
+              />
+              <Field
+                label="Last name"
+                value={lastName}
+                onChange={setLastName}
+                autoComplete="family-name"
+                maxLength={99}
+              />
+            </div>
             <Field
               label="Email"
               type="email"
               value={email}
               onChange={setEmail}
               autoComplete="email"
+              maxLength={320}
+              hint="Your report is saved with your guest session or account."
               required
             />
-          </div>
+          </>
         )}
-
-        <p className="mt-4 text-sm text-muted">
-          {signedIn
-            ? "Your results are saved to your account."
-            : "Completed answers and reports are saved securely. Sign in to access them on another device."}
-        </p>
-
+        <Field
+          label="School"
+          value={school}
+          onChange={setSchool}
+          autoComplete="organization"
+          maxLength={300}
+          placeholder="e.g. Central Toronto Academy"
+        />
         {start.error && (
-          <p className="mt-4 text-sm text-red-700">
+          <p className="form-error" role="alert">
             {start.error instanceof ApiError
               ? start.error.message
               : "Something went wrong. Please try again."}
           </p>
         )}
-
-        <button
-          type="submit"
-          disabled={start.isPending}
-          className="mt-6 w-full rounded-xl bg-accent px-5 py-3.5 font-medium text-white transition hover:bg-accent-strong disabled:opacity-50 sm:w-auto sm:px-10"
-        >
-          {start.isPending ? "Starting…" : "Start my quiz →"}
-        </button>
+        <div className="form-actions">
+          <button type="submit" disabled={start.isPending} className="btn-primary">
+            {start.isPending ? (
+              "Starting…"
+            ) : (
+              <>
+                Start my quiz <span>→</span>
+              </>
+            )}
+          </button>
+          <Link to="/before-quiz" className="btn-back">
+            Back
+          </Link>
+        </div>
+        <div className="privacy-footer">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <polyline points="9 12 11 14 15 10" />
+          </svg>
+          <span>
+            Your completed answers and report are saved privately. Sign in to access them on another
+            device.
+          </span>
+        </div>
       </form>
     </Layout>
   );
@@ -138,17 +182,29 @@ function Field({
   hint?: string;
   type?: string;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value" | "type">) {
+  const id = useId();
+
   return (
-    <label className="block">
-      <span className="text-sm font-medium">{label}</span>
+    <div className="form-group">
+      <label htmlFor={id}>
+        {label}{" "}
+        {rest.required ? (
+          <span className="required-star" aria-hidden="true">
+            *
+          </span>
+        ) : (
+          <span className="optional-text">(optional)</span>
+        )}
+      </label>
       <input
         {...rest}
+        id={id}
+        aria-label={label}
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 w-full rounded-xl border border-line bg-surface px-4 py-2.5 outline-none transition focus:border-accent"
       />
-      {hint && <span className="mt-1 block text-sm text-muted">{hint}</span>}
-    </label>
+      {hint && <span className="helper-text">{hint}</span>}
+    </div>
   );
 }

@@ -23,7 +23,7 @@ The catalogue has 56 careers. Unsourced salary, qualification, and outlook claim
 | --- | --- |
 | `GET /health` | Checks PostgreSQL and seeded release question count; returns 503 if not ready |
 | `GET /api/questionnaire?response_id=...` | Returns owned attempt snapshot, available stages, completion state, question controls, and subsection metadata |
-| `POST /api/responses` | Starts a guest or signed-in attempt with `{name,email}` |
+| `POST /api/responses` | Starts a guest or signed-in attempt with `{name,email,school?}` |
 | `POST /api/responses/:id/sections/:stage` | Validates and stores one complete stage and its ready report atomically; returns `{report_id}` |
 | `GET /api/reports/:id` | Ownership-protected report, display name, format/ruleset versions, status, and payload |
 | `GET /api/responses/:id/report` | Latest owned report |
@@ -44,6 +44,8 @@ Interests produces eight interest/ability matches. Strengths retains the interes
 Guest access uses an encrypted, HTTP-only cookie containing owned attempt IDs (most recent 20, seven-day expiry). Google sign-in validates the identity and claims only that browser's guest attempts. An unverified form email never establishes account ownership. Logout clears browser drafts and caches; it does not revoke a previously copied stateless cookie remotely.
 
 Payment fulfillment is shared by signed webhooks and checkout-return verification. Transactions and unique Stripe IDs prevent duplicate purchases/entitlements. Refund state is re-read before granting access to handle out-of-order events. Full refunds block future paid submissions; partial refunds do not. Submitted reports remain readable.
+
+School is optional free text stored on each attempt, including signed-in attempts. Surrounding whitespace is trimmed; omitted, null, or blank values are stored as null. School names are limited to 300 characters after trimming. School does not affect identity, access, or scoring. Existing attempts receive null when the migration runs; each new attempt stores its own submitted value.
 
 Discount and PDF endpoints return 501. The discount table is reserved and grants no access. There are no products, orders, refund, job, school, or event tables.
 

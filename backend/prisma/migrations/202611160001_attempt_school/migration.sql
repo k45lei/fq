@@ -1,0 +1,1 @@
+ALTER TABLE "attempts" ADD COLUMN "school" VARCHAR(300);
