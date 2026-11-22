@@ -47,7 +47,7 @@ Payment fulfillment is shared by signed webhooks and checkout-return verificatio
 
 School is optional free text stored on each attempt, including signed-in attempts. Surrounding whitespace is trimmed; omitted, null, or blank values are stored as null. School names are limited to 300 characters after trimming. School does not affect identity, access, or scoring. Existing attempts receive null when the migration runs; each new attempt stores its own submitted value.
 
-Discount and PDF endpoints return 501. The discount table is reserved and grants no access. There are no products, orders, refund, job, school, or event tables.
+Discount codes are supported in two forms. A code whose `stripe_coupon_id` matches a Stripe coupon applies at checkout and is recorded on the resulting entitlement; its redemption is counted when the checkout is fulfilled. A code without a Stripe coupon is a 100% grant applied directly through `POST /api/responses/:id/apply_discount`; it creates an entitlement with no purchase and decrements the available redemptions in the same transaction. Codes are matched case-insensitively, honor `starts_at`/`ends_at`, and stop granting access once `max_redemptions` is reached (counted atomically). PDF export returns 501. There are no products, orders, refund, job, school, or event tables.
 
 ## Protected publication compatibility
 

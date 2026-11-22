@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import { z } from 'zod';
 import type { FastifyInstance } from 'fastify';
 import type { Config } from './config.js';
-import { type PrismaClient, lockAttempt } from './db.js';
+import { type PrismaClient, type Tx, lockAttempt } from './db.js';
 import { access, entitled } from './auth.js';
 import { HttpError, uuid } from './domain.js';
 
@@ -15,6 +15,7 @@ export interface Checkout {
   fullyRefunded: boolean;
   amount: number;
   currency: string;
+  discountCodeId: string | null;
 }
 
 export interface PaymentGateway {
@@ -25,6 +26,7 @@ export interface PaymentGateway {
   create(
     attemptId: string,
     userId: string,
+    discount?: { couponId: string; codeId: string },
   ): Promise<{
     url: string;
     session_id: string;
@@ -79,7 +81,7 @@ export const stripeGateway = (config: Config): PaymentGateway => {
       };
     },
 
-    async create(attemptId, userId) {
+    async create(attemptId, userId, discount) {
       const session = await client().checkout.sessions.create(
         {
           mode: 'payment',
@@ -89,17 +91,19 @@ export const stripeGateway = (config: Config): PaymentGateway => {
               quantity: 1,
             },
           ],
+          ...(discount ? { discounts: [{ coupon: discount.couponId }] } : {}),
           metadata: {
             app: 'futurequest',
             response_id: attemptId,
             user_id: userId,
             price_id: config.STRIPE_PRICE_ID,
+            ...(discount ? { discount_code_id: discount.codeId } : {}),
           },
           success_url: `${config.APP_ORIGIN}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${config.APP_ORIGIN}/checkout/cancelled?response_id=${attemptId}`,
         },
         {
-          idempotencyKey: `checkout:${attemptId}:${config.STRIPE_PRICE_ID}:${Math.floor(Date.now() / 1800000)}`,
+          idempotencyKey: `checkout:${attemptId}:${config.STRIPE_PRICE_ID}:${discount?.codeId ?? 'none'}:${Math.floor(Date.now() / 1800000)}`,
         },
       );
 
@@ -146,6 +150,9 @@ export const stripeGateway = (config: Config): PaymentGateway => {
         fullyRefunded: intent ? await fullyRefunded(intent) : false,
         amount: session.amount_total,
         currency: session.currency,
+        discountCodeId: uuid.safeParse(session.metadata?.discount_code_id).success
+          ? (session.metadata!.discount_code_id as string)
+          : null,
       };
     },
 
@@ -182,6 +189,52 @@ export const stripeGateway = (config: Config): PaymentGateway => {
     },
     refunded: fullyRefunded,
   };
+};
+
+// Normalize a user-typed code: trimmed, case-insensitive. Stored codes are matched the same way.
+export const resolveDiscountCode = async (db: PrismaClient, raw: string) => {
+  const normalized = raw.trim();
+
+  if (!normalized) {
+    throw new HttpError(400, 'Enter a discount code');
+  }
+
+  const code = await db.discountCode.findFirst({
+    where: { code: { equals: normalized, mode: 'insensitive' } },
+  });
+
+  if (!code) {
+    throw new HttpError(400, 'That discount code is not valid');
+  }
+
+  const now = new Date();
+
+  if (code.startsAt && code.startsAt > now) {
+    throw new HttpError(400, 'That discount code is not active yet');
+  }
+
+  if (code.endsAt && code.endsAt < now) {
+    throw new HttpError(400, 'That discount code has expired');
+  }
+
+  if (code.maxRedemptions !== null && code.redemptionsCount >= code.maxRedemptions) {
+    throw new HttpError(400, 'That discount code has been fully redeemed');
+  }
+
+  return code;
+};
+
+// Atomic guarded increment: succeeds only while the code is below its redemption cap.
+// Callers that must not fail after money moved (webhook fulfillment) log instead of abort.
+const redeemDiscountCode = async (tx: Tx, codeId: string) => {
+  const updated = await tx.$executeRaw`
+    UPDATE discount_codes
+    SET redemptions_count = redemptions_count + 1
+    WHERE id = ${codeId}::uuid
+      AND (max_redemptions IS NULL OR redemptions_count < max_redemptions)
+  `;
+
+  return updated > 0;
 };
 
 export const fulfill = async (db: PrismaClient, gateway: PaymentGateway, sessionId: string) => {
@@ -250,9 +303,19 @@ export const fulfill = async (db: PrismaClient, gateway: PaymentGateway, session
           userId: attempt.userId,
           attemptId: attempt.id,
           purchaseId: purchase.id,
+          discountCodeId: checkout.discountCodeId,
           revokedAt: checkout.fullyRefunded ? new Date() : null,
         },
       });
+
+      if (checkout.discountCodeId) {
+        // The money has already moved, so a lost redemption race must not undo the grant.
+        const redeemed = await redeemDiscountCode(tx, checkout.discountCodeId);
+
+        if (!redeemed) {
+          console.warn(`Discount code ${checkout.discountCodeId} redemption cap reached during fulfillment of ${checkout.id}`);
+        }
+      }
 
       return checkout;
     },
@@ -300,6 +363,12 @@ export const reconcileRefund = async (
 
 const checkoutBody = z.object({ discount_code: z.string().max(100).optional() }).strict();
 
+const assertCheckoutEligible = (attempt: { interestsCompletedAt: Date | null }) => {
+  if (!attempt.interestsCompletedAt) {
+    throw new HttpError(409, 'Complete the free section first');
+  }
+};
+
 export const paymentRoutes = (app: FastifyInstance, db: PrismaClient, gateway: PaymentGateway) => {
   app.get('/api/pricing', () => gateway.price());
 
@@ -308,24 +377,72 @@ export const paymentRoutes = (app: FastifyInstance, db: PrismaClient, gateway: P
     const id = uuid.parse((request.params as { responseId: string }).responseId);
     const attempt = await access(db, request, id);
 
-    if (input.discount_code) {
-      throw new HttpError(501, 'Discount codes are not available yet');
-    }
-
-    if (!attempt.interestsCompletedAt) {
-      throw new HttpError(409, 'Complete the free section first');
-    }
+    assertCheckoutEligible(attempt);
 
     if (await entitled(db, attempt.userId, id)) {
       throw new HttpError(409, 'This questionnaire is already unlocked');
     }
 
-    return gateway.create(id, attempt.userId);
+    if (!input.discount_code) {
+      return gateway.create(id, attempt.userId);
+    }
+
+    const code = await resolveDiscountCode(db, input.discount_code);
+
+    // Codes without a Stripe coupon are 100% grants applied without Stripe.
+    if (!code.stripeCouponId) {
+      throw new HttpError(400, 'This code is applied without payment; use the apply code endpoint');
+    }
+
+    return gateway.create(id, attempt.userId, { couponId: code.stripeCouponId, codeId: code.id });
   });
 
   app.post('/api/responses/:responseId/apply_discount', async request => {
-    await access(db, request, uuid.parse((request.params as { responseId: string }).responseId));
-    throw new HttpError(501, 'Discount codes are not available yet');
+    const input = checkoutBody.parse(request.body);
+    const id = uuid.parse((request.params as { responseId: string }).responseId);
+    const attempt = await access(db, request, id);
+
+    if (!input.discount_code) {
+      throw new HttpError(400, 'Enter a discount code');
+    }
+
+    assertCheckoutEligible(attempt);
+
+    if (await entitled(db, attempt.userId, id)) {
+      throw new HttpError(409, 'This questionnaire is already unlocked');
+    }
+
+    const code = await resolveDiscountCode(db, input.discount_code);
+
+    if (code.stripeCouponId) {
+      throw new HttpError(400, 'This code applies at checkout; enter it when paying');
+    }
+
+    return db.$transaction(
+      async tx => {
+        await lockAttempt(tx, id);
+
+        if (await entitled(tx, attempt.userId, id)) {
+          throw new HttpError(409, 'This questionnaire is already unlocked');
+        }
+
+        // Guard the redemption cap inside the same transaction as the grant.
+        if (!(await redeemDiscountCode(tx, code.id))) {
+          throw new HttpError(400, 'That discount code has been fully redeemed');
+        }
+
+        await tx.entitlement.create({
+          data: {
+            userId: attempt.userId,
+            attemptId: id,
+            discountCodeId: code.id,
+          },
+        });
+
+        return { entitled: true };
+      },
+      { timeout: 45000 },
+    );
   });
 
   app.get('/api/checkout/:sessionId', async request => {

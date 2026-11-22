@@ -1,5 +1,6 @@
 import { ApiError } from "../../api/client";
-import { useCreateCheckout, usePricing } from "../../api/queries";
+import { useState } from "react";
+import { useApplyDiscount, useCreateCheckout, usePricing } from "../../api/queries";
 import type { QuestionCategory } from "../../api/types";
 
 export const formatPrice = (amountCents: number, currency: string): string => {
@@ -18,6 +19,8 @@ export default function PaywallTeaser({
 }) {
   const { data: pricing, error: pricingError, refetch } = usePricing();
   const checkout = useCreateCheckout();
+  const applyDiscount = useApplyDiscount();
+  const [discountCode, setDiscountCode] = useState("");
 
   if (!sections.length) {
     return null;
@@ -28,10 +31,25 @@ export default function PaywallTeaser({
       return;
     }
     try {
-      const session = await checkout.mutateAsync({ responseId });
+      const session = await checkout.mutateAsync({
+        responseId,
+        discountCode: discountCode.trim() || undefined,
+      });
       window.location.assign(session.url);
     } catch {
       // The mutation error is rendered below, with the answers still available.
+    }
+  };
+
+  const apply = async () => {
+    if (!responseId || !discountCode.trim()) {
+      return;
+    }
+    try {
+      await applyDiscount.mutateAsync({ responseId, discountCode: discountCode.trim() });
+      setDiscountCode("");
+    } catch {
+      // The mutation error is rendered below.
     }
   };
 
@@ -69,6 +87,41 @@ export default function PaywallTeaser({
             <p>{card.description}</p>
           </div>
         ))}
+      </div>
+      <div className="upsell-discount">
+        <label htmlFor="discount-code" className="upsell-discount-label">
+          Discount code
+        </label>
+        <div className="upsell-discount-row">
+          <input
+            id="discount-code"
+            type="text"
+            value={discountCode}
+            onChange={(event) => setDiscountCode(event.target.value)}
+            placeholder="Enter code"
+            autoComplete="off"
+          />
+          <button
+            type="button"
+            onClick={apply}
+            disabled={applyDiscount.isPending || !responseId || !discountCode.trim()}
+            className="btn-white"
+          >
+            {applyDiscount.isPending ? "Applying…" : "Apply code"}
+          </button>
+        </div>
+        {applyDiscount.error && (
+          <p role="alert" className="mt-3 text-sm">
+            {applyDiscount.error instanceof ApiError
+              ? applyDiscount.error.message
+              : "That code could not be applied. Please try again."}
+          </p>
+        )}
+        {applyDiscount.isSuccess && (
+          <p role="status" className="mt-3 text-sm">
+            Code applied — the remaining assessments are unlocked.
+          </p>
+        )}
       </div>
       <button
         type="button"

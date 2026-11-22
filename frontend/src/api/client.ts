@@ -158,7 +158,7 @@ export const api = {
   checkoutStatus: (sessionId: string) =>
     request<CheckoutStatus>(`/checkout/${encodeURIComponent(sessionId)}`),
   applyDiscount: (responseId: string, discountCode: string) =>
-    request<void>(`/responses/${responseId}/apply_discount`, {
+    request<{ entitled: boolean }>(`/responses/${responseId}/apply_discount`, {
       method: "POST",
       body: JSON.stringify({ discount_code: discountCode }),
     }),

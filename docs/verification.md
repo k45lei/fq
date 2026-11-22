@@ -107,5 +107,5 @@ for this instrument; existing application databases and Docker volumes were not 
 The reference's MD Likert answers are retained as context but do not affect motivator scores;
 the reference uses forced choices and scenarios for those scores. Confidence means agreement
 between component scores, not a probability of career success. Unsourced salary, outlook,
-and qualification claims are omitted. PDF, email, sharing, discounts, school/event management,
+and qualification claims are omitted. PDF, email, sharing, school/event management,
 and active worker jobs remain outside this release. Optional school text is stored per attempt.

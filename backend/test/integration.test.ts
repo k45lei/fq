@@ -33,8 +33,8 @@ const gateway: PaymentGateway = {
     amount_cents: 2999,
     currency: 'usd',
   }),
-  create: async (id) => {
-    const session = `cs_${id}`;
+  create: async (id, _userId, discount) => {
+    const session = discount ? `cs_${id}_${discount.codeId}` : `cs_${id}`;
     checkouts.set(session, {
       id: session,
       responseId: id,
@@ -44,6 +44,7 @@ const gateway: PaymentGateway = {
       currency: 'usd',
       paid: true,
       fullyRefunded: false,
+      discountCodeId: discount?.codeId ?? null,
     });
 
     return {
@@ -195,7 +196,7 @@ after(async () => {
 beforeEach(async () => {
   checkouts.clear();
   await db.$executeRawUnsafe(
-    'TRUNCATE users, attempts, answers, answer_choices, reports, purchases, entitlements RESTART IDENTITY CASCADE',
+    'TRUNCATE users, attempts, answers, answer_choices, reports, purchases, entitlements, discount_codes RESTART IDENTITY CASCADE',
   );
 });
 
@@ -740,10 +741,10 @@ test('disabled features return explicit errors without granting access, and seed
         method: 'POST',
         url: `/api/responses/${guest.id}/apply_discount`,
         cookies: guest.cookies,
-        payload: { discount_code: 'ANY' },
+        payload: { discount_code: 'NOPE' },
       })
     ).statusCode,
-    501,
+    400,
   );
 
   assert.equal(
@@ -752,10 +753,10 @@ test('disabled features return explicit errors without granting access, and seed
         method: 'POST',
         url: `/api/responses/${guest.id}/checkout`,
         cookies: guest.cookies,
-        payload: { discount_code: 'ANY' },
+        payload: { discount_code: 'NOPE' },
       })
     ).statusCode,
-    501,
+    400,
   );
 
   assert.equal(
@@ -928,4 +929,128 @@ test('a missing scoring mapping rolls back the complete stage', async () => {
     (await db.attempt.findUniqueOrThrow({ where: { id: guest.id } })).interestsCompletedAt,
     null,
   );
+});
+
+test('100% discount code grants access directly and enforces redemption cap', async () => {
+  const code = await db.discountCode.create({
+    data: { code: 'FREEPASS', maxRedemptions: 1 },
+  });
+
+  const guest = await begin();
+  await submit(guest, 'interests');
+
+  const applied = await app.inject({
+    method: 'POST',
+    url: `/api/responses/${guest.id}/apply_discount`,
+    cookies: guest.cookies,
+    payload: { discount_code: '  freepass  ' },
+  });
+
+  assert.equal(applied.statusCode, 200, applied.body);
+  assert.equal(applied.json().entitled, true);
+
+  const entitlement = await db.entitlement.findFirstOrThrow({
+    where: { attemptId: guest.id },
+  });
+  assert.equal(entitlement.discountCodeId, code.id);
+  assert.equal(entitlement.purchaseId, null);
+  assert.equal((await db.discountCode.findUniqueOrThrow({ where: { id: code.id } })).redemptionsCount, 1);
+
+  // Re-applying to an already-entitled attempt is rejected.
+  const again = await app.inject({
+    method: 'POST',
+    url: `/api/responses/${guest.id}/apply_discount`,
+    cookies: guest.cookies,
+    payload: { discount_code: 'FREEPASS' },
+  });
+  assert.equal(again.statusCode, 409);
+
+  // Cap is now exhausted for a second guest.
+  const second = await begin();
+  await submit(second, 'interests');
+  const exhausted = await app.inject({
+    method: 'POST',
+    url: `/api/responses/${second.id}/apply_discount`,
+    cookies: second.cookies,
+    payload: { discount_code: 'FREEPASS' },
+  });
+  assert.equal(exhausted.statusCode, 400);
+  assert.equal(await db.entitlement.count({ where: { attemptId: second.id } }), 0);
+});
+
+test('expired and not-yet-active codes are rejected', async () => {
+  await db.discountCode.create({
+    data: { code: 'OLD', endsAt: new Date(Date.now() - 60_000) },
+  });
+  await db.discountCode.create({
+    data: { code: 'FUTURE', startsAt: new Date(Date.now() + 3_600_000) },
+  });
+
+  const guest = await begin();
+  await submit(guest, 'interests');
+
+  for (const discount_code of ['OLD', 'FUTURE']) {
+    const result = await app.inject({
+      method: 'POST',
+      url: `/api/responses/${guest.id}/apply_discount`,
+      cookies: guest.cookies,
+      payload: { discount_code },
+    });
+    assert.equal(result.statusCode, 400);
+  }
+});
+
+test('coupon-backed code applies at checkout and is counted once on fulfillment', async () => {
+  const code = await db.discountCode.create({
+    data: { code: 'SAVE10', stripeCouponId: 'coupon_save10' },
+  });
+
+  const guest = await begin();
+  await submit(guest, 'interests');
+
+  // Coupon codes cannot be applied without paying.
+  const direct = await app.inject({
+    method: 'POST',
+    url: `/api/responses/${guest.id}/apply_discount`,
+    cookies: guest.cookies,
+    payload: { discount_code: 'SAVE10' },
+  });
+  assert.equal(direct.statusCode, 400);
+
+  const checkout = await app.inject({
+    method: 'POST',
+    url: `/api/responses/${guest.id}/checkout`,
+    cookies: guest.cookies,
+    payload: { discount_code: 'SAVE10' },
+  });
+  assert.equal(checkout.statusCode, 200, checkout.body);
+
+  const sessionId = checkout.json().session_id as string;
+  assert.equal(checkouts.get(sessionId)?.discountCodeId, code.id);
+
+  // Fulfill twice; redemption must be counted exactly once.
+  await fulfill(db, gateway, sessionId);
+  await fulfill(db, gateway, sessionId);
+
+  const entitlement = await db.entitlement.findFirstOrThrow({
+    where: { attemptId: guest.id },
+  });
+  assert.equal(entitlement.discountCodeId, code.id);
+  assert.equal((await db.discountCode.findUniqueOrThrow({ where: { id: code.id } })).redemptionsCount, 1);
+});
+
+test('100% code cannot be used at checkout; coupon code cannot bypass payment', async () => {
+  await db.discountCode.create({ data: { code: 'FREE100' } });
+
+  const guest = await begin();
+  await submit(guest, 'interests');
+
+  const checkout = await app.inject({
+    method: 'POST',
+    url: `/api/responses/${guest.id}/checkout`,
+    cookies: guest.cookies,
+    payload: { discount_code: 'FREE100' },
+  });
+  assert.equal(checkout.statusCode, 400);
+  assert.equal(await db.purchase.count(), 0);
 });

@@ -160,27 +160,32 @@ model Purchase {
 }
 
 model Entitlement {
-  id         String    @id @default(uuid()) @db.Uuid
-  userId     String    @map("user_id") @db.Uuid
-  attemptId  String    @map("attempt_id") @db.Uuid
-  purchaseId String    @unique @map("purchase_id") @db.Uuid
-  validFrom  DateTime  @default(now()) @map("valid_from") @db.Timestamptz
-  revokedAt  DateTime? @map("revoked_at") @db.Timestamptz
-  user       User      @relation(fields: [userId], references: [id], onDelete: Restrict)
-  attempt    Attempt   @relation(fields: [attemptId], references: [id], onDelete: Restrict)
-  purchase   Purchase  @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  id             String        @id @default(uuid()) @db.Uuid
+  userId         String        @map("user_id") @db.Uuid
+  attemptId      String        @map("attempt_id") @db.Uuid
+  purchaseId     String?       @unique @map("purchase_id") @db.Uuid
+  discountCodeId String?       @map("discount_code_id") @db.Uuid
+  validFrom      DateTime      @default(now()) @map("valid_from") @db.Timestamptz
+  revokedAt      DateTime?     @map("revoked_at") @db.Timestamptz
+  user           User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  attempt        Attempt       @relation(fields: [attemptId], references: [id], onDelete: Restrict)
+  purchase       Purchase?     @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  discountCode   DiscountCode? @relation(fields: [discountCodeId], references: [id], onDelete: Restrict)
 
   @@index([attemptId, userId])
+  @@index([discountCodeId])
   @@map("entitlements")
 }
 
 model DiscountCode {
-  id             String    @id @default(uuid()) @db.Uuid
-  code           String    @unique
-  stripeCouponId String?   @map("stripe_coupon_id")
-  startsAt       DateTime? @map("starts_at") @db.Timestamptz
-  endsAt         DateTime? @map("ends_at") @db.Timestamptz
-  maxRedemptions Int?      @map("max_redemptions")
+  id               String        @id @default(uuid()) @db.Uuid
+  code             String        @unique
+  stripeCouponId   String?       @map("stripe_coupon_id")
+  startsAt         DateTime?     @map("starts_at") @db.Timestamptz
+  endsAt           DateTime?     @map("ends_at") @db.Timestamptz
+  maxRedemptions   Int?          @map("max_redemptions")
+  redemptionsCount Int           @default(0) @map("redemptions_count")
+  entitlements     Entitlement[]
 
   @@map("discount_codes")
 }

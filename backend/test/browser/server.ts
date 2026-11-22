@@ -83,6 +83,7 @@ const app = await buildApp(config, db, {
         fullyRefunded: false,
         amount: 1995,
         currency: 'cad',
+        discountCodeId: null,
       });
 
       return { session_id: id, url: `${origin}/api/test/checkout/${id}` };

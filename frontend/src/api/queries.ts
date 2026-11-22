@@ -159,8 +159,10 @@ export function useApplyDiscount() {
       discountCode: string;
     }) => api.applyDiscount(responseId, discountCode),
     onSuccess: () => {
-      // After applying a discount, entitlement may be granted; refresh questionnaire.
+      // A direct grant changes which sections are answerable and any visible reports.
       queryClient.invalidateQueries({ queryKey: ["questionnaire"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.me });
+      queryClient.invalidateQueries({ queryKey: ["latest-report"] });
     },
   });
 }
