@@ -3,6 +3,18 @@ import { database, type PrismaClient } from './db.js';
 import { canonical } from './domain.js';
 import { instrumentRows, validateInstrument } from './scoring/instrument.js';
 
+const DEFAULT_DISCOUNT_CODES = ['FREEPASS'];
+
+const seedDiscountCodes = async (db: PrismaClient) => {
+  for (const code of DEFAULT_DISCOUNT_CODES) {
+    await db.discountCode.upsert({
+      where: { code },
+      update: {},
+      create: { code },
+    });
+  }
+};
+
 export const seed = async (db: PrismaClient) => {
   validateInstrument();
   const rows = instrumentRows();
@@ -42,6 +54,8 @@ export const seed = async (db: PrismaClient) => {
       });
     }
   });
+
+  await seedDiscountCodes(db);
 };
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
