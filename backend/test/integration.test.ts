@@ -410,6 +410,14 @@ test('complete guest journey: ready reports, checkout, cumulative paid answers, 
   });
 
   assert.equal(read.json().payload.compass.top_matches.length, 5);
+  const topIds = new Set(
+    read.json().payload.compass.top_matches.map((m: { career_id: string }) => m.career_id),
+  );
+  assert.ok(
+    read.json().payload.compass.hidden_gems.every(
+      (m: { career_id: string }) => !topIds.has(m.career_id),
+    ),
+  );
   assert.ok(read.json().payload.strength_profile);
   assert.ok(read.json().payload.eq_profile);
   const latest = await app.inject({

@@ -11,6 +11,7 @@ import {
   combine,
 } from '../src/scoring/engine.js';
 import { type Responses, instrumentRows } from '../src/scoring/instrument.js';
+import { generateReport } from '../src/scoring/report.js';
 
 // Expected results were captured from the supplied reference bundle, not the port.
 for (const [index, fixture] of fixtures.entries()) {
@@ -78,4 +79,60 @@ test('instrument has stable unique identifiers and exact forced-choice limits', 
       [2, 2],
     ],
   );
+});
+
+test('generateReport deduplicates hidden gems from top combined matches', () => {
+  const toSnapshots = (answers: (typeof fixtures)[number]['answers']) => {
+    const snapshots: Array<{
+      category: 'interests' | 'strengths' | 'eq';
+      reference_key: string;
+      numeric: number | null;
+      selected_options: Array<{ reference_key: string }>;
+    }> = [];
+
+    for (const stage of ['interests', 'strengths', 'eq'] as const) {
+      for (const [id, value] of Object.entries(answers[stage])) {
+        if (typeof value === 'number') {
+          snapshots.push({
+            category: stage,
+            reference_key: `${stage}:${id}`,
+            numeric: value,
+            selected_options: [],
+          });
+        } else if (typeof value === 'string') {
+          snapshots.push({
+            category: stage,
+            reference_key: `${stage}:${id}`,
+            numeric: null,
+            selected_options: [{ reference_key: value }],
+          });
+        } else if (Array.isArray(value)) {
+          snapshots.push({
+            category: stage,
+            reference_key: `${stage}:${id}`,
+            numeric: null,
+            selected_options: value.map((ref) => ({ reference_key: ref })),
+          });
+        }
+      }
+    }
+
+    return snapshots;
+  };
+
+  for (const fixture of fixtures) {
+    const snapshots = toSnapshots(fixture.answers);
+    const report = generateReport('eq', snapshots);
+
+    assert.ok(report.compass);
+    const topIds = new Set(report.compass.top_matches.map((match) => match.career_id));
+
+    for (const gem of report.compass.hidden_gems) {
+      assert.equal(
+        topIds.has(gem.career_id),
+        false,
+        `Hidden gem ${gem.career_id} should not appear in top matches`,
+      );
+    }
+  }
 });

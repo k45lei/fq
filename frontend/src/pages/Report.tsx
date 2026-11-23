@@ -246,7 +246,7 @@ export default function Report() {
           {!!report.compass?.hidden_gems.length && (
             <Matches
               title="Hidden gems"
-              description="Paths outside your top three interest matches that fit the combined profile."
+              description="Paths outside your top matches that still fit your combined profile."
               matches={report.compass.hidden_gems}
             />
           )}

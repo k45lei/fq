@@ -114,6 +114,7 @@ export const generateReport = (stage: Stage, snapshots: unknown) => {
     },
   });
   const topInterests = new Set(interestMatches.slice(0, 3).map((match) => match.career.id));
+  const topCombined = new Set(combined.slice(0, 5).map((match) => match.career.id));
   const abilities = interestProfile.topSkills.map((key) => ({
     name: skills[key].name,
     score: interestProfile.skills[key] / 100,
@@ -240,6 +241,7 @@ export const generateReport = (stage: Stage, snapshots: unknown) => {
           hidden_gems: combined
             .filter(
               (match) =>
+                !topCombined.has(match.career.id) &&
                 !topInterests.has(match.career.id) &&
                 match.score >= 65 &&
                 match.confidence !== 'mixed',
