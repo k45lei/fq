@@ -25,3 +25,9 @@ Thumbs.db
 
 # Local static-site conversion script
 assets/conv.sh
+
+# AI agent skills and local assistant configuration
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
