@@ -29,8 +29,7 @@ services:
     environment:
       PUBLIC_HOST: ${PUBLIC_HOST:?Set the public hostname}
     ports:
-      - '80:80'
-      - '443:443'
+      - '127.0.0.1:8002:80'
     depends_on:
       api:
         condition: service_healthy

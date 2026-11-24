@@ -1,4 +1,4 @@
-{$PUBLIC_HOST} {
+:80 {
   encode zstd gzip
   handle /api/* {
     reverse_proxy api:8000
