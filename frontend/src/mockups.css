@@ -37,7 +37,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(248, 244, 236, 0.85);
+    background: rgba(248, 244, 236, 0.5);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(232, 226, 217, 0.75);
   }
@@ -421,7 +421,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(248, 244, 236, 0.85);
+    background: rgba(248, 244, 236, 0.5);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(232, 226, 217, 0.75);
   }
@@ -732,7 +732,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(248, 244, 236, 0.85);
+    background: rgba(248, 244, 236, 0.5);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(232, 226, 217, 0.75);
   }
@@ -1015,7 +1015,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(248, 244, 236, 0.85);
+    background: rgba(248, 244, 236, 0.5);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(232, 226, 217, 0.75);
   }
@@ -1348,7 +1348,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(248, 244, 236, 0.85);
+    background: rgba(248, 244, 236, 0.5);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(232, 226, 217, 0.75);
   }
@@ -2382,7 +2382,11 @@ html[data-theme="dark"] .mockup {
   --pill-gold-text: #f4d19a;
   background: radial-gradient(circle at 12% 20%, #302c38, transparent 45%), #171820;
 
-  .navbar,
+  .navbar {
+    background: rgb(23 24 32 / 50%);
+    border-color: var(--border-light);
+  }
+
   .sticky-bottom-bar {
     background: rgb(23 24 32 / 92%);
     border-color: var(--border-light);
