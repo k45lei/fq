@@ -31,3 +31,8 @@ assets/conv.sh
 .claude/
 .windsurf/
 skills-lock.json
+
+# Production deployment files
+compose.production.yml
+prod.sh
+deploy/
